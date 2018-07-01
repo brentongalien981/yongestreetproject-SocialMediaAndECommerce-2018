@@ -1,0 +1,3 @@
+RewriteEngine On
+
+RewriteRule .* ../core/main2/Request.php [QSA,L]
