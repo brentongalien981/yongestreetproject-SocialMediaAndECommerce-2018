@@ -1,10 +1,8 @@
 <?php
-
 namespace App\Model;
 
 trait SessionDbPropertiesTrait
 {
-    protected static $instance = null;
 
     protected static $db_fields = [
         "id",
@@ -34,53 +32,73 @@ trait SessionDbPropertiesTrait
     public $updated_at;
 
 
-    public $userType;
+    public function prepPropsForDbAsGuestUser() {
+        session_regenerate_id();
 
-
-    /** @override */
-    public static function getInstance()
-    {
-        if (!isset(static::$instance)) {
-            // static::$instance = new static;
-        
-            // TODO: Change the hard-coded user-id...
-            // Refer to the latest session of the user..
-            // $pseudoSessionRecord = \App\Core\Main2\MainModel::readByWhereClause(['tableName' => 'Sessions', 'user_id' => 8, 'doNotInstantiate' => true])[0];
-            $sessionRecord = \App\Core\Main2\MainModel::readByWhereClause(['tableName' => 'Sessions', 'user_id' => 8, 'doNotInstantiate' => true])[0];
-        
-            static::$instance = static::instantiate($sessionRecord);
-            //
-            static::refreshLastRequestDateTimeInDb();
-        
-            //
-            static::$instance->setUserType(static::$instance->user_type_id);
-        }
-        return static::$instance;
+        $this->id = session_id();
+        $this->user_id = \App\Core\Main2\MainModel::CN_DB_NULL;
+        $this->user_type_id = User::GUEST_USER_TYPE;
+        $this->consecutive_failed_requests = 0;
+        $this->ip = $_SERVER['REMOTE_ADDR'];
+        $this->user_agent = $_SERVER['HTTP_USER_AGENT'];
+        $this->last_request_datetime = \App\Core\Main2\MainModel::CURRENT_TIMESTAMP;
+        $this->last_log_in = \App\Core\Main2\MainModel::CURRENT_TIMESTAMP;
+        $this->created_at = \App\Core\Main2\MainModel::CURRENT_TIMESTAMP;
+        $this->updated_at = \App\Core\Main2\MainModel::CURRENT_TIMESTAMP;   
     }
 
 
-    public function setUserType($userTypeId = null)
-    {
-        $this->user_type_id = $userTypeId;
-        
-        switch ($this->user_type_id) {
-            case null:
-                $this->userType = null;
-                break;
-            case '1':
-                $this->userType = 'guest';
-                break;
-            case '2':
-                $this->userType = 'logged-in';
-                break;
-            case '3':
-                $this->userType = 'admin';
-                break;
-            default:
-                $this->userType = null;
-                break;
+    public static function getPropsInAssociativeArrayForm($data = ['id' => '0']) {
+
+                
+        $q = "SELECT * FROM " . self::$table_name;
+        $q .= " WHERE id = '{$data['id']}'";
+
+        $actualSessionRecord = self::executeByQuery($q);
+
+        $actualSessionAssocArr = \App\Core\Main2\MainModel::transformRecordToAssociativeArray($actualSessionRecord);
+
+        return $actualSessionAssocArr;
+    }
+
+
+    public function setProps($props) {
+
+        foreach ($props as $prop => $value) {
+            if ($this->has_attribute($prop)) {
+                $this->$prop = $value;
+                $_SESSION[$prop] = $value;
+            }
         }
     }
+
+
+    public function setPropsAsGuestUser() {
+        
+        $actualSessionAssocArr = self::getPropsInAssociativeArrayForm(['id' => $this->id]);
+        // TODO: ish
+
+        $this->user_id = $actualSessionAssocArr['user_id'];
+        $this->user_type_id = $actualSessionAssocArr['user_type_id'];
+        $this->consecutive_failed_requests = $actualSessionAssocArr['consecutive_failed_requests'];
+        $this->ip = $actualSessionAssocArr['ip'];
+        $this->user_agent = $actualSessionAssocArr['user_agent'];
+        $this->last_request_datetime = $_SERVER['REQUEST_TIME'];
+
+        $this->last_log_in = $actualSessionAssocArr['last_log_in'];
+        $this->created_at = $actualSessionAssocArr['created_at'];
+        $this->updated_at = $actualSessionAssocArr['updated_at'];
+
+        $_SESSION['user_type_id'] = $this->user_type_id;
+        $_SESSION['consecutive_failed_requests'] = $this->consecutive_failed_requests;
+        $_SESSION['ip'] = $this->ip;
+        $_SESSION['user_agent'] = $this->user_agent;
+        $_SESSION['last_request_datetime'] = $_SERVER['REQUEST_TIME'];
+        $_SESSION['last_log_in'] = $this->last_log_in;
+        // $_SESSION['created_at'] = $this->created_at;
+        // $_SESSION['updated_at'] = $this->updated_at;       
+    }
+
 
 
 
@@ -89,11 +107,19 @@ trait SessionDbPropertiesTrait
      */
     public static function refreshLastRequestDateTimeInDb()
     {
+
         $q = "UPDATE " . static::$table_name;
         $q .= " SET last_request_datetime = NOW()";
         $q .= " WHERE id = " . static::$instance->id;
 
-        static::executeByQuery($q);
+        $session = Session::getInstance();
+
+        if ($session->logged_in) {
+            static::executeByQuery($q);
+        }
+
+        // $_SESSION['last_request_datetime'] = $session->last_request_datetime;
+        
     }
 
 
@@ -114,18 +140,38 @@ trait SessionDbPropertiesTrait
     }
 
 
-    private function setNumOfConsecutiveFailedRequests($value = 0)
+    // TODO: Make this private.
+    public function setNumOfConsecutiveFailedRequests($value = 0)
     {
 
         //
         $q = "UPDATE " . static::$table_name;
         $q .= " SET consecutive_failed_requests = $value";
-        $q .= " WHERE id = " . static::$instance->id;
+        $q .= " WHERE id = " . static::getInstance()->id;
 
-        static::execute_by_query($q);
+        if ($this->logged_in) {
+            \App\Core\Main2\MainModel::execute_by_query($q);
+        }
+        
 
         //
         $this->consecutive_failed_requests = $value;
+        $_SESSION['consecutive_failed_requests'] = $value;
+    }
+
+
+    public static function isSessionHiJacked($sessionPropsInArrayForm = null)
+    {
+        //
+        if (!isset($sessionPropsInArrayForm)) { return true; }
+        
+
+        if (($sessionPropsInArrayForm['ip'] !== $_SERVER['REMOTE_ADDR']) ||
+            ($sessionPropsInArrayForm['user_agent'] !== $_SERVER['HTTP_USER_AGENT'])) {
+            return true;
+        }
+
+        return false;
     }
 
 

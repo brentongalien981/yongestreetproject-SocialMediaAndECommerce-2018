@@ -5,9 +5,8 @@ require __DIR__ . "/../../../vendor/autoload.php";
 
 use App\Model\Session;
 
-
-class Request {
-
+class Request
+{
     public const CRUD_TYPE_READ = 2;
     public const DEFAULT_CONTROLLER_NAME = "home";
     public const CRUD_TYPE_INDEX = "index";
@@ -34,10 +33,8 @@ class Request {
 
 
 
-    public function __construct($data = ["url" => "", "isRequetAjax" => false, "requestData" => null, "checkDDOSAttack" => true]) {
-
-        // TODO
-        echo '<h3>FILE: Request.php...</h3><br>';
+    public function __construct($data = ["url" => "", "isRequetAjax" => false, "requestData" => null, "checkDDOSAttack" => true])
+    {
 
         /* Initialize */
 //        $this->pseudoSession = PseudoSession::getInstance();
@@ -45,28 +42,46 @@ class Request {
         $this->malice = Throttler::MALICE_FREE;
 
         $this->url = ($data["url"] != "") ? $data["url"] : $_SERVER['REQUEST_URI'];
-        if (isset($data["ip"])) { $this->ip = $data["ip"]; }
-        if (isset($data["checkDDOSAttack"])) { $this->checkDDOSAttack = $data["checkDDOSAttack"]; }
-        if (isset($data["requestData"])) { $this->requestData = $data["requestData"]; }
+        // if (isset($data["ip"])) { $this->ip = $data["ip"]; }
+        $this->ip = isset($data["ip"]) ? $data["ip"] : $_SERVER['REMOTE_ADDR'];
+        
+        if (isset($data["checkDDOSAttack"])) {
+            $this->checkDDOSAttack = $data["checkDDOSAttack"];
+        }
+        if (isset($data["requestData"])) {
+            $this->requestData = $data["requestData"];
+        }
 
 
         // Initialize page-requests and ajax-requests differently.
-        $this->isRequestAjax = $this->isAjax();
+        $this->isRequestAjax = self::isAjax();
         if (isset($data["isRequestAjax"]) && $data["isRequestAjax"]) {
             $this->isRequestAjax = true;
         }
 
 
         /* Set the request vars. */
-        \App\Core\CnUrlParser::setRequestVars($this);
+        CnUrlParser::setRequestVars($this);
 
+
+        /* */
+        if ($this->isRequestSpecialCase()) {
+            Router::route($this);
+            return;
+        }
+
+        // // TODO: Remove this.
+        // $this->session->setNumOfConsecutiveFailedRequests(0);
 
 
         //
         try {
-
-            if (!$this->checkMalice()) { return; }
-            if (!$this->checkAccessConstraints()) { return; }
+            if (!$this->checkMalice()) {
+                return;
+            }
+            if (!$this->checkAccessConstraints()) {
+                return;
+            }
             $this->checkLogInCredentials();
 
             if (!Middleware::checkAuthorization($this)) {
@@ -77,40 +92,46 @@ class Request {
 
 
             Router::route($this);
-
-        }
-        catch (\Exception $e) {
-            if (!$this->isAjax()) {
-
+        } catch (\Exception $e) {
+            if (!self::isAjax()) {
                 echo "\nEXCEPTION CAUGHT...\nOops! There's a problem with the request...\n";
                 echo "$e\n";
             }
         }
-
-
-
-
     }
 
 
 
-    private function checkLogInCredentials() {
+    private function isRequestSpecialCase()
+    {
+        switch ($this->controllerName) {
+            case 'TooManyRequest':
+                return true;
+                break;
+            default:
+                return false;
+                break;
+        }
+    }
 
+
+
+    private function checkLogInCredentials()
+    {
         $checkMsg = null;
 
         //
-        if (!isset($this->pseudoSession->userType)) {
+        if (!isset($this->session->userType)) {
             Cookie::setCookieSession($checkMsg);
         }
-
     }
 
 
 
-    private function checkAccessConstraints() {
-
+    private function checkAccessConstraints()
+    {
         $doesCheckPass = false;
-        $numOfConsecutiveFailedRequests = $this->pseudoSession->consecutive_failed_requests;
+        $numOfConsecutiveFailedRequests = $this->session->consecutive_failed_requests;
 
 
         if ($numOfConsecutiveFailedRequests >= static::MAX_NUM_OF_CONSECUTIVE_FAILED_REQUESTS) {
@@ -119,31 +140,31 @@ class Request {
             Throttler::addToBlacklistedIps($this->ip);
 
             // TODO: Comment out this on implementation.
-            echo "\nACCESS RESTRICTED!!!\n";
+            // echo "\nACCESS RESTRICTED!!!\n";
 
             // TODO: Redirect the request to page: redeem-access.php.
-            echo "TODO: Redirect the request to page: redeem-access.php.";
-
-        }
-        else if ($numOfConsecutiveFailedRequests == 0) {
-
+            // echo "TODO: Redirect the request to page: redeem-access.php.";
+        } elseif ($numOfConsecutiveFailedRequests == 0) {
             $doesCheckPass = true;
 
             // TODO: Comment out this on implementation.
             // TODO: A real human-request.
-            echo "\nACCESS PERMITTED!!!\n";
-
+            // echo "\nACCESS PERMITTED!!!\n";
         } else {
 
             // TODO: Comment out this on implementation.
-            echo "TODO: Redirect the request to page: too-many-requests.php.";
+            // echo "TODO: Redirect the request to page: too-many-requests.php.";
 
-            echo "\nACCESS THROTTLED!!!\n";
+            // echo "\nACCESS THROTTLED!!!\n";
+            $redirectUrl = PUBLIC_LOCAL . "too-many-request";
+            redirect_to($redirectUrl);
         }
 
 
 
-        if ($doesCheckPass) { $this->isAccessConstrained = false; }
+        if ($doesCheckPass) {
+            $this->isAccessConstrained = false;
+        }
 
         return $doesCheckPass;
     }
@@ -154,21 +175,22 @@ class Request {
      * @return bool false if the request has no malice. Positive int
      * if there's malice.
      */
-    private function checkMalice() {
-
+    private function checkMalice()
+    {
         $isMaliceFree = true;
 
         if (Throttler::isRequestFromBlacklistedIp($this->ip)) {
             $this->malice = Throttler::MALICE_BLACK_LISTED_IP;
-        }
-        else if ($this->checkDDOSAttack && Throttler::isRequestDDOSAttack()) {
+        } elseif ($this->checkDDOSAttack && Throttler::isRequestDDOSAttack()) {
             $this->malice = Throttler::MALICE_DDOS_ATTACK;
 
-            $this->pseudoSession->incrementNumOfConsecutiveFailedRequests();
+            $this->session->incrementNumOfConsecutiveFailedRequests();
         }
 
 
-        if ($this->malice !== Throttler::MALICE_FREE) { $isMaliceFree = false; }
+        if ($this->malice !== Throttler::MALICE_FREE) {
+            $isMaliceFree = false;
+        }
 
 
         return $isMaliceFree;
@@ -176,20 +198,14 @@ class Request {
 
 
 
-    private function isAjax()
+    public static function isAjax()
     {
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             return true;
         }
 
         return false;
-
     }
-
-
-
 }
 
 new Request();
-
-?>

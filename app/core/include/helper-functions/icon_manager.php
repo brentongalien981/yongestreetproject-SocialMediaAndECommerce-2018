@@ -1,6 +1,5 @@
-<?php use App\Model\Profile; ?>
+<?php use App\Model\Profile; 
 
-<?php
 /**
  * @param int $user_id
  * @return picture src / null

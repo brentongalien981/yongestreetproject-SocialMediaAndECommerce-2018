@@ -12,6 +12,36 @@ trait SessionMainTrait {
     public $currently_viewed_user_name;
 
 
+
+    public function initMainSessionProps() {
+        $this->logged_in = true;
+
+        $this->id = session_id();
+        
+        $this->actual_user_id = $_SESSION["actual_user_id"];
+        $this->actual_user_name = $_SESSION["actual_user_name"];
+        $this->actual_user_type_id = $_SESSION["actual_user_type_id"];
+
+        $this->currently_viewed_user_id = $_SESSION["currently_viewed_user_id"];
+        $this->currently_viewed_user_name = $_SESSION["currently_viewed_user_name"];
+
+    }
+
+
+    public function unsetMainSessionProps() {
+
+        $this->logged_in = false;
+
+        unset($this->id);
+        unset($this->actual_user_id);
+        unset($this->actual_user_name);
+        unset($this->actual_user_type_id);
+
+        unset($this->currently_viewed_user_id);
+        unset($this->currently_viewed_user_name);
+    }
+
+
     public function is_viewing_own_account()
     {
         if (!isset($this->actual_user_id)) {
@@ -44,5 +74,18 @@ trait SessionMainTrait {
     public static function get_my_static_counter()
     {
         return ++$_SESSION["my_static_counter"];
+    }
+
+
+    public function set_currently_viewed_user($now_currently_viewed_user_id, $now_currently_viewed_user_name)
+    {
+        $this->currently_viewed_user_id = $_SESSION["currently_viewed_user_id"] = $now_currently_viewed_user_id;
+        $this->currently_viewed_user_name = $_SESSION["currently_viewed_user_name"] = $now_currently_viewed_user_name;
+    }
+
+    public function reset_currently_viewed_user()
+    {
+        $this->currently_viewed_user_id = $_SESSION["currently_viewed_user_id"] = $_SESSION["actual_user_id"];
+        $this->currently_viewed_user_name = $_SESSION["currently_viewed_user_name"] = $_SESSION["actual_user_name"];
     }
 }

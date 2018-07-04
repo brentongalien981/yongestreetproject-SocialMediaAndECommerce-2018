@@ -1,8 +1,6 @@
 <?php
 class SessionRemainingProperties
 {
-
-
     public $cart_id;
     public $user_id;
     public $seller_user_id;
@@ -48,6 +46,134 @@ class SessionRemainingProperties
     public $ad_status_id;
     // Chat
     public $chat_thread_id;
+
+
+
+    private function TODO_REMAINING_CONTENTS_OF_FUNC_check_login()
+    {
+        // Start
+        if ($_SESSION["actual_user_id"]) {
+            if (isset($_SESSION["ship_to_address_id"])) {
+                $this->ship_to_address_id = $_SESSION["ship_to_address_id"];
+            }
+    
+            
+    
+            if (isset($_SESSION["cart_id"])) {
+                $this->cart_id = $_SESSION["cart_id"];
+            }
+    
+            if (isset($_SESSION["seller_user_id"])) {
+                $this->seller_user_id = $_SESSION["seller_user_id"];
+            }
+    
+            if (isset($_SESSION["buyer_user_id"])) {
+                $this->buyer_user_id = $_SESSION["buyer_user_id"];
+            }
+    
+    
+    
+    
+            // For shipping vars.
+            if (isset($_SESSION["ship_to_address_idzZzZz"])) {
+                $this->ship_to_address_id = $_SESSION["ship_to_address_id"];
+                $this->ship_to_address_user_id = $_SESSION["ship_to_address_user_id"];
+                $this->ship_to_address_address_type_code = $_SESSION["ship_to_address_address_type_code"];
+                $this->ship_to_address_street1 = $_SESSION["ship_to_address_street1"];
+                $this->ship_to_address_street2 = $_SESSION["ship_to_address_street2"];
+                $this->ship_to_address_city = $_SESSION["ship_to_address_city"];
+                $this->ship_to_address_state = $_SESSION["ship_to_address_state"];
+                $this->ship_to_address_zip = $_SESSION["ship_to_address_zip"];
+                $this->ship_to_address_country_code = $_SESSION["ship_to_address_country_code"];
+                $this->ship_to_address_phone = $_SESSION["ship_to_address_phone"];
+            
+                //
+                $this->can_now_checkout = $_SESSION["can_now_checkout"];
+            }
+            
+            
+            // For transcation vars.
+            if (isset($_SESSION["transaction_total"])) {
+                //                $this->transaction_shipping_charge = $_SESSION["transaction_shipping_charge"];
+            
+                $this->set_transaction_subtotal($_SESSION["transaction_subtotal"]);
+                $this->set_transaction_sales_tax($_SESSION["transaction_sales_tax"]);
+                $this->set_transaction_shipping_fee($_SESSION["transaction_shipping_fee"]);
+                $this->set_transaction_total($_SESSION["transaction_total"]);
+            }
+            
+            
+            if (isset($_SESSION["paypal_transaction_id"])) {
+                $this->set_paypal_transaction_id($_SESSION["paypal_transaction_id"]);
+            }
+            
+            
+            // For invoice.
+            if (isset($_SESSION["invoice_id"])) {
+                $this->set_invoice_id($_SESSION["invoice_id"]);
+            }
+            
+            
+            // For notifications.
+            if (isset($_SESSION["num_of_notifications"])) {
+                $this->num_of_notifications = $_SESSION["num_of_notifications"];
+            }
+            
+            
+            // For refunds.
+            if (isset($_SESSION["refund_invoice_item_id"])) {
+                $this->refund_invoice_item_id = $_SESSION["refund_invoice_item_id"];
+                $this->refund_item_quantity = $_SESSION["refund_item_quantity"];
+            }
+            
+            
+            // Ad.
+            if (isset($_SESSION["ad_name"])) {
+                $this->tae = $_SESSION["tae"];
+                $this->ad_name = $_SESSION["ad_name"];
+                $this->ad_description = $_SESSION["ad_description"];
+                $this->ad_photo_url_address = $_SESSION["ad_photo_url_address"];
+                $this->ad_target_num_airings = $_SESSION["ad_target_num_airings"];
+                $this->ad_budget = $_SESSION["ad_budget"];
+                $this->ad_air_time = $_SESSION["ad_air_time"];
+                $this->ad_status_id = $_SESSION["ad_status_id"];
+            }
+            
+            // Chat.
+            if (isset($_SESSION["chat_thread_id"])) {
+                $this->chat_thread_id = $_SESSION["chat_thread_id"];
+                //                $this->chat_with_user_id = $_SESSION["chat_with_user_id"];
+            }
+        } else {
+            unset($this->cart_id);
+            unset($this->seller_user_id);
+            unset($this->buyer_user_id);
+
+            // TODO: REMINDER: Don't forget to unset the shipping vars.
+            // TODO: REMINDER: Don't forget to unset the transaction vars.
+            // TODO: REMINDER: Don't forget to unset the $_SESSION["paypal_transaction_id"].
+            unset($this->can_now_checkout);
+
+
+            unset($this->num_of_notifications);
+
+            // Ad
+            unset($this->tae);
+
+            unset($this->ad_name);
+            unset($this->ad_description);
+            unset($this->ad_photo_url_address);
+            unset($this->ad_target_num_airings);
+            unset($this->ad_budget);
+            unset($this->ad_air_time);
+            unset($this->ad_status_id);
+
+
+            // Chat.
+            unset($this->chat_thread_id);
+//            unset($this->chat_with_user_id);
+        }
+    }
 
 
 
@@ -217,6 +343,4 @@ class SessionRemainingProperties
     {
         $this->paypal_transaction_id = $_SESSION["paypal_transaction_id"] = $paypal_transaction_id;
     }
-
-
 }

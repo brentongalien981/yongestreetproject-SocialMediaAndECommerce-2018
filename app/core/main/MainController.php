@@ -10,12 +10,12 @@ namespace App\Core\Main;
 
 use App\Core\Main\CNMain;
 use App\Core\Validation\Validator;
-use App\Core\CNTrait\CNDataManipulator;
+// use App\Core\CNTrait\CNDataManipulator;
 
 
 class MainController extends CNMain
 {
-    use CNDataManipulator;
+    // use CNDataManipulator;
 
     public $validator;
     protected $menu;
@@ -146,6 +146,8 @@ class MainController extends CNMain
             case 'NonExistentModel':
             case 'Login':
             case 'VideoRecommendationItem':
+            case 'TooManyRequest':
+            case 'Home':
                 return false;
             default:
                 return true;
@@ -197,7 +199,7 @@ class MainController extends CNMain
      * Handle the action for both a regular request
      * and ajax request..
      */
-    public function doAction()
+    public function doAction($request = null)
     {
         $this->setFieldsToBeValidated();
         $isValidationOk = $this->validator->validate();
@@ -213,7 +215,8 @@ class MainController extends CNMain
 //            $this->setQueryData();
 
             // Execute the crud action.
-            if (isRequestAjax()) {
+            // if (isRequestAjax()) { // TODO: For the old type of request...
+            if (\App\Core\Main2\Request::isAjax()) {
                 $this->doSpecificAjaxCrudAction();
             }
 
@@ -225,7 +228,7 @@ class MainController extends CNMain
         }
 
         //
-        if (isRequestAjax()) {
+        if (\App\Core\Main2\Request::isAjax()) {
             $this->doRequestFinalization($isCrudOk);
         }
     }

@@ -254,5 +254,3 @@ function getSpecificJsPseudoObjFileName($currentDir)
 
     return $specificJsPseudoObjFileName;
 }
-
-?>

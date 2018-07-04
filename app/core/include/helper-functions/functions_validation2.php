@@ -1,9 +1,5 @@
 <?php
-//require_once("");
 use App\Publico\Model\MyValidationErrorLogger;
-?>
-
-<?php
 
 //function fieldname_as_text($fieldname) {
 //  $fieldname = str_replace("_", " ", $fieldname);
@@ -49,5 +45,3 @@ function validate_max_lengths($fields_with_max_lengths) {
 function has_inclusion_in($value, $set) {
     return in_array($value, $set);
 }
-
-?>

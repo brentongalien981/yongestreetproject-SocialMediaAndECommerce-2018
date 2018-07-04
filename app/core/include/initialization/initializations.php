@@ -1,4 +1,6 @@
 <?php
+// ob_end_flush();
+// ob_implicit_flush();
 
 // Define the core paths
 // Define them as absolute paths to make sure that require_once works as expected
@@ -28,10 +30,11 @@ define('LAYOUT_PATH', PUBLIC_PATH . 'layout/');
 
 
 
-defined('LOCAL') ? null : define('LOCAL', 'http://localhost/myPersonalProjects/yongestreeproject/');
+defined('LOCAL') ? null : define('LOCAL', 'http://localhost/myPersonalProjects/yongestreetproject/');
 defined('PUBLIC_LOCAL') ? null : define('PUBLIC_LOCAL', LOCAL . 'app/public/');
 
 
+define('IN_DEVELOPMENT', true);
 
 
 // 

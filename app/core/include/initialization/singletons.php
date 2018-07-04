@@ -3,6 +3,9 @@
 global $database;
 $database = \App\Core\Main2\MySQLDatabase::getInstance();
 
+
+session_start();
+// session_destroy();
 global $session;
 $session = \App\Model\Session::getInstance();
 

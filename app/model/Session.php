@@ -11,21 +11,46 @@ class Session extends Singleton
     use \App\Core\Main2\LimitedMainModelTrait;
     use \App\Model\SessionDbPropertiesTrait;
     use \App\Model\SessionMainTrait;
+    use \App\Model\SessionUnguardedPropsTrait;
+
+
+    // public $database;
+    protected static $instance = null;
 
 
     public function __construct()
     {
-        // TODO: How do I deal with this session_start()?
-        session_start();
-
-        // TODO: __construct() ==> Implement these...
         $this->check_login();
+        $this->initUnguardedProps();
+         
         if ($this->logged_in) {
             // actions to take right away if user is logged in
         } else {
             // actions to take right away if user is not logged in
-            $this->actual_user_type_id = $_SESSION['actual_user_type_id'] = User::GUEST_USER_TYPE;
         }
+    }
+
+
+
+    /** @override */
+    public static function getInstance()
+    {
+        if (!isset(static::$instance)) {
+            static::$instance = new static;
+            
+            // TODO: Change the hard-coded user-id...
+            // Refer to the latest session of the user..
+            // $pseudoSessionRecord = \App\Core\Main2\MainModel::readByWhereClause(['tableName' => 'Sessions', 'user_id' => 8, 'doNotInstantiate' => true])[0];
+            // $sessionRecord = \App\Core\Main2\MainModel::readByWhereClause(['tableName' => 'Sessions', 'user_id' => 8, 'doNotInstantiate' => true])[0];
+            
+            // static::$instance = static::instantiate($sessionRecord);
+            //
+            // static::refreshLastRequestDateTimeInDb();
+            
+            //
+            // static::$instance->setUserType(static::$instance->user_type_id);
+        }
+        return static::$instance;
     }
 
 
@@ -211,164 +236,13 @@ class Session extends Singleton
     }
 
 
-    // This is basically called in the constructor
-    // to check everytime if there's been a logged in actual user.
-    // I do this because we use the method require("my_user.php")
-    // and everytime that happens, an instantiation happens at the end
-    // of this file. And with that, we create a new user object everytime.
-    // So we check.
+
     private function check_login()
     {
         if (isset($_SESSION["actual_user_id"])) {
-            $this->actual_user_id = $_SESSION["actual_user_id"];
-            $this->actual_user_name = $_SESSION["actual_user_name"];
-            $this->actual_user_type_id = $_SESSION["actual_user_type_id"];
-
-            $this->currently_viewed_user_id = $_SESSION["currently_viewed_user_id"];
-            $this->currently_viewed_user_name = $_SESSION["currently_viewed_user_name"];
-
-
-            if (isset($_SESSION["ship_to_address_id"])) {
-                $this->ship_to_address_id = $_SESSION["ship_to_address_id"];
-            }
-
-            $this->logged_in = true;
-
-            if (isset($_SESSION["cart_id"])) {
-                $this->cart_id = $_SESSION["cart_id"];
-            }
-
-            if (isset($_SESSION["seller_user_id"])) {
-                $this->seller_user_id = $_SESSION["seller_user_id"];
-            }
-
-            if (isset($_SESSION["buyer_user_id"])) {
-                $this->buyer_user_id = $_SESSION["buyer_user_id"];
-            }
-
-            // For shipping vars.
-            if (isset($_SESSION["ship_to_address_idzZzZz"])) {
-                $this->ship_to_address_id = $_SESSION["ship_to_address_id"];
-                $this->ship_to_address_user_id = $_SESSION["ship_to_address_user_id"];
-                $this->ship_to_address_address_type_code = $_SESSION["ship_to_address_address_type_code"];
-                $this->ship_to_address_street1 = $_SESSION["ship_to_address_street1"];
-                $this->ship_to_address_street2 = $_SESSION["ship_to_address_street2"];
-                $this->ship_to_address_city = $_SESSION["ship_to_address_city"];
-                $this->ship_to_address_state = $_SESSION["ship_to_address_state"];
-                $this->ship_to_address_zip = $_SESSION["ship_to_address_zip"];
-                $this->ship_to_address_country_code = $_SESSION["ship_to_address_country_code"];
-                $this->ship_to_address_phone = $_SESSION["ship_to_address_phone"];
-
-                //
-                $this->can_now_checkout = $_SESSION["can_now_checkout"];
-            }
-
-
-            // For transcation vars.
-            if (isset($_SESSION["transaction_total"])) {
-//                $this->transaction_shipping_charge = $_SESSION["transaction_shipping_charge"];
-
-                $this->set_transaction_subtotal($_SESSION["transaction_subtotal"]);
-                $this->set_transaction_sales_tax($_SESSION["transaction_sales_tax"]);
-                $this->set_transaction_shipping_fee($_SESSION["transaction_shipping_fee"]);
-                $this->set_transaction_total($_SESSION["transaction_total"]);
-            }
-
-
-            if (isset($_SESSION["paypal_transaction_id"])) {
-                $this->set_paypal_transaction_id($_SESSION["paypal_transaction_id"]);
-            }
-
-
-            // For invoice.
-            if (isset($_SESSION["invoice_id"])) {
-                $this->set_invoice_id($_SESSION["invoice_id"]);
-            }
-
-
-            // For notifications.
-            if (isset($_SESSION["num_of_notifications"])) {
-                $this->num_of_notifications = $_SESSION["num_of_notifications"];
-            }
-
-
-            // For refunds.
-            if (isset($_SESSION["refund_invoice_item_id"])) {
-                $this->refund_invoice_item_id = $_SESSION["refund_invoice_item_id"];
-                $this->refund_item_quantity = $_SESSION["refund_item_quantity"];
-            }
-
-
-            // Ad.
-            if (isset($_SESSION["ad_name"])) {
-                $this->tae = $_SESSION["tae"];
-                $this->ad_name = $_SESSION["ad_name"];
-                $this->ad_description = $_SESSION["ad_description"];
-                $this->ad_photo_url_address = $_SESSION["ad_photo_url_address"];
-                $this->ad_target_num_airings = $_SESSION["ad_target_num_airings"];
-                $this->ad_budget = $_SESSION["ad_budget"];
-                $this->ad_air_time = $_SESSION["ad_air_time"];
-                $this->ad_status_id = $_SESSION["ad_status_id"];
-            }
-
-            // Chat.
-            if (isset($_SESSION["chat_thread_id"])) {
-                $this->chat_thread_id = $_SESSION["chat_thread_id"];
-//                $this->chat_with_user_id = $_SESSION["chat_with_user_id"];
-            }
+            $this->initMainSessionProps();
         } else {
-            unset($this->actual_user_id);
-            unset($this->actual_user_name);
-            unset($this->actual_user_type_id);
-
-            unset($this->currently_viewed_user_id);
-            unset($this->currently_viewed_user_name);
-
-            unset($this->cart_id);
-            unset($this->seller_user_id);
-            unset($this->buyer_user_id);
-
-            // TODO: REMINDER: Don't forget to unset the shipping vars.
-            // TODO: REMINDER: Don't forget to unset the transaction vars.
-            // TODO: REMINDER: Don't forget to unset the $_SESSION["paypal_transaction_id"].
-            unset($this->can_now_checkout);
-
-
-            unset($this->num_of_notifications);
-
-            // Ad
-            unset($this->tae);
-
-            unset($this->ad_name);
-            unset($this->ad_description);
-            unset($this->ad_photo_url_address);
-            unset($this->ad_target_num_airings);
-            unset($this->ad_budget);
-            unset($this->ad_air_time);
-            unset($this->ad_status_id);
-
-
-            // Chat.
-            unset($this->chat_thread_id);
-//            unset($this->chat_with_user_id);
-
-
-            $this->logged_in = false;
+            $this->unsetMainSessionProps();
         }
-    }
-
-
-
-
-    public function set_currently_viewed_user($now_currently_viewed_user_id, $now_currently_viewed_user_name)
-    {
-        $this->currently_viewed_user_id = $_SESSION["currently_viewed_user_id"] = $now_currently_viewed_user_id;
-        $this->currently_viewed_user_name = $_SESSION["currently_viewed_user_name"] = $now_currently_viewed_user_name;
-    }
-
-    public function reset_currently_viewed_user()
-    {
-        $this->currently_viewed_user_id = $_SESSION["currently_viewed_user_id"] = $_SESSION["actual_user_id"];
-        $this->currently_viewed_user_name = $_SESSION["currently_viewed_user_name"] = $_SESSION["actual_user_name"];
     }
 }

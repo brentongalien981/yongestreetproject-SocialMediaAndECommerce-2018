@@ -9,8 +9,7 @@
         "files": [
             "app/core/include/initialization/config.php",
             "app/core/include/initialization/initializations.php",
-            "app/core/include/initialization/singletons.php",
-            "app/core/include/initialization/js_functions.php"
+            "app/core/include/initialization/singletons.php"
         ],
         "psr-4": {
             "App\\": "app/"
