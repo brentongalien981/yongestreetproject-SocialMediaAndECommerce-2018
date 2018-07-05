@@ -1,0 +1,43 @@
+/*Default style*/
+
+#comments-plug-in-container {
+    background-color: rgb(230, 230, 230);
+    padding-top: 80px;
+    padding-bottom: 100px;
+}
+
+
+#comments-plug-in h3 {
+    /*font-size: 100%;*/
+    font-weight: 300;
+    margin-bottom: 30px;
+}
+
+#comments-plug-in .actual-comments-section {
+    margin-top: 50px;
+    /*max-height: 1080px;*/
+    /*margin-bottom: 20px;*/
+    /*overflow-y: auto;*/
+}
+
+#comments-plug-in .no-comments-to-show-label {
+    display: none;
+    font-weight: 200;
+    color: red;
+}
+
+#comments-plug-in button {
+    font-weight: 100;
+    font-size: 80%;
+}
+
+#comments-plug-in form {
+    margin-bottom: 40px;
+}
+
+#comments-plug-in #comment-textarea {
+    font-weight: 100;
+    font-size: 85%;
+    resize: none;
+    margin-bottom: 10px;
+}

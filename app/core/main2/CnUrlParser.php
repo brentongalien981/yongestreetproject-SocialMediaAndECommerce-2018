@@ -82,7 +82,7 @@ class CnUrlParser
         $workableUrl = "";
         foreach ($workableUrlTokens as $token => $value) {
             if ($value !== "") {
-                $workableUrl .= $value;
+                $workableUrl .= $value . "/";
             }
         }
 

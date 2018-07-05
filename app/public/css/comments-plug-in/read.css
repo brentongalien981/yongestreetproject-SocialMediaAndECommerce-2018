@@ -1,0 +1,99 @@
+/*comments-plug-in*/
+
+#comments-plug-in-container {
+    background-color: rgb(240, 240, 240);
+    padding-top: 80px;
+    padding-bottom: 100px;
+    padding-right: 40px;
+
+
+}
+
+@media screen and (max-width: 991px) {
+
+    #comments-plug-in-container {
+        padding-right: 0;
+    }
+}
+
+#comments-plug-in {
+    margin: 0;
+    padding: 0;
+}
+
+
+#comments-plug-in h3 {
+    /*font-size: 100%;*/
+    font-weight: 300;
+    margin-bottom: 30px;
+}
+
+#comments-plug-in .actual-comments-section {
+    margin-top: 50px;
+    /*max-height: 1080px;*/
+    /*margin-bottom: 20px;*/
+    /*overflow-y: auto;*/
+}
+
+#comments-plug-in .no-comments-to-show-label {
+    /*display: none;*/
+    font-weight: 200;
+    color: red;
+}
+
+#comments-plug-in button {
+    font-weight: 100;
+    font-size: 80%;
+}
+
+#comments-plug-in form {
+    margin-bottom: 40px;
+}
+
+#comments-plug-in #comment-textarea {
+    font-weight: 100;
+    font-size: 85%;
+    resize: none;
+    margin-bottom: 10px;
+}
+
+
+
+
+
+/*comment-plug-in-item*/
+ .comment-plug-in-item {
+     margin-bottom: 60px;
+ }
+
+.comment-plug-in-item .comment-details-container > div {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.comment-plug-in-item .comment-poster-user-photo-container img {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+}
+
+.comment-plug-in-item .comment-poster-user-name {
+    font-weight: 300;
+    font-size: 110%;
+    word-wrap: break-word;
+    max-width: 400px;
+    color: black;
+    /*MAXIMUM OF 42 LETTERS*/
+}
+
+.comment-plug-in-item .comment-date {
+    font-weight: 100;
+    font-size: 80%;
+}
+
+.comment-plug-in-item .comment-message {
+    font-weight: 100;
+    font-size: 85%;
+    margin-top: 10px;
+    word-wrap: break-word;
+}

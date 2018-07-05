@@ -1,0 +1,115 @@
+#the-body,
+#the_body {
+    min-width: 640px;
+}
+
+#cn-header {
+    /*background-color: black;*/
+    position: fixed;
+    padding: 0;
+    z-index: 1000;
+}
+
+#cn-header textarea {
+    background-color: red;
+    width: 80%;
+    height: 80%;
+    /*z-index: 20000;*/
+}
+
+
+#cn-header-pop-up {
+    background-color: greenyellow;
+    display: none;
+    opacity: 0.9;
+    height: 200px;
+}
+
+#main-content {
+    min-height: 700px;
+}
+
+div#main_content2 {
+    background-color: white;
+    min-height: 900px;
+    padding-top: 80px;
+}
+
+#sub-menu {
+    /*width: 100%;*/
+    background-color: black;
+    height: 50px;
+    opacity: 0.5;
+    z-index: 1000;
+
+    /*float: left;*/
+}
+
+#sub-menu a {
+    color: white;
+    font-weight: 100;
+    font-size: 13px;
+}
+
+#sub-menu a:hover {
+    color: greenyellow;
+    cursor: pointer;
+}
+
+#the-navbar {
+    font-weight: 100;
+    font-size: 85%;
+
+    background: #ede574; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left top, #ede574, #e1f5c4); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #ede574, #e1f5c4); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #ede574, #e1f5c4); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #ede574, #e1f5c4); /* Standard syntax */
+
+
+
+}
+
+#the-search-box {
+    min-width: 400px;
+    font-size: 14px;
+    font-weight: 100;
+}
+
+.dropdown-menu {
+    font-size: 85%;
+}
+
+#the-search-bar {
+    margin: auto;
+}
+
+#home-profile-img {
+    width: 33px;
+}
+
+
+.reference-for-loading-more-objs {
+    width: 200px;
+    height: 1px;
+    background-color: red;
+}
+
+.error_msg {
+    color: red;
+    font-size: 12px;
+    font-weight: 100;
+}
+
+.cn-template {
+    display: none;
+}
+
+.initially-hidden-el {
+    display: none;
+}
+
+.row {
+    margin-left: 0;
+    margin-right: 0;
+}

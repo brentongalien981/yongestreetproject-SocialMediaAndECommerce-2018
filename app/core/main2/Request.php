@@ -10,8 +10,10 @@ class Request
     public const CRUD_TYPE_READ = 2;
     public const DEFAULT_CONTROLLER_NAME = "home";
     public const CRUD_TYPE_INDEX = "index";
-    public const TIME_INTERVAL_CONSTRAINT_PER_PAGE_REQUEST = 5;
-    public const MAX_NUM_OF_CONSECUTIVE_FAILED_REQUESTS = 3;
+
+    // TODO: Change these values later.
+    public const TIME_INTERVAL_CONSTRAINT_PER_PAGE_REQUEST = 1;
+    public const MAX_NUM_OF_CONSECUTIVE_FAILED_REQUESTS = 5;
 
     public $url;
     public $workableUrl;
@@ -86,8 +88,12 @@ class Request
 
             if (!Middleware::checkAuthorization($this)) {
                 echo '\n************************\n';
+                echo "<br>";
                 echo "TODO: UNAUTHORIZED\n";
+                echo "<br>";
                 echo "TODO: REDIRECT TO A 'page-not-found' page..\n";
+                echo "<br>";
+                return;
             }
 
 

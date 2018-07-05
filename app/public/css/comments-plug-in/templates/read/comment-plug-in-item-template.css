@@ -1,0 +1,37 @@
+/*For default template style only.*/
+
+#comment-plug-in-item-template {
+    margin-bottom: 40px;
+}
+
+#comment-plug-in-item-template .comment-details-container > div {
+    display: inline-block;
+    vertical-align: top;
+}
+
+#comment-plug-in-item-template .comment-poster-user-photo-container img {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+}
+
+#comment-plug-in-item-template .comment-poster-user-name {
+    font-weight: 300;
+    font-size: 110%;
+    word-wrap: break-word;
+    max-width: 400px;
+    color: black;
+    /*MAXIMUM OF 42 LETTERS*/
+}
+
+#comment-plug-in-item-template .comment-date {
+    font-weight: 100;
+    font-size: 80%;
+}
+
+#comment-plug-in-item-template .comment-message {
+    font-weight: 100;
+    font-size: 85%;
+    margin-top: 10px;
+    word-wrap: break-word;
+}

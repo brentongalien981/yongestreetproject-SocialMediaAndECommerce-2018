@@ -1,0 +1,23 @@
+.my-view-more-btn {
+    /*display: block;*/
+    /*padding: 5px 10px;*/
+    /*cursor: pointer;*/
+    /*background-color: lightblue;*/
+    /*margin-top: 10px;*/
+}
+
+.replies {
+    /*background-color: rgba(255, 252, 242, 0.80);*/
+    background-color: rgb(250, 250, 230);
+    margin: 0 10px;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+    box-shadow: 0px 0px 20px rgb(220, 220, 220);
+}
+
+.replies h4 {
+    padding-top: 0;
+}

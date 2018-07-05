@@ -1,0 +1,45 @@
+{
+  "name": "jquery.drag-n-crop",
+  "version": "0.1.1",
+  "main": [
+    "jquery.drag-n-crop.js",
+    "jquery.drag-n-crop.css"
+  ],
+  "keywords": [
+    "jquery",
+    "drag",
+    "crop",
+    "cropping",
+    "facebook"
+  ],
+  "ignore": [
+    "**/.*",
+    "*.json",
+    "karma.conf.js",
+    "node_modules",
+    "bower_components",
+    "images",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "jquery-ui": "^1.12.1",
+    "imagesloaded": "^4.1.4",
+    "chai": "^4.1.2",
+    "eventEmitter": "^5.2.4",
+    "mocha": "^5.0.0",
+    "jquery-ui-draggable": "*"
+  },
+  "devDependencies": {
+    "mocha": "~1.8.1",
+    "chai": "~1.5.0"
+  },
+  "resolutions": {
+    "jquery": "^3.3.1",
+    "chai": "^4.1.2",
+    "imagesloaded": "^4.1.4",
+    "eventEmitter": "^5.2.4",
+    "jquery-ui": "^1.12.1",
+    "mocha": "^5.0.0"
+  }
+}

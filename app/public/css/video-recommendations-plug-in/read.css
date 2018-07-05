@@ -1,0 +1,32 @@
+/*#video-recommendations-plug-in*/
+#video-recommendations-plug-in {
+    margin: 0;
+    padding: 0;
+}
+
+#video-recommendations-plug-in .video-thumbnail-containers {
+    /*margin-top: 40px;*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+}
+
+#video-recommendations-plug-in .show-more-video-recommendation-items-btn {
+    width: 100%;
+    margin-top: 50px;
+}
+
+
+
+
+
+
+/* .video-recommendations-item */
+#video-recommendations-plug-in .video-thumbnails {
+    box-shadow: none;
+}
+
+
+#video-recommendations-plug-in .video-thumbnail-containers {
+    margin-top: 0;
+    /*width: 90%;*/
+}

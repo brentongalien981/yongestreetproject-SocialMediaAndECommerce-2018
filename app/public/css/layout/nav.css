@@ -1,0 +1,21 @@
+.nav-item img {
+    width: 22px;
+    border-radius: 2px;
+}
+
+.nav-item i {
+    font-size: 22px;
+    color: black;
+}
+
+.nav-link a {
+    color: black;
+}
+
+
+
+#cn-navbar-menu {
+    border-right: 1px solid rgb(200, 200, 200);
+    padding-right: 10px;
+    margin-right: 20px;
+}
