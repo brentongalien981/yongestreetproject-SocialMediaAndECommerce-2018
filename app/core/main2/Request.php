@@ -118,11 +118,13 @@ class Request
 
     private function checkLogInCredentials()
     {
-        $checkMsg = null;
-
-        //
-        if (!isset($this->session->userType)) {
-            Cookie::setCookieSession($checkMsg);
+        if (isset($this->session->userType)) {
+            // Set just the session.
+            $sessionProps = Session::getPropsInAssociativeArrayForm(['id' => $this->session->id]);
+            $this->session->setBasicProps($sessionProps);
+        } else {
+            // Set both session and cookie for this initial request.
+            Cookie::setCookieSession();
         }
     }
 
@@ -130,7 +132,7 @@ class Request
 
     private function checkAccessConstraints()
     {
-        $doesCheckPass = false;
+        $doesCheckPass = true;
         $numOfConsecutiveFailedRequests = $this->session->consecutive_failed_requests;
 
 
@@ -139,25 +141,11 @@ class Request
             // TODO: Test this.
             Throttler::addToBlacklistedIps($this->ip);
 
-            // TODO: Comment out this on implementation.
-            // echo "\nACCESS RESTRICTED!!!\n";
-
+            $doesCheckPass = false;
+            
             // TODO: Redirect the request to page: redeem-access.php.
             // echo "TODO: Redirect the request to page: redeem-access.php.";
-        } elseif ($numOfConsecutiveFailedRequests == 0) {
-            $doesCheckPass = true;
-
-            // TODO: Comment out this on implementation.
-            // TODO: A real human-request.
-            // echo "\nACCESS PERMITTED!!!\n";
-        } else {
-
-            // TODO: Comment out this on implementation.
-            // echo "TODO: Redirect the request to page: too-many-requests.php.";
-
-            // echo "\nACCESS THROTTLED!!!\n";
-            $redirectUrl = PUBLIC_LOCAL . "too-many-request";
-            redirect_to($redirectUrl);
+            echo "Sorry.. Your IP has been restricted :(<br>";
         }
 
 
@@ -181,10 +169,15 @@ class Request
 
         if (Throttler::isRequestFromBlacklistedIp($this->ip)) {
             $this->malice = Throttler::MALICE_BLACK_LISTED_IP;
+            echo "Sorry.. Your IP has been blocked :(<br>";
+
         } elseif ($this->checkDDOSAttack && Throttler::isRequestDDOSAttack()) {
             $this->malice = Throttler::MALICE_DDOS_ATTACK;
 
             $this->session->incrementNumOfConsecutiveFailedRequests();
+
+            $redirectUrl = PUBLIC_LOCAL . "too-many-request";
+            redirect_to($redirectUrl);
         }
 
 

@@ -15,8 +15,6 @@ trait SessionMainTrait {
 
     public function initMainSessionProps() {
         $this->logged_in = true;
-
-        $this->id = session_id();
         
         $this->actual_user_id = $_SESSION["actual_user_id"];
         $this->actual_user_name = $_SESSION["actual_user_name"];
@@ -32,7 +30,7 @@ trait SessionMainTrait {
 
         $this->logged_in = false;
 
-        unset($this->id);
+        // unset($this->id);
         unset($this->actual_user_id);
         unset($this->actual_user_name);
         unset($this->actual_user_type_id);

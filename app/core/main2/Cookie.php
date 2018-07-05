@@ -43,76 +43,39 @@ class Cookie extends MainModel
     public $updated_at = self::CURRENT_TIMESTAMP;
 
 
-    // public function __construct()
-    // {
-    //     parent::__construct();
-    // }
 
-
-    // public static function createClientCookie() {
-
-    //     $name = self::CN_COOKIE_NAME;
-    //     $value = 'klkasdjweaoijfs92387klsdajf';
-    //     $expire = time() + 60*60*24*7; // 1 week from now
-    //     $path = '/';
-    //     $domain = 'localhost';
-    //     $secure = isset($_SERVER['HTTPS']);
-    //     $httponly = true; // JavaScript can't access cookie
-
-    //     // \App\Core\PSEUDOCOOKIE::set(['name' => $name, 'value' => $value]);
-    //     // setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
-    // }
-
-
-
-    public static function setCookieSession(&$checkMsg)
+    public static function setCookieSession()
     {
         $cnCookieName = self::CN_COOKIE_NAME;
         $signedClientCookieValue = isset($_COOKIE[$cnCookieName]) ? $_COOKIE[$cnCookieName] : null;
-        // $PSEUDOCOOKIE = \App\Core\PseudoCookie2::getInstance();
-        // $PSEUDOCOOKIE = self::$sPseudoCookie;
-        // $signedClientCookieValue = ($PSEUDOCOOKIE->get($cnCookieName) !== null) ? $PSEUDOCOOKIE->get($cnCookieName) : null;
         $isCnCookieValid = false;
 
         //
-        if (isset($signedClientCookieValue)) {
+        if (isset($signedClientCookieValue) &&
+            Cookie::isCookieValueSigned($signedClientCookieValue)) {
 
-            //
-            if (Cookie::isCookieValueSigned($signedClientCookieValue)) {
-                $checkMsg = "Yes! Cookie IS signed...";
-
-                //
-                $cookieObj = self::getCookieObjBasedOnDbRecord($signedClientCookieValue);
+            $cookieObj = self::getCookieObjBasedOnDbRecord($signedClientCookieValue);
 
 
-                // If there's a cookie-record in the db...
-                if (isset($cookieObj->session_id)) {
+            // If there's a cookie-record in the db...
+            if (isset($cookieObj->session_id)) {
 
-                    $actualSessionAssocArr = Session::getPropsInAssociativeArrayForm(['id' => $cookieObj->session_id]);
+                $actualSessionAssocArr = Session::getPropsInAssociativeArrayForm(['id' => $cookieObj->session_id]);
 
-                    if (!Session::isSessionHiJacked($actualSessionAssocArr)) {
-                        $isCnCookieValid = true;
-                        
-                        // TODO: The cookie is valid so set the session vars...
-                        self::$sSession->setProps($actualSessionAssocArr);
-                        self::$sSession->resetLastRequestDatetime();
-                        self::$sSession->setUserType(self::$sSession->user_type_id);
+                if (!Session::isSessionHiJacked($actualSessionAssocArr)) {
+                    $isCnCookieValid = true;
+                    
+                    // The cookie is valid so set the session vars...
+                    self::$sSession->setBasicProps($actualSessionAssocArr);
 
-                        if (isset($actualSessionAssocArr['user_id'])) {
-
-                            // TODO:
-                            echo "\n************************\n";
-                            echo "TODO: The cookie-session has a valid user_id, so log the user in...\n";
-                        }
+                    
+                    if (isset($actualSessionAssocArr['user_id'])) {
+                        // TODO: The cookie-session has a valid user_id, so log the user in...
+                        echo "<br>*************************<br>";
+                        echo "TODO: The cookie-session has a valid user_id, so log the user in...<br>";
                     }
-                } else {
-                    $checkMsg = "Cookie-record does not exist...";
                 }
-            } else {
-                $checkMsg = "Cookie is not signed...";
             }
-        } else {
-            $checkMsg = "You're a first time guest...";
         }
 
 
@@ -122,13 +85,8 @@ class Cookie extends MainModel
             self::$sSession->create();
             
             $actualSessionAssocArr = Session::getPropsInAssociativeArrayForm(['id' => self::$sSession->id]);
-            self::$sSession->setProps($actualSessionAssocArr);
-            self::$sSession->resetLastRequestDatetime();
-            self::$sSession->setUserType(self::$sSession->user_type_id);
-
-
-            // self::$sSession->user_id = null;
-            // self::$sSession->last_request_datetime = $_SESSION['last_request_datetime'];
+            self::$sSession->setBasicProps($actualSessionAssocArr);
+            
 
             $newCookie = self::generateCnCookie();
             $newCookie->create();
@@ -272,12 +230,4 @@ class Cookie extends MainModel
         return $value.'--'.$checksum;
     }
 
-
-
-    // /**
-    //  * @override
-    //  */
-    // public function create() {
-
-    // }
 }

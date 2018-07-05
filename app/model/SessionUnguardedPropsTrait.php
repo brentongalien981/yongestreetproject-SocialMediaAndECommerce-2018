@@ -9,6 +9,7 @@ trait SessionUnguardedPropsTrait
 
     public function initUnguardedProps()
     {
+        $this->id = session_id();
         $this->initLastRequestDatetime();
         $this->initConsecutiveFailedRequests();
         $this->initUserType();

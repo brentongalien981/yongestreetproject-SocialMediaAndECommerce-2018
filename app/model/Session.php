@@ -54,6 +54,14 @@ class Session extends Singleton
     }
 
 
+    public function setBasicProps($props) {
+
+        $this->setProps($props);
+        $this->resetLastRequestDatetime();
+        $this->setUserType($this->user_type_id);
+    }
+
+
 
 
     public function login($user)

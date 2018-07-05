@@ -73,31 +73,31 @@ trait SessionDbPropertiesTrait
     }
 
 
-    public function setPropsAsGuestUser() {
+    // public function setPropsAsGuestUser() {
         
-        $actualSessionAssocArr = self::getPropsInAssociativeArrayForm(['id' => $this->id]);
-        // TODO: ish
+    //     $actualSessionAssocArr = self::getPropsInAssociativeArrayForm(['id' => $this->id]);
+    //     // TODO: ish
 
-        $this->user_id = $actualSessionAssocArr['user_id'];
-        $this->user_type_id = $actualSessionAssocArr['user_type_id'];
-        $this->consecutive_failed_requests = $actualSessionAssocArr['consecutive_failed_requests'];
-        $this->ip = $actualSessionAssocArr['ip'];
-        $this->user_agent = $actualSessionAssocArr['user_agent'];
-        $this->last_request_datetime = $_SERVER['REQUEST_TIME'];
+    //     $this->user_id = $actualSessionAssocArr['user_id'];
+    //     $this->user_type_id = $actualSessionAssocArr['user_type_id'];
+    //     $this->consecutive_failed_requests = $actualSessionAssocArr['consecutive_failed_requests'];
+    //     $this->ip = $actualSessionAssocArr['ip'];
+    //     $this->user_agent = $actualSessionAssocArr['user_agent'];
+    //     $this->last_request_datetime = $_SERVER['REQUEST_TIME'];
 
-        $this->last_log_in = $actualSessionAssocArr['last_log_in'];
-        $this->created_at = $actualSessionAssocArr['created_at'];
-        $this->updated_at = $actualSessionAssocArr['updated_at'];
+    //     $this->last_log_in = $actualSessionAssocArr['last_log_in'];
+    //     $this->created_at = $actualSessionAssocArr['created_at'];
+    //     $this->updated_at = $actualSessionAssocArr['updated_at'];
 
-        $_SESSION['user_type_id'] = $this->user_type_id;
-        $_SESSION['consecutive_failed_requests'] = $this->consecutive_failed_requests;
-        $_SESSION['ip'] = $this->ip;
-        $_SESSION['user_agent'] = $this->user_agent;
-        $_SESSION['last_request_datetime'] = $_SERVER['REQUEST_TIME'];
-        $_SESSION['last_log_in'] = $this->last_log_in;
-        // $_SESSION['created_at'] = $this->created_at;
-        // $_SESSION['updated_at'] = $this->updated_at;       
-    }
+    //     $_SESSION['user_type_id'] = $this->user_type_id;
+    //     $_SESSION['consecutive_failed_requests'] = $this->consecutive_failed_requests;
+    //     $_SESSION['ip'] = $this->ip;
+    //     $_SESSION['user_agent'] = $this->user_agent;
+    //     $_SESSION['last_request_datetime'] = $_SERVER['REQUEST_TIME'];
+    //     $_SESSION['last_log_in'] = $this->last_log_in;
+    //     // $_SESSION['created_at'] = $this->created_at;
+    //     // $_SESSION['updated_at'] = $this->updated_at;       
+    // }
 
 
 
@@ -175,6 +175,7 @@ trait SessionDbPropertiesTrait
     }
 
 
+    /** @deprecated version */
     public function isHijacked($fakeServer = null)
     {
         $_PSEUDOSERVER = [
