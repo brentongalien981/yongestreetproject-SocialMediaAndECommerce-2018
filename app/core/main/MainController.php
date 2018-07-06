@@ -227,6 +227,8 @@ class MainController extends CNMain
 
         }
 
+        // TODO: Close the db connection...
+
         //
         if (\App\Core\Main2\Request::isAjax()) {
             $this->doRequestFinalization($isCrudOk);

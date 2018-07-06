@@ -1,24 +1,3 @@
-<input id="input_currently_viewed_user_id" type="hidden"
-<?php
-echo " value='";
-
-if (isset($session->currently_viewed_user_id)) {
-    echo $session->currently_viewed_user_id;
-}
-
-echo "'>";
-?>
-
-
-<input id="input_currently_viewed_user_name" type="hidden"
-<?php
-// This input is used to control the currently_viewed_user_id
-// on multiple tabs.
-echo " value='";
-
-if (isset($session->currently_viewed_user_name)) {
-    echo $session->currently_viewed_user_name;
-}
-
-echo "'>";
-?>
+<!-- This input is used to control the currently_viewed_user_id on multiple tabs. -->
+<input id="input_currently_viewed_user_id" type="hidden" value="<?php if (isset(\App\Model\Session::getInstance()->currently_viewed_user_id)) echo \App\Model\Session::getInstance()->currently_viewed_user_id; ?>">
+<input id="input_currently_viewed_user_name" type="hidden" value="<?php if (isset(\App\Model\Session::getInstance()->currently_viewed_user_name)) echo \App\Model\Session::getInstance()->currently_viewed_user_name; ?>">

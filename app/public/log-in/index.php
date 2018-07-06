@@ -1,4 +1,4 @@
-<?php require_once("../layout/master.php"); ?>
+<?php require_once(PUBLIC_PATH . 'layout/master.php'); ?>
 
 
 <div id="log-in-form-container" class="container-fluid">

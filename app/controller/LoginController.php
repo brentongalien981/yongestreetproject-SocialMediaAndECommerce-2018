@@ -44,6 +44,11 @@ class LoginController extends MainController
     }
 
 
+    /** @override */
+    public function index() {
+        require_once(PUBLIC_PATH . 'log-in/index.php');
+    }
+
     private function hash_some_text()
     {
 //        $hashed_password = password_hash($password, PASSWORD_BCRYPT);

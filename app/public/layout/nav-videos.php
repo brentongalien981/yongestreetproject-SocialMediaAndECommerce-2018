@@ -22,7 +22,7 @@
             CuteVideos
         </a>
 
-        <?php if ($session->is_logged_in()) { ?>
+        <?php if (\App\Model\Session::getInstance()->is_logged_in()) { ?>
             <a id="menu_video_manager"
                class="dropdown-item menus sub_menu_links"
                href="<?= PUBLIC_LOCAL . 'video-manager/index.php'; ?>">

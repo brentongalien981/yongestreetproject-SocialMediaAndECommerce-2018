@@ -13,7 +13,7 @@ class Request
 
     // TODO: Change these values later.
     public const TIME_INTERVAL_CONSTRAINT_PER_PAGE_REQUEST = 1;
-    public const MAX_NUM_OF_CONSECUTIVE_FAILED_REQUESTS = 5;
+    public const MAX_NUM_OF_CONSECUTIVE_FAILED_REQUESTS = 100;
 
     public $url;
     public $workableUrl;
@@ -67,6 +67,8 @@ class Request
 
 
         /* */
+        if ($this->isRequestForFrontEndFiles()) { return; }
+
         if ($this->isRequestSpecialCase()) {
             Router::route($this);
             return;
@@ -112,6 +114,22 @@ class Request
     {
         switch ($this->controllerName) {
             case 'TooManyRequest':
+                return true;
+                break;
+            default:
+                return false;
+                break;
+        }
+    }
+
+
+    private function isRequestForFrontEndFiles() {
+        switch ($this->controllerName) {
+            case 'Js':
+            case 'Css':
+            case 'Img':
+            case 'Cn-dependencies':
+            case 'Layout':
                 return true;
                 break;
             default:

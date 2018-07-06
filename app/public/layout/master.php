@@ -1,8 +1,5 @@
-<?php //require_once __DIR__ . '/../../../vendor/autoload.php'; ?>
-<?php require_once __DIR__ . '/../../request/request.php'; ?>
-
-
 <!doctype html>
+
 <html lang="en">
 <head>
     <title id="title">Bootstrapped FatBoy</title>

@@ -2,9 +2,8 @@
 
 namespace App\Core\Main2;
 
-class Middleware extends CNMain {
-
-
+class Middleware extends CNMain
+{
     private const REGULAR_TYPES_OF_ACTIONS = 1;
     private const ADMIN_TYPES_OF_ACTIONS = 2;
     private const FORM_REQUEST_LOG_IN_TYPES_OF_ACTIONS = 3;
@@ -13,19 +12,22 @@ class Middleware extends CNMain {
     private const AJAX_REQUEST_PHOTO_TYPES_OF_ACTIONS = 6;
     private const REGULAR_REQUEST_MY_PHOTO_TYPES_OF_ACTIONS = 7;
     private const LOGGED_IN_TYPES_OF_ACTIONS = 8;
+    private const GUEST_TYPES_OF_ACTIONS = 9;
 
 
 
-    public static function checkAuthorization($request) {
-
+    public static function checkAuthorization($request)
+    {
         $allowedUserTypes = self::getAllowedUserTypesForRequest($request);
 
         return self::isUserAuthorized($allowedUserTypes);
     }
 
 
-    private static function isUserAuthorized($allowedUserTypes) {
-
+    private static function isUserAuthorized($allowedUserTypes)
+    {
+        if ($allowedUserTypes == null) { return false; }
+        
         foreach ($allowedUserTypes as $allowedUserType) {
             if ($allowedUserType === self::$sSession->userType) {
                 return true;
@@ -97,7 +99,9 @@ class Middleware extends CNMain {
             case "video-manager":
                 $typeOfActionId = self::LOGGED_IN_TYPES_OF_ACTIONS;
                 break;
-
+            case "Login":
+                $typeOfActionId = self::GUEST_TYPES_OF_ACTIONS;
+                break;
         }
 
 
@@ -112,10 +116,24 @@ class Middleware extends CNMain {
     /**
      * @param $action The controller-action (create, read, update, ...).
      */
-    private static function getAllowedUserTypesForTypeOfAction($typeOfActionId, $action) {
+    private static function getAllowedUserTypesForTypeOfAction($typeOfActionId, $action)
+    {
         $allowedUserTypes = null;
 
         switch ($typeOfActionId) {
+            
+            case self::GUEST_TYPES_OF_ACTIONS:
+
+            switch ($action) {
+                case "index":
+                    $allowedUserTypes = array("guest");
+                    break;
+                default:
+                    $allowedUserTypes = array("admin");
+                    break;
+            }
+
+            break;
             case self::REGULAR_TIMELINE_POST_TYPES_OF_ACTIONS:
 
                 switch ($action) {
@@ -185,11 +203,11 @@ class Middleware extends CNMain {
 
                 switch ($action) {
                     case "index":
-                    case "show":
-                        $allowedUserTypes = array("admin");
-                        break;
                     case "create":
                         $allowedUserTypes = array("guest");
+                        break;
+                    case "show":
+                        $allowedUserTypes = array("admin");
                         break;
                     case "read":
                     case "fetch":

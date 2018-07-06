@@ -14,7 +14,7 @@
         <?php require_once(LAYOUT_PATH . "nav-site-logo.php"); ?>
 
 
-        <?php if ($session->is_logged_in()) { ?>
+        <?php if (\App\Model\Session::getInstance()->is_logged_in()) { ?>
 
             <a class="dropdown-item user-options"
                href="<?= LOCAL . 'app/request/request.php?menu=Login&action=delete'; ?>">

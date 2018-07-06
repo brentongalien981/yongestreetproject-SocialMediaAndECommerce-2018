@@ -9,7 +9,7 @@
        title="Go to My Timeline"
        href="<?= PUBLIC_LOCAL . 'user/index.php' ?>">
 
-        <?php $actualUserId = (isset($session->actual_user_id)) ? $session->actual_user_id : -69; ?>
+        <?php $actualUserId = (isset(\App\Model\Session::getInstance()->actual_user_id)) ? \App\Model\Session::getInstance()->actual_user_id : -69; ?>
         <img id="home-profile-img" src="<?= b_get_profile_pic_src($actualUserId); ?>"
              class="rounded">
     </a>
@@ -35,7 +35,7 @@
         <ul class="nav navbar-nav ml-auto justify-content-end">
 
             <!--    For the timeline icon.-->
-            <?php if ($session->is_logged_in()) { ?>
+            <?php if (\App\Model\Session::getInstance()->is_logged_in()) { ?>
                 <li class="nav-item active"
                     data-toggle="tooltip"
                     data-placement="bottom"
@@ -53,7 +53,7 @@
             <!--#######################################-->
             <!--    Beta-Profile    -->
             <!--#######################################-->
-            <?php if ($session->is_logged_in()) { ?>
+            <?php if (\App\Model\Session::getInstance()->is_logged_in()) { ?>
                 <li class="nav-item"
                     data-toggle="tooltip"
                     data-placement="bottom"
@@ -62,7 +62,7 @@
                     <a id="menu_profile"
                        class='menus nav-link'
                        href="<?= PUBLIC_LOCAL . 'profile/index.php' ?>">
-                        <?php show_user_home_icon($session->currently_viewed_user_id, "icon", "profile") ?>
+                        <?php show_user_home_icon(\App\Model\Session::getInstance()->currently_viewed_user_id, "icon", "profile") ?>
                         <span class="sr-only">(current)</span>
                     </a>
 
@@ -95,7 +95,7 @@
                         Trending
                     </a>
 
-                    <?php if ($session->is_logged_in()) { ?>
+                    <?php if (\App\Model\Session::getInstance()->is_logged_in()) { ?>
                         <a id="menu_my_photos"
                            class="dropdown-item menus sub_menu_links"
                            href="<?= PUBLIC_LOCAL . 'my-photo/index.php'; ?>">
@@ -116,7 +116,7 @@
                 data-toggle="tooltip"
                 data-placement="bottom"
                 title="Ads">
-                <?php if ($session->is_logged_in() && $session->is_viewing_own_account()) { ?>
+                <?php if (\App\Model\Session::getInstance()->is_logged_in() && \App\Model\Session::getInstance()->is_viewing_own_account()) { ?>
                     <a id="menu_my_ads" class='menus nav-link'
                        href="<?= LOCAL . "/public/__view/view_my_ads/index.php" ?>">
                         <i class="fa fa-buysellads"></i>
@@ -127,7 +127,7 @@
 
 
             <!--MyBusiness-->
-            <?php if ($session->is_logged_in()) { ?>
+            <?php if (\App\Model\Session::getInstance()->is_logged_in()) { ?>
 
                 <li class="nav-item dropdown"
                     data-toggle="tooltip"
@@ -153,7 +153,7 @@
 
             <!--TODO: New cart-->
             <!--TODO: Put this in the user-home-icon pop-up options-->
-            <?php if ($session->is_logged_in() && $session->is_viewing_own_account()) { ?>
+            <?php if (\App\Model\Session::getInstance()->is_logged_in() && \App\Model\Session::getInstance()->is_viewing_own_account()) { ?>
                 <li class="nav-item"
                     data-toggle="tooltip"
                     data-placement="bottom"
@@ -169,7 +169,7 @@
 
             <!--TODO: Refund-->
             <!--TODO: Put this in the user-home-icon pop-up options-->
-            <!--            --><?php //if ($session->is_logged_in() && $session->is_viewing_own_account()) { ?>
+            <!--            --><?php //if (\App\Model\Session::getInstance()->is_logged_in() && \App\Model\Session::getInstance()->is_viewing_own_account()) { ?>
             <!--                <li class="nav-item">-->
             <!--                    <a id="menu_my_ads" class='menus nav-link'-->
             <!--                       href="--><? //= LOCAL . "/public/__view/store_carts/index.php" ?><!--">-->
@@ -181,7 +181,7 @@
 
 
             <!--AdminTools-->
-            <?php if ($session->is_logged_in() && $session->is_viewing_own_account() && $session->is_admin()) { ?>
+            <?php if (\App\Model\Session::getInstance()->is_logged_in() && \App\Model\Session::getInstance()->is_viewing_own_account() && \App\Model\Session::getInstance()->is_admin()) { ?>
 
                 <li class="nav-item dropdown"
                     data-toggle="tooltip"

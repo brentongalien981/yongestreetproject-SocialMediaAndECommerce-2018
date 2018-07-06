@@ -1,0 +1,14 @@
+RewriteEngine On
+
+RewriteRule .* ../core/main2/Request.php [QSA,L]
+
+
+RewriteEngine On
+
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+
+RewriteRule .* ../core/main2/Request.php?$0 [PT,L]
+

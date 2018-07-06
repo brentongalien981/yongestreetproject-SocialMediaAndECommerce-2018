@@ -7,11 +7,11 @@
     }
 
     function get_local_url() {
-        return "http://localhost/myPersonalProjects/CuteNinjar/app/public/";
+        return "http://localhost/myPersonalProjects/yongestreetproject/app/public/";
     }
 
     function get_local_ajax_handler_url() {
-        return "http://localhost/myPersonalProjects/CuteNinjar/app/request/request.php";
+        return "http://localhost/myPersonalProjects/yongestreetproject/app/request/request.php";
     }
 </script>
 
