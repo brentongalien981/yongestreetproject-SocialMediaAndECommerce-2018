@@ -57,7 +57,9 @@
 // to be turned on in php.ini.
 function redirect_to($new_location)
 {
+    $_SESSION['isInTheProcessOfRedirection'] = true;
     header("Location: " . $new_location);
+
     exit;
 }
 

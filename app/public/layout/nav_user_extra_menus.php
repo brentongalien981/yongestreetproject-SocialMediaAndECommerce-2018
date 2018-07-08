@@ -17,14 +17,14 @@
         <?php if (\App\Model\Session::getInstance()->is_logged_in()) { ?>
 
             <a class="dropdown-item user-options"
-               href="<?= LOCAL . 'app/request/request.php?menu=Login&action=delete'; ?>">
+               href="<?= CN_URL_PUBLIC . 'login/delete'; ?>">
                 <i class="fa fa-sign-out user-options-icon"></i>Log-out
             </a>
 
         <?php } else { ?>
 
             <a class="dropdown-item user-options"
-               href="<?= PUBLIC_LOCAL . "log-in/index.php"; ?>">
+               href="<?= CN_URL_PUBLIC . "login"; ?>">
                 <i class="fa fa-sign-in user-options-icon"></i>Log-in
             </a>
 

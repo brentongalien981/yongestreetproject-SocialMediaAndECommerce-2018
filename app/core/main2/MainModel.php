@@ -661,7 +661,7 @@ class MainModel extends CNMain
     }
 
 
-    public static function delete($data)
+    public static function delete($data = ['id' => 0])
     {
         global $database;
 

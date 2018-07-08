@@ -2,7 +2,8 @@
 
 
 <div id="log-in-form-container" class="container-fluid">
-    <form id="formAdminCreation" action="<?= LOCAL . 'app/request/request.php'; ?>" method="post">
+    <!-- <form id="formAdminCreation" action="<?php //echo LOCAL . 'app/request/request.php'; ?>" method="post"> -->
+    <form id="formAdminCreation" action="<?= CN_URL_PUBLIC . 'login/create'; ?>" method="post">
 
         <h4>Log-in</h4>
         <?= get_csrf_token_tag() ?>

@@ -70,6 +70,23 @@ trait LimitedMainModelTrait
     }
 
 
+    public static function staticDelete($data = ['id' => 0])
+    {
+        global $database;
+
+        $q = "DELETE FROM " . static::$table_name;
+        $q .= " WHERE id = " . $data['id'];
+        $q .= " LIMIT 1";
+
+        echo $q;
+
+        self::executeByQuery($q);
+
+
+        return ($database->get_num_of_affected_rows() == 1) ? true : false;
+    }
+
+
     protected function get_attributes()
     {
         // return an array of attribute names and their values

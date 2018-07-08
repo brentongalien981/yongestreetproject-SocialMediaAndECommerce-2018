@@ -3,7 +3,6 @@ namespace App\Model;
 
 trait SessionDbPropertiesTrait
 {
-
     protected static $db_fields = [
         "id",
         "user_id",
@@ -31,26 +30,39 @@ trait SessionDbPropertiesTrait
     public $created_at;
     public $updated_at;
 
+    public function prepPropsForDbRecordCreation($data = null)
+    {
+        if (!isset($data)) {
+            $data = [
+                'userTypeId' => User::GUEST_USER_TYPE,
+                'userId' => \App\Core\Main2\MainModel::CN_DB_NULL
+            ];
+        }
 
-    public function prepPropsForDbAsGuestUser() {
+
         session_regenerate_id();
 
         $this->id = session_id();
-        $this->user_id = \App\Core\Main2\MainModel::CN_DB_NULL;
-        $this->user_type_id = User::GUEST_USER_TYPE;
+        $this->user_id = $data['userId'];
+        $this->user_type_id = $data['userTypeId'];
         $this->consecutive_failed_requests = 0;
         $this->ip = $_SERVER['REMOTE_ADDR'];
         $this->user_agent = $_SERVER['HTTP_USER_AGENT'];
         $this->last_request_datetime = \App\Core\Main2\MainModel::CURRENT_TIMESTAMP;
         $this->last_log_in = \App\Core\Main2\MainModel::CURRENT_TIMESTAMP;
         $this->created_at = \App\Core\Main2\MainModel::CURRENT_TIMESTAMP;
-        $this->updated_at = \App\Core\Main2\MainModel::CURRENT_TIMESTAMP;   
+        $this->updated_at = \App\Core\Main2\MainModel::CURRENT_TIMESTAMP;
     }
 
 
-    public static function getPropsInAssociativeArrayForm($data = ['id' => '0']) {
+    public function prepPropsForDbAsGuestUser()
+    {
+        $this->prepPropsForDbRecordCreation();
+    }
 
-                
+
+    public static function getPropsInAssociativeArrayForm($data = ['id' => '0'])
+    {
         $q = "SELECT * FROM " . self::$table_name;
         $q .= " WHERE id = '{$data['id']}'";
 
@@ -62,7 +74,11 @@ trait SessionDbPropertiesTrait
     }
 
 
-    public function setProps($props) {
+    public function setProps($props)
+    {
+        if (!isset($props)) {
+            return;
+        }
 
         foreach ($props as $prop => $value) {
             if ($this->has_attribute($prop)) {
@@ -96,7 +112,7 @@ trait SessionDbPropertiesTrait
     //     $_SESSION['last_request_datetime'] = $_SERVER['REQUEST_TIME'];
     //     $_SESSION['last_log_in'] = $this->last_log_in;
     //     // $_SESSION['created_at'] = $this->created_at;
-    //     // $_SESSION['updated_at'] = $this->updated_at;       
+    //     // $_SESSION['updated_at'] = $this->updated_at;
     // }
 
 
@@ -107,7 +123,6 @@ trait SessionDbPropertiesTrait
      */
     public static function refreshLastRequestDateTimeInDb()
     {
-
         $q = "UPDATE " . static::$table_name;
         $q .= " SET last_request_datetime = NOW()";
         $q .= " WHERE id = " . static::$instance->id;
@@ -119,7 +134,6 @@ trait SessionDbPropertiesTrait
         }
 
         // $_SESSION['last_request_datetime'] = $session->last_request_datetime;
-        
     }
 
 
@@ -147,10 +161,11 @@ trait SessionDbPropertiesTrait
         //
         $q = "UPDATE " . static::$table_name;
         $q .= " SET consecutive_failed_requests = $value";
-        $q .= " WHERE id = " . static::getInstance()->id;
+        $q .= " WHERE id = '" . static::getInstance()->id . "'";
 
         if ($this->logged_in) {
-            \App\Core\Main2\MainModel::execute_by_query($q);
+            // echo $q;
+            self::executeByQuery($q);
         }
         
 
@@ -163,7 +178,9 @@ trait SessionDbPropertiesTrait
     public static function isSessionHiJacked($sessionPropsInArrayForm = null)
     {
         //
-        if (!isset($sessionPropsInArrayForm)) { return true; }
+        if (!isset($sessionPropsInArrayForm)) {
+            return true;
+        }
         
 
         if (($sessionPropsInArrayForm['ip'] !== $_SERVER['REMOTE_ADDR']) ||

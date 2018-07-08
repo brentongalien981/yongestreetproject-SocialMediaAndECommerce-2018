@@ -9,14 +9,16 @@ class Router {
             'index'
         ],
         'Login' => [
-            'index'
+            'index',
+            'create',
+            'delete'
         ]
     ];
 
     public static function route($request) {
 
         if (!self::doesRouteForRequestExist($request)) {
-            echo "TODO: Redirect to 401 ==> page does not exist...";
+            echo "TODO: Route does not exist. Redirect to 401 page...";
             return;
         }
 

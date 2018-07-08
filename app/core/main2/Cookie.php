@@ -79,7 +79,7 @@ class Cookie extends MainModel
         }
 
 
-        //
+        // Create new cookie-session objs and records.
         if (!$isCnCookieValid) {
             self::$sSession->prepPropsForDbAsGuestUser();
             self::$sSession->create();
@@ -94,7 +94,7 @@ class Cookie extends MainModel
     }
 
 
-    private static function getCookieObjBasedOnDbRecord($signedCookieValue)
+    public static function getCookieObjBasedOnDbRecord($signedCookieValue)
     {
 
         //

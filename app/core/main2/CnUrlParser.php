@@ -3,9 +3,17 @@ namespace App\Core\Main2;
 
 class CnUrlParser
 {
+
+    public const OLD_CN_REQUEST_SCHEME = 'OLD_CN_REQUEST_SCHEME';
+
     public static function setRequestVars(Request $request)
     {
-        if ($request->isRequestAjax) {
+        $isUsingOldCnRequestScheme = false;
+
+        if (self::handleOldCnRequestScheme($request)) { 
+            $isUsingOldCnRequestScheme = true;
+        }
+        else if ($request->isRequestAjax) {
             $requestData = json_decode($request->requestData, true);
 
             $request->controllerName = (isset($requestData["requestForClass"])) ? $requestData["requestForClass"] : ucfirst(Request::DEFAULT_CONTROLLER_NAME);
@@ -16,12 +24,50 @@ class CnUrlParser
             self::setControllerName($request);
             self::setControllerAction($request);
         }
+
+        return $isUsingOldCnRequestScheme;
+    }
+
+
+    private static function handleOldCnRequestScheme($request) {
+
+        // $oldRequestUrl = '/myPersonalProjects/yongestreetproject/app/request/request.php';
+
+        $urlTokens = explode("/", $request->url);
+        $isUsingOldRequest = false;
+        
+        
+        foreach ($urlTokens as $token => $value) {
+            if ($value === 'request') {
+                $isUsingOldRequest = true;
+                break;
+            }
+        }
+
+        if ($isUsingOldRequest) {
+            if (is_request_post()) {
+                $request->controllerName = $_POST['menu'];
+                $request->controllerAction = $_POST['action'];
+            } else {
+                // TODO:
+                self::setWorkableUrlForOldScheme($request);
+                self::setControllerName($request);
+                self::setControllerAction($request);
+            }
+        }
+
+        return $isUsingOldRequest;
     }
 
 
 
     private static function setControllerAction($request)
     {
+        if (is_request_post()) {
+            $request->controllerAction = $_POST['action'];
+            return;
+        }
+
         $workableUrlTokens = explode("/", $request->workableUrl);
 
         $request->controllerAction = isset($workableUrlTokens[1]) ? $workableUrlTokens[1] : Request::CRUD_TYPE_INDEX;
@@ -37,6 +83,12 @@ class CnUrlParser
 
     private static function setControllerName($request)
     {
+
+        if (is_request_post()) {
+            $request->controllerName = $_POST['menu'];
+            return;
+        }
+
         $workableUrlTokens = explode("/", $request->workableUrl);
 
         $request->controllerName = isset($workableUrlTokens[0]) ? $workableUrlTokens[0] : "home";
@@ -54,6 +106,48 @@ class CnUrlParser
         }
 
         $request->controllerName = ucfirst($request->controllerName);
+    }
+
+
+    private static function setWorkableUrlForOldScheme($request) {
+        $urlTokens = explode("/", $request->url);
+
+        // 
+        $lastTokenOfUrl = null;
+        $urlParamsTokens = [];
+
+        if (isset($urlTokens)) {
+            
+            // Reference only the last part /index.php?p1=v1&p2=v2
+            $lastTokenOfUrl = $urlTokens[count($urlTokens) - 1];
+
+            // Remove the '?'...
+            $urlParamsStr = explode("?", $lastTokenOfUrl);
+            $urlParamsStr = $urlParamsStr[1];
+
+            // Now $urlParamsStr is just 'p1=v1&p2=v2'.
+            $urlParamsTokens = explode("&", $urlParamsStr);
+        }
+
+
+
+        // Now $urlParamsTokens is like this ['p1=v1', 'p2=v2']
+        $workableUrl = '';
+
+        foreach ($urlParamsTokens as $param) {
+            //
+            $paramKeyValuePair = explode("=", $param);
+
+            $paramKey = $paramKeyValuePair[0];
+            $paramValue = $paramKeyValuePair[1];
+
+            if ($paramKey === 'menu' || $paramKey === 'action') {
+                $workableUrl .= $paramValue . '/';
+            }
+        }
+
+        //
+        $request->workableUrl = $workableUrl;
     }
 
 

@@ -2,6 +2,9 @@
 
 namespace App\Core\Main2;
 
+use PHPUnit\Framework\MockObject\Stub\Exception;
+
+
 class MySQLDatabase extends Singleton
 {
     protected static $instance = null;
@@ -134,7 +137,8 @@ class MySQLDatabase extends Singleton
     private function confirm_query_result($query_result)
     {
         if (!$query_result) {
-            die("Database query failed.");
+            // die("Database query failed.");
+            throw new \Exception("Database query failed");
         }
     }
 

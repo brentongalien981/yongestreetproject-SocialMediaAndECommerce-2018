@@ -13,6 +13,7 @@ class Middleware extends CNMain
     private const REGULAR_REQUEST_MY_PHOTO_TYPES_OF_ACTIONS = 7;
     private const LOGGED_IN_TYPES_OF_ACTIONS = 8;
     private const GUEST_TYPES_OF_ACTIONS = 9;
+    private const OLD_CN_REQUEST_SCHEME_TYPES_OF_ACTIONS = 10;
 
 
 
@@ -26,7 +27,9 @@ class Middleware extends CNMain
 
     private static function isUserAuthorized($allowedUserTypes)
     {
-        if ($allowedUserTypes == null) { return false; }
+        if ($allowedUserTypes == null) {
+            return false;
+        }
         
         foreach ($allowedUserTypes as $allowedUserType) {
             if ($allowedUserType === self::$sSession->userType) {
@@ -99,8 +102,8 @@ class Middleware extends CNMain
             case "video-manager":
                 $typeOfActionId = self::LOGGED_IN_TYPES_OF_ACTIONS;
                 break;
-            case "Login":
-                $typeOfActionId = self::GUEST_TYPES_OF_ACTIONS;
+            case CnUrlParser::OLD_CN_REQUEST_SCHEME:
+                $typeOfActionId = self::OLD_CN_REQUEST_SCHEME_TYPES_OF_ACTIONS;
                 break;
         }
 
@@ -121,19 +124,23 @@ class Middleware extends CNMain
         $allowedUserTypes = null;
 
         switch ($typeOfActionId) {
+
+            case self::OLD_CN_REQUEST_SCHEME_TYPES_OF_ACTIONS:
+                $allowedUserTypes = array("guest", "logged-in", "admin");
+                break;
             
             case self::GUEST_TYPES_OF_ACTIONS:
 
-            switch ($action) {
-                case "index":
-                    $allowedUserTypes = array("guest");
-                    break;
-                default:
-                    $allowedUserTypes = array("admin");
-                    break;
-            }
+                switch ($action) {
+                    case "index":
+                        $allowedUserTypes = array("guest");
+                        break;
+                    default:
+                        $allowedUserTypes = array("admin");
+                        break;
+                }
 
-            break;
+              break;
             case self::REGULAR_TIMELINE_POST_TYPES_OF_ACTIONS:
 
                 switch ($action) {

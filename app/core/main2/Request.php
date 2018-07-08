@@ -24,8 +24,6 @@ class Request
     private $isInDevelopmentMode = true;
     // private $isInDevelopmentMode = false;
 
-    // TODO: Replace pseudoSession to session later.
-    private $pseudoSession;
     private $session;
     private $ip = "127.0.0.1";
     public $malice;
@@ -39,12 +37,10 @@ class Request
     {
 
         /* Initialize */
-//        $this->pseudoSession = PseudoSession::getInstance();
-        $this->session = \App\Model\Session::getInstance();
+        $this->session = Session::getInstance();
         $this->malice = Throttler::MALICE_FREE;
 
         $this->url = ($data["url"] != "") ? $data["url"] : $_SERVER['REQUEST_URI'];
-        // if (isset($data["ip"])) { $this->ip = $data["ip"]; }
         $this->ip = isset($data["ip"]) ? $data["ip"] : $_SERVER['REMOTE_ADDR'];
         
         if (isset($data["checkDDOSAttack"])) {
@@ -63,11 +59,13 @@ class Request
 
 
         /* Set the request vars. */
-        CnUrlParser::setRequestVars($this);
+        $isUsingOldCnRequestScheme = CnUrlParser::setRequestVars($this);
 
 
         /* */
-        if ($this->isRequestForFrontEndFiles()) { return; }
+        if ($this->isRequestForFrontEndFiles()) {
+            return;
+        }
 
         if ($this->isRequestSpecialCase()) {
             Router::route($this);
@@ -80,12 +78,22 @@ class Request
 
         //
         try {
-            if (!$this->checkMalice()) {
-                return;
+            
+            // If it's a redirection, don't check for the request malice and constraints.
+            if (isset($_SESSION['isInTheProcessOfRedirection']) && $_SESSION['isInTheProcessOfRedirection']) {
+                $_SESSION['isInTheProcessOfRedirection'] = false;
+            } else {
+
+                if (!$this->checkMalice()) {
+                    return;
+                }
+
+                if (!$this->checkAccessConstraints()) {
+                    return;
+                }
             }
-            if (!$this->checkAccessConstraints()) {
-                return;
-            }
+
+
             $this->checkLogInCredentials();
 
             if (!Middleware::checkAuthorization($this)) {
@@ -97,7 +105,6 @@ class Request
                 echo "<br>";
                 return;
             }
-
 
             Router::route($this);
         } catch (\Exception $e) {
@@ -123,7 +130,8 @@ class Request
     }
 
 
-    private function isRequestForFrontEndFiles() {
+    private function isRequestForFrontEndFiles()
+    {
         switch ($this->controllerName) {
             case 'Js':
             case 'Css':
@@ -191,10 +199,10 @@ class Request
     {
         $isMaliceFree = true;
 
+
         if (Throttler::isRequestFromBlacklistedIp($this->ip)) {
             $this->malice = Throttler::MALICE_BLACK_LISTED_IP;
             echo "Sorry.. Your IP has been blocked :(<br>";
-
         } elseif ($this->checkDDOSAttack && Throttler::isRequestDDOSAttack()) {
             $this->malice = Throttler::MALICE_DDOS_ATTACK;
 

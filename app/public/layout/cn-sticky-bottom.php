@@ -104,6 +104,6 @@
 
 
 <!--Extentionals-->
-<?php require_once(PUBLIC_PATH . "widget/index.php"); ?>
-<?php require_once(PUBLIC_PATH . "notification/index.php"); ?>
-<?php require_once(PUBLIC_PATH . "chat/index.php"); ?>
+<?php //require_once(PUBLIC_PATH . "widget/index.php"); ?>
+<?php //require_once(PUBLIC_PATH . "notification/index.php"); ?>
+<?php //require_once(PUBLIC_PATH . "chat/index.php"); ?>

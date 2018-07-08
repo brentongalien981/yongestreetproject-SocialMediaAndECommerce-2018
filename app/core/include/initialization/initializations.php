@@ -32,6 +32,9 @@ define('LAYOUT_PATH', PUBLIC_PATH . 'layout/');
 
 defined('LOCAL') ? null : define('LOCAL', 'http://localhost/myPersonalProjects/yongestreetproject/');
 defined('PUBLIC_LOCAL') ? null : define('PUBLIC_LOCAL', LOCAL . 'app/public/');
+defined('CN_URL_PUBLIC') ? null : define('CN_URL_PUBLIC', PUBLIC_LOCAL);
+defined('CN_URL_APP') ? null : define('CN_URL_APP', LOCAL . 'app/');
+defined('CN_URL_REQUEST') ? null : define('CN_URL_REQUEST', CN_URL_APP . 'core/main2/');
 
 
 define('IN_DEVELOPMENT', true);

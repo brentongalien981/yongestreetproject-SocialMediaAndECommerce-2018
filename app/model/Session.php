@@ -3,6 +3,7 @@ namespace App\Model;
 
 use App\Core\Main2\Singleton;
 use App\Model\User;
+use App\Core\Main2\Cookie;
 
 class Session extends Singleton
 {
@@ -54,8 +55,8 @@ class Session extends Singleton
     }
 
 
-    public function setBasicProps($props) {
-
+    public function setBasicProps($props)
+    {
         $this->setProps($props);
         $this->resetLastRequestDatetime();
         $this->setUserType($this->user_type_id);
@@ -64,56 +65,33 @@ class Session extends Singleton
 
 
 
+    /**
+     * Note: database should find user based on username/password.
+     *
+     * @param [type] $user
+     * @return void
+     */
     public function login($user)
     {
-        // database should find user based on username/password
-
-        session_regenerate_id();
-
-
         if ($user) {
-            $_SESSION["my_static_counter"] = 0;
 
-            $this->actual_user_id = $_SESSION["actual_user_id"] = $user->user_id;
-            $this->actual_user_name = $_SESSION["actual_user_name"] = $user->user_name;
-            $this->actual_user_type_id = $_SESSION["actual_user_type_id"] = $user->user_type_id;
-
-            $this->currently_viewed_user_id = $_SESSION["currently_viewed_user_id"] = $user->user_id;
-            $this->currently_viewed_user_name = $_SESSION["currently_viewed_user_name"] = $user->user_name;
-
-            $this->logged_in = true;
-
-
-            //
-            $this->can_now_checkout = $_SESSION["can_now_checkout"] = false;
-
-
-            //
-            $this->set_invoice_id(null);
+            // Create new cookie-session objs and records.
+            $this->prepPropsForDbRecordCreation([
+                'userTypeId' => User::LOGGED_IN_USER_TYPE,
+                'userId' => $user->user_id
+            ]);
+            $this->create();
+        
+            $actualSessionAssocArr = Session::getPropsInAssociativeArrayForm(['id' => $this->id]);
+            $this->setBasicProps($actualSessionAssocArr);
+        
+            $newCookie = Cookie::generateCnCookie();
+            $newCookie->create();
 
 
-            //
-            $this->set_num_of_notifications(0);
+            $this->setMainSessionProps($user);
 
-
-            // Refund.
-            $this->refund_invoice_item_id = $_SESSION["refund_invoice_item_id"] = null;
-            $this->refund_item_quantity = $_SESSION["refund_item_quantity"] = null;
-
-
-            // Ad.
-            $this->tae = $_SESSION["tae"] = null;
-            $this->ad_name = $_SESSION["ad_name"] = null;
-            $this->ad_description = $_SESSION["ad_description"] = null;
-            $this->ad_photo_url_address = $_SESSION["ad_photo_url_address"] = null;
-            $this->ad_target_num_airings = $_SESSION["ad_target_num_airings"] = null;
-            $this->ad_budget = $_SESSION["ad_budget"] = null;
-            $this->ad_air_time = $_SESSION["ad_air_time"] = null;
-            $this->ad_status_id = $_SESSION["ad_status_id"] = null;
-
-            // Chat
-            $this->chat_thread_id = $_SESSION["chat_thread_id"] = null;
-//            $this->chat_with_user_id = $_SESSION["chat_with_user_id"] = null;
+            // TODO: $this->setOtherProps();
         }
     }
 
@@ -121,122 +99,22 @@ class Session extends Singleton
 
     public function logout()
     {
-        unset($_SESSION["actual_user_id"]);
-        unset($_SESSION["actual_user_name"]);
-        unset($_SESSION["actual_user_type_id"]);
 
-        unset($_SESSION["currently_viewed_user_id"]);
-        unset($_SESSION["currently_viewed_user_name"]);
-
-        unset($_SESSION["cart_id"]);
-        unset($_SESSION["seller_user_id"]);
-        unset($_SESSION["buyer_user_id"]);
-
-        unset($_SESSION["can_now_checkout"]);
-
-        // Shipping vars.
-        unset($_SESSION["ship_to_address_id"]);
-        unset($_SESSION["ship_to_address_user_id"]);
-        unset($_SESSION["ship_to_address_address_type_code"]);
-        unset($_SESSION["ship_to_address_street1"]);
-        unset($_SESSION["ship_to_address_street2"]);
-        unset($_SESSION["ship_to_address_city"]);
-        unset($_SESSION["ship_to_address_state"]);
-        unset($_SESSION["ship_to_address_zip"]);
-        unset($_SESSION["ship_to_address_country_code"]);
-        unset($_SESSION["ship_to_address_phone"]);
-
-        // Transaction vars.
-        unset($_SESSION["transaction_shipping_charge"]);
-        unset($_SESSION["transaction_subtotal"]);
-        unset($_SESSION["transaction_sales_tax"]);
-        unset($_SESSION["transaction_shipping_fee"]);
-        unset($_SESSION["transaction_total"]);
-
-        unset($_SESSION["paypal_transaction_id"]);
-
-        unset($_SESSION["invoice_id"]);
-
-        // Refund.
-        unset($_SESSION["refund_invoice_item_id"]);
-        unset($_SESSION["refund_item_quantity"]);
+        // TODO: Delete the cookie record in the db.
+        $signedClientCookieValue = isset($_COOKIE[Cookie::CN_COOKIE_NAME]) ? $_COOKIE[Cookie::CN_COOKIE_NAME] : null;
+        $cookieObj = Cookie::getCookieObjBasedOnDbRecord($signedClientCookieValue);
+        Cookie::delete(['id' => $cookieObj->id]);
 
 
-        // Ad.
-        unset($_SESSION["tae"]);
-        unset($_SESSION["ad_name"]);
-        unset($_SESSION["ad_description"]);
-        unset($_SESSION["ad_photo_url_address"]);
-        unset($_SESSION["ad_target_num_airings"]);
-        unset($_SESSION["ad_budget"]);
-        unset($_SESSION["ad_air_time"]);
-        unset($_SESSION["ad_status_id"]);
+        // TODO: Delete the session record in the db.
+        $sessionIdWithQuotes = "'{$this->id}'";
+        static::staticDelete(['id' => $sessionIdWithQuotes]);
+        
 
-
-        // Chat.
-        unset($_SESSION["chat_thread_id"]);
-//        unset($_SESSION["chat_with_user_id"]);
-
-
-        unset($this->actual_user_id);
-        unset($this->actual_user_name);
-        unset($this->actual_user_type_id);
-
-        unset($this->currently_viewed_user_id);
-        unset($this->currently_viewed_user_name);
-
-        unset($this->cart_id);
-        unset($this->seller_user_id);
-        unset($this->buyer_user_id);
-//
-        unset($this->ship_to_address_obj);
-
-        unset($this->can_now_checkout);
-
-        // Shipping vars.
-        unset($this->ship_to_address_id);
-        unset($this->ship_to_address_user_id);
-        unset($this->ship_to_address_address_type_code);
-        unset($this->ship_to_address_street1);
-        unset($this->ship_to_address_street2);
-        unset($this->ship_to_address_city);
-        unset($this->ship_to_address_state);
-        unset($this->ship_to_address_zip);
-        unset($this->ship_to_address_country_code);
-        unset($this->ship_to_address_phone);
-
-
-        unset($this->transaction_shipping_charge);
-        unset($this->transaction_subtotal);
-        unset($this->transaction_sales_tax);
-        unset($this->transaction_shipping_fee);
-        unset($this->transaction_total);
-
-        unset($this->paypal_transaction_id);
-
-
-        unset($this->invoice_id);
-
-
-        // Refund.
-        unset($this->refund_invoice_item_id);
-        unset($this->refund_item_quantity);
-
-
-        // Ad.
-        unset($this->tae);
-        unset($this->ad_name);
-        unset($this->ad_description);
-        unset($this->ad_photo_url_address);
-        unset($this->ad_target_num_airings);
-        unset($this->ad_budget);
-        unset($this->ad_air_time);
-        unset($this->ad_status_id);
-
-        // Chat.
-        unset($this->chat_thread_id);
-//        unset($this->chat_with_user_id);
-
+        foreach ($this as $prop => $value) {
+            unset($this->$prop);
+            unset($_SESSION[$prop]);
+        }
 
         $this->logged_in = false;
         session_unset();

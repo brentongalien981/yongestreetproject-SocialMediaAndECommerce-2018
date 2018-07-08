@@ -14,7 +14,6 @@ class HomeController extends MainController
     /** @override */
     public function index()
     {
-        // require_once(PUBLIC_PATH . 'video/create.php');
-        echo "TODO: home/index/index.php...";
+        require_once(PUBLIC_PATH . 'home/index/index.php');
     }
 }

@@ -25,6 +25,20 @@ trait SessionMainTrait {
 
     }
 
+    public function setMainSessionProps($user) {
+
+        // $_SESSION["my_static_counter"] = 0;
+        $this->logged_in = true;
+
+        $this->actual_user_id = $_SESSION["actual_user_id"] = $user->user_id;
+        $this->actual_user_name = $_SESSION["actual_user_name"] = $user->user_name;
+        $this->actual_user_type_id = $_SESSION["actual_user_type_id"] = $user->user_type_id;
+
+        $this->currently_viewed_user_id = $_SESSION["currently_viewed_user_id"] = $user->user_id;
+        $this->currently_viewed_user_name = $_SESSION["currently_viewed_user_name"] = $user->user_name;
+
+    }
+
 
     public function unsetMainSessionProps() {
 
