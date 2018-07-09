@@ -35,6 +35,7 @@ defined('PUBLIC_LOCAL') ? null : define('PUBLIC_LOCAL', LOCAL . 'app/public/');
 defined('CN_URL_PUBLIC') ? null : define('CN_URL_PUBLIC', PUBLIC_LOCAL);
 defined('CN_URL_APP') ? null : define('CN_URL_APP', LOCAL . 'app/');
 defined('CN_URL_REQUEST') ? null : define('CN_URL_REQUEST', CN_URL_APP . 'core/main2/');
+defined('CN_URL_PUBLIC_CSS') ? null : define('CN_URL_PUBLIC_CSS', CN_URL_PUBLIC . 'css/');
 
 
 define('IN_DEVELOPMENT', true);

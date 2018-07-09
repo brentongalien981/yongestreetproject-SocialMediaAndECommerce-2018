@@ -1,74 +1,25 @@
-import CnPage from '../cn-classes-v2/CnPage.js';
+import ThreeColumnedPage from './ThreeColumnedPage.js';
+import CnPageProperties from "../cn-classes-v3/CnPageProperties.js";
+import CnForm from "./CnForm.js";
 
+class CreateVideoPage extends ThreeColumnedPage {
 
-class CreateVideoPage extends CnPage {
+    constructor() {
+        super();
 
-    constructor(selector = null) {
-
-        super(selector);
-
-        preInitPage();
-
-        initPage();
-
-        postInitPage();
+        this.setPageProperties (new CnPageProperties({
+            title: "Create Video Page"
+        }));
     }
 
-    postInitPage() {
-
+    /**
+     * @override
+     */
+    postInit() {
+        this.form = new CnForm( {nodeSelector: "#video-details-form"} );
+        this.form.appendTo(this.parts.cnCenterCol);
     }
 
-    initPage() {
-        initPageProperties();
-        initPagePlugIns();
-        initPageForms();
-        initPageComponents();
-        initPageParts();
-    }
-
-    initPagePlugIns() {
-
-    }
-
-    initPageParts() {
-        initLeftCol();
-        initRightCol();
-    }
-
-    initRightCol() {
-        setRightColHeight();
-    }
-
-    initLeftCol() {
-        setLeftColHeight();
-    }
-
-    setRightCol() {
-
-    }
-
-    setRightColHeight() {
-
-        $("#cn-right-col").height($(window).outerHeight());
-    }
-
-    setLeftCol() {
-
-    }
-
-    setLeftColHeight() {
-
-        $("#cn-left-col").height($(window).outerHeight());
-    }
-
-    preInitPage() {
-
-    }
-}
-
-
-function initPageProperties() {
-    setPageTitle("Add Video | CuteNinjar");
 }
 
 

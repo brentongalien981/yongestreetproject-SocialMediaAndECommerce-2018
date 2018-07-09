@@ -1,5 +1,5 @@
 <!--mandatory-->
-<?php require_once("../layout/master-v2.php"); ?>
+<?php require_once(PUBLIC_PATH . 'layout/master-v3.php'); ?>
 
 
 
@@ -7,7 +7,7 @@
 <!--<link rel="stylesheet" type="text/css" href="--><?//= PUBLIC_LOCAL . "css/video-manager/index.css"; ?><!--">-->
 
 <!--css / main-->
-<link rel="stylesheet" type="text/css" href="<?= PUBLIC_LOCAL . "css/video/create.css"; ?>">
+<link rel="stylesheet" type="text/css" href="<?= CN_URL_PUBLIC . "css/video/create/index.css"; ?>">
 
 
 
@@ -18,9 +18,9 @@
 
 
 <!--extentional views-->
-<?php require_once(PUBLIC_PATH . "video-user-playlists-plug-in/read.php"); ?>
-<?php require_once(PUBLIC_PATH . "page-outline-plug-in/read.php"); ?>
-<?php require_once(PUBLIC_PATH . "video-categories-plug-in/read.php"); ?>
+<?php require_once(PUBLIC_PATH . "video-user-playlists-plug-in-v2/read/index.php"); ?>
+<?php //require_once(PUBLIC_PATH . "page-outline-plug-in/read.php"); ?>
+<?php //require_once(PUBLIC_PATH . "video-categories-plug-in/read.php"); ?>
 
 
 
@@ -36,4 +36,4 @@
 <!--js / extentional-->
 
 <!--js / main-->
-<?php tryLoadingScriptFor("video", "tasks@create", true); ?>
+<script src="<?= CN_URL_PUBLIC . "js/js-controllers/CreateVideoPageController.js"; ?>" type="module"></script>

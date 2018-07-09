@@ -12,6 +12,10 @@ class Router {
             'index',
             'create',
             'delete'
+        ],
+        'Video' => [
+            'create',
+            'patch'
         ]
     ];
 

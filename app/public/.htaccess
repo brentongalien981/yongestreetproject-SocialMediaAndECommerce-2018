@@ -1,6 +1,8 @@
 RewriteEngine On
 
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-l
+
 RewriteCond %{REQUEST_URI} !^.*\.(jpg|jpeg|css|css.map|js|gif|png|woff|woff2|ttf)$ [NC]
 
 RewriteRule .* ../core/main2/Request.php?$0 [PT,L]

@@ -14,3 +14,10 @@ RewriteCond %{REQUEST_URI} !^.*\.(jpg|css|js|gif|png)$ [NC]
 
 RewriteRule .* ../core/main2/Request.php?$0 [PT,L]
 
+
+RewriteRule ^([a-zA-Z0-9\-_]+)/?$ /index\.php?loadPage=$1&mode=cms [QSA,L]
+
+RewriteRule ^(index|create|read|update|delete|patch|show)$ localhost/myPersonalProjects/yongestreetproject/app/public/core/main2/Request.php? [L]
+
+
+RewriteCond %{REQUEST_URI} ^.*\\(index|create|read|update|delete|patch|show)$

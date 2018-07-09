@@ -155,7 +155,7 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
 
     /** @override */
     protected function create() {
-        return false;
+        require_once(PUBLIC_PATH . 'video/create/index.php');
     }
 
     /** @override */
@@ -207,5 +207,11 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
         //
         return $videos;
 
+    }
+
+
+    /** @deprecated */
+    protected function patch()
+    {
     }
 }

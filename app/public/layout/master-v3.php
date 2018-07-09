@@ -45,7 +45,7 @@
 <?php //require_once(PUBLIC_PATH . "cn-dependencies/late-bind-online.php"); ?>
 <!--#################################################################-->
 <!--late-bind-agnostic css/js dependencies.-->
-<?php require_once(PUBLIC_PATH . "cn-dependencies/late-bind-agnostic-v2.php"); ?>
+<?php require_once(PUBLIC_PATH . "cn-dependencies/late-bind-agnostic-v3.php"); ?>
 <!--#################################################################-->
 <!--#################################################################-->
 

@@ -24,7 +24,7 @@
 
         <div id="" class="container-fluid row justify-content-center">
 
-            <div class="col-12"></div>
+            <div id="video-details-form-container" class="col-12 cn-container"></div>
 
         </div>
     </div>

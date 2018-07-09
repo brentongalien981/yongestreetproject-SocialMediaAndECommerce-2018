@@ -10,8 +10,16 @@
         return "http://localhost/myPersonalProjects/yongestreetproject/app/public/";
     }
 
+    function getLocalUrl() {
+        return get_local_url();
+    }
+
     function get_local_ajax_handler_url() {
         return "http://localhost/myPersonalProjects/yongestreetproject/app/request/request.php";
+    }
+
+    function getLocalAjaxHandlerUrl() {
+        return "http://localhost/myPersonalProjects/yongestreetproject/app/core/main2/Request.php";
     }
 </script>
 
