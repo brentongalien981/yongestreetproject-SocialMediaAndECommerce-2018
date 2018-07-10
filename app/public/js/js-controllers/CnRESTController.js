@@ -6,15 +6,13 @@ import AjaxRequestConstants from "../cn-classes-v3/AjaxRequestConstants.js";
 
 class CnRESTController extends CnController {
 
-    read(ajaxRequestData = null) {
+    read(ajaxRequestData = {}) {
 
-        const ajaxRequest = new AjaxRequest();
+        const ajaxRequest = new AjaxRequest({
+            controllerObj: this,
+            modelClassName: (ajaxRequestData.modelClassName !== null) ? ajaxRequestData.modelClassName : null
+        });
 
-        if (ajaxRequestData !== null) {
-            ajaxRequest.modelClassName = (ajaxRequestData.modelClassName !== null) ? ajaxRequestData.modelClassName !== null : null;
-        }
-
-        ajaxRequest.controllerObj = this;
         
         ajaxRequest.doSend();
     }

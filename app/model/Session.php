@@ -125,7 +125,7 @@ class Session extends Singleton
 
     private function check_login()
     {
-        if (isset($_SESSION["actual_user_id"])) {
+        if (isset($_SESSION["user_id"])) {
             $this->initMainSessionProps();
         } else {
             $this->unsetMainSessionProps();

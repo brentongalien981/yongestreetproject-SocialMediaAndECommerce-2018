@@ -9,10 +9,19 @@ trait SessionUnguardedPropsTrait
 
     public function initUnguardedProps()
     {
-        $this->id = session_id();
+        $this->initId();
         $this->initLastRequestDatetime();
         $this->initConsecutiveFailedRequests();
         $this->initUserType();
+    }
+
+    private function initId() {
+        if ($this->logged_in) {
+            $this->id = $_SESSION['id'];
+        }
+        else {
+            $this->id = session_id();
+        }
     }
 
     public function initConsecutiveFailedRequests() {

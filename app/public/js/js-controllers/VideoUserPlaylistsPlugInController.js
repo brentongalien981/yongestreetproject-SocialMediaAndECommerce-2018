@@ -9,6 +9,13 @@ class VideoUserPlaylistsPlugInController extends ComponentController {
     regularInit() {
         this.view = new VideoUserPlaylistsPlugIn();
     }
+
+    /** @override */
+    read() {
+
+        super.read({ modelClassName: "UserPlaylist" });
+
+    }
 }
 
-export { VideoUserPlaylistsPlugInController as default}
+export { VideoUserPlaylistsPlugInController as default }

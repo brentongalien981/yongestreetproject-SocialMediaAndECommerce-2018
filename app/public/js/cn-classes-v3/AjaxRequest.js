@@ -1,4 +1,5 @@
 import AjaxRequestConstants from './AjaxRequestConstants.js';
+import AjaxRequestResultLogger from './AjaxRequestResultLogger.js';
 
 
 /* PRIVATE VARS */
@@ -11,22 +12,30 @@ function privateFunc() {
 
 class AjaxRequest {
 
-    constructor() {
+    constructor(props = {}) {
 
         this.requestType = AjaxRequestConstants.REQUEST_TYPE_AJAX;
         this.requestMethod = AjaxRequestConstants.REQUEST_METHOD_GET;
         this.crudType = AjaxRequestConstants.CRUD_TYPE_READ;
-        this.requestObj = null;
+        this.requestObj = (props.requestObj !== null) ? props.requestObj : null;
         this.requestUrl = getLocalAjaxHandlerUrl();
-        this.controllerObj = null; // The calling CnController obj.
-        this.modelClassName = null;
+        this.controllerObj = (props.controllerObj !== null) ? props.controllerObj : null; // The calling CnController obj.
+        // this.controllerClassName = this.controllerObj.constructor.name;
+        this.modelClassName = (props.modelClassName !== null) ? props.modelClassName : null;
 
     }
 
     doSend() {
+        // Temporary unset the this.controllerObj because it's not
+        // needed for the ajax-request.
+        let actualControllerObj = this.controllerObj;
+        this.controllerObj = null;
+
         this.doPreSend();
         this.doRegularSend();
-        this.doPostSend(this.controllerObj);
+
+        this.controllerObj = actualControllerObj;
+        this.doPostSend(this);
     }
 
     doPreSend() {
@@ -62,7 +71,7 @@ class AjaxRequest {
     /**
      * Handle the result of the ajax-request.
      */
-    doPostSend(controllerObj) {
+    doPostSend(ajaxRequest) {
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -70,18 +79,38 @@ class AjaxRequest {
                 //
                 const response = xhr.responseText.trim();
 
-                // TODO: 
-                const resultJSON = "EMPTY RESULT JSON";
+                // // Re-reference the controllerObj.
+                // this.controllerObj = controllerObj;
 
-                //
-                console.log("########################");
-                console.log("response: " + response);
-                console.log("########################");
+                // Log before JSON parsing.
+                // do_browser_ajax_pre_log(x_obj, response, url)
+                AjaxRequestResultLogger.preLog(ajaxRequest, response);
+
+                // 
+                let resultJSON = ajaxRequest.tryParsingAjaxJson(response);
+
+                AjaxRequestResultLogger.postLog(ajaxRequest, resultJSON);
 
 
-                controllerObj.handleAjaxRequestResult(this, resultJSON);
+                ajaxRequest.controllerObj.handleAjaxRequestResult(ajaxRequest, resultJSON);
             }
         };
+    }
+
+
+    tryParsingAjaxJson(response) {
+
+        var json = null;
+    
+        try {
+            json = JSON.parse(response);
+        } catch (e) {
+            cnLog("\n**************************************");
+            cnLog('ERROR: PARSING AJAX-JSON ==> ' + e);
+            json = null;
+        }
+    
+        return json;
     }
 
 

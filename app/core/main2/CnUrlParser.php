@@ -3,21 +3,33 @@ namespace App\Core\Main2;
 
 class CnUrlParser
 {
-
     public const OLD_CN_REQUEST_SCHEME = 'OLD_CN_REQUEST_SCHEME';
 
     public static function setRequestVars(Request $request)
     {
         $isUsingOldCnRequestScheme = false;
 
-        if (self::handleOldCnRequestScheme($request)) { 
+        if (self::handleOldCnRequestScheme($request)) {
             $isUsingOldCnRequestScheme = true;
-        }
-        else if ($request->isRequestAjax) {
-            $requestData = json_decode($request->requestData, true);
+        } elseif ($request->isRequestAjax) {
+            // $requestData = json_decode($request->requestData, true);
 
-            $request->controllerName = (isset($requestData["requestForClass"])) ? $requestData["requestForClass"] : ucfirst(Request::DEFAULT_CONTROLLER_NAME);
-            $request->controllerAction = (isset($requestData["crudType"])) ? $requestData["crudType"] : Request::CRUD_TYPE_INDEX;
+            $requestData = null;
+            if (is_request_get()) {
+                $requestData = $_GET['request_data'];
+            } else {
+                $requestData = $_POST['request_data'];
+            }
+
+            $jsonDecodedRequestData = json_decode($requestData, true);
+
+            $request->controllerName = (isset($jsonDecodedRequestData["modelClassName"])) ? $jsonDecodedRequestData["modelClassName"] : ucfirst(Request::DEFAULT_CONTROLLER_NAME);
+            $request->controllerAction = (isset($jsonDecodedRequestData["crudType"])) ? $jsonDecodedRequestData["crudType"] : Request::CRUD_TYPE_INDEX;
+
+
+            // Because some request may have the suffix "Controller", try to
+            // just remove it.
+            $request->controllerName = str_replace("Controller", "", $request->controllerName);
         } else {
             //
             self::setWorkableUrl($request);
@@ -29,7 +41,8 @@ class CnUrlParser
     }
 
 
-    private static function handleOldCnRequestScheme($request) {
+    private static function handleOldCnRequestScheme($request)
+    {
 
         // $oldRequestUrl = '/myPersonalProjects/yongestreetproject/app/request/request.php';
 
@@ -83,7 +96,6 @@ class CnUrlParser
 
     private static function setControllerName($request)
     {
-
         if (is_request_post()) {
             $request->controllerName = $_POST['menu'];
             return;
@@ -109,10 +121,11 @@ class CnUrlParser
     }
 
 
-    private static function setWorkableUrlForOldScheme($request) {
+    private static function setWorkableUrlForOldScheme($request)
+    {
         $urlTokens = explode("/", $request->url);
 
-        // 
+        //
         $lastTokenOfUrl = null;
         $urlParamsTokens = [];
 

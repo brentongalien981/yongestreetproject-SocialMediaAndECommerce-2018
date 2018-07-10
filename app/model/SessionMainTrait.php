@@ -16,12 +16,13 @@ trait SessionMainTrait {
     public function initMainSessionProps() {
         $this->logged_in = true;
         
-        $this->actual_user_id = $_SESSION["actual_user_id"];
-        $this->actual_user_name = $_SESSION["actual_user_name"];
-        $this->actual_user_type_id = $_SESSION["actual_user_type_id"];
-
-        $this->currently_viewed_user_id = $_SESSION["currently_viewed_user_id"];
-        $this->currently_viewed_user_name = $_SESSION["currently_viewed_user_name"];
+        $this->actual_user_id = isset($_SESSION["actual_user_id"]) ? $_SESSION["actual_user_id"]: $_SESSION["user_id"];
+        $this->actual_user_name = isset($_SESSION["actual_user_name"]) ? $_SESSION["actual_user_name"]: "TODO: initialize user-name";
+        $this->actual_user_type_id = isset($_SESSION["actual_user_type_id"]) ? $_SESSION["actual_user_type_id"]: 0;
+        
+        $this->currently_viewed_user_id = isset($_SESSION["currently_viewed_user_id"]) ? $_SESSION["currently_viewed_user_id"]: $_SESSION["user_id"];
+        $this->currently_viewed_user_name = isset($_SESSION["currently_viewed_user_name"]) ? $_SESSION["currently_viewed_user_name"]: "TODO: initialize current-user-name";
+        
 
     }
 

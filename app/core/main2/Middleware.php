@@ -46,12 +46,16 @@ class Middleware extends CNMain
     {
         //
         $typeOfActionId = null;
+
+        // Because some request may have the suffix "Controller", try to 
+        // just remove it.
+        $controllerName = str_replace("Controller", "", $request->controllerName);
         
 
         // OLD NOTE:
         // Cases that start with Capital letters are for form and ajax request.
         // Lower cases are for direct-url-views requests.
-        switch ($request->controllerName) {
+        switch ($controllerName) {
             case "Home":
             case "public":
             case "user":
@@ -78,7 +82,11 @@ class Middleware extends CNMain
             case "Playlist":
             case "Comment":
             case "VideoRecommendationItem":
+
             case "UserPlaylist":
+            case "VideoUserPlaylists":
+            case "VideoUserPlaylistsPlugIn":
+
             case "Category":
                 $typeOfActionId = self::REGULAR_TYPES_OF_ACTIONS;
                 break;

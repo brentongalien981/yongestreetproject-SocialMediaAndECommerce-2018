@@ -16,6 +16,9 @@ class Router {
         'Video' => [
             'create',
             'patch'
+        ],
+        'UserPlaylist' => [
+            'read'
         ]
     ];
 
@@ -27,6 +30,7 @@ class Router {
         }
 
         $controllerPath = "\\App\\Controller\\{$request->controllerName}Controller";
+        
 
 
         $controllerObj = new $controllerPath($request->controllerName, $request->controllerAction);
