@@ -37,8 +37,8 @@ class AjaxRequestResultLogger {
         
         if (isCnAjaxResultOk(resultJSON)) { 
             for (var key in resultJSON) {
-                if (json.hasOwnProperty(key)) {
-                    var val = json[key];
+                if (resultJSON.hasOwnProperty(key)) {
+                    var val = resultJSON[key];
         
                     // Display in the console.
                     cnLog(key + " => " + val);

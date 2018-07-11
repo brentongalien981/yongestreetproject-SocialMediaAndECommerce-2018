@@ -14,14 +14,15 @@ class AjaxRequest {
 
     constructor(props = {}) {
 
-        this.requestType = AjaxRequestConstants.REQUEST_TYPE_AJAX;
-        this.requestMethod = AjaxRequestConstants.REQUEST_METHOD_GET;
-        this.crudType = AjaxRequestConstants.CRUD_TYPE_READ;
-        this.requestObj = (props.requestObj !== null) ? props.requestObj : null;
+        this.requestType = (props.requestType != null) ? props.requestType : AjaxRequestConstants.REQUEST_TYPE_AJAX;
+        this.requestMethod = (props.requestMethod != null) ? props.requestMethod : AjaxRequestConstants.REQUEST_METHOD_GET;
+        this.crudType = (props.crudType != null) ? props.crudType : AjaxRequestConstants.CRUD_TYPE_READ;
+
+        this.requestObj = (props.requestObj != null) ? props.requestObj : null;
         this.requestUrl = getLocalAjaxHandlerUrl();
-        this.controllerObj = (props.controllerObj !== null) ? props.controllerObj : null; // The calling CnController obj.
+        this.controllerObj = (props.controllerObj != null) ? props.controllerObj : null; // The calling CnController obj.
         // this.controllerClassName = this.controllerObj.constructor.name;
-        this.modelClassName = (props.modelClassName !== null) ? props.modelClassName : null;
+        this.modelClassName = (props.modelClassName != null) ? props.modelClassName : null;
 
     }
 
@@ -90,6 +91,9 @@ class AjaxRequest {
                 let resultJSON = ajaxRequest.tryParsingAjaxJson(response);
 
                 AjaxRequestResultLogger.postLog(ajaxRequest, resultJSON);
+
+                // Show form errors.
+                // TODO: showFormErrors2(crud_type, caller_class_name, json);
 
 
                 ajaxRequest.controllerObj.handleAjaxRequestResult(ajaxRequest, resultJSON);

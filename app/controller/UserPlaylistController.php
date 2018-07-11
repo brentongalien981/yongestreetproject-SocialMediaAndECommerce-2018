@@ -16,7 +16,6 @@ class UserPlaylistController extends MainController implements AjaxCrudHandlerIn
     {
 //        sleep(1);
         parent::__construct($menu, $action);
-
     }
 
     /**
@@ -28,10 +27,34 @@ class UserPlaylistController extends MainController implements AjaxCrudHandlerIn
         // TODO: Implement doSpecificAjaxCrudAction() method.
     }
 
+
+    /** @override */
+    public function setGlobalRequestMethodFields($request)
+    {
+        $requestObj = [];
+        if (isset($request->requestData['requestObj'])) {
+            $requestObj = $request->requestData['requestObj'];
+        }
+
+        foreach ($this->validator->fieldsToBeValidated as $field => $value) {
+
+            if (isset($requestObj[$field])) {
+                $requestValue = $requestObj[$field];
+
+                if (is_request_get()) {
+                    $_GET[$field] = $requestValue;
+                } else {
+                    $_POST[$field] = $requestValue;
+                }
+            }
+
+        }
+
+    }
+
     /** @override */
     protected function setFieldsToBeValidated()
     {
-
         switch ($this->action) {
             case 'create':
                 break;
@@ -60,7 +83,8 @@ class UserPlaylistController extends MainController implements AjaxCrudHandlerIn
     }
 
     /** @override */
-    protected function read() {
+    protected function read()
+    {
 
         //
         $readData = [
@@ -80,7 +104,6 @@ class UserPlaylistController extends MainController implements AjaxCrudHandlerIn
 
         //
         for ($i = 0; $i < count($userPlaylists); $i++) {
-
             $userPlaylist = $userPlaylists[$i];
 
             $playlist = \App\Model\Playlist::readById(['id' => $userPlaylist->playlist_id])[0];
@@ -104,5 +127,4 @@ class UserPlaylistController extends MainController implements AjaxCrudHandlerIn
         //
         return $userPlaylists;
     }
-
 }

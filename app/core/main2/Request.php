@@ -61,6 +61,8 @@ class Request
         /* Set the request vars. */
         $isUsingOldCnRequestScheme = CnUrlParser::setRequestVars($this);
 
+        
+
 
         /* */
         if ($this->isRequestForFrontEndFiles()) {
@@ -112,7 +114,10 @@ class Request
                 echo "\nEXCEPTION CAUGHT...\nOops! There's a problem with the request...\n";
                 echo "$e\n";
             }
+        } finally {
+            RequestTimeKeeper::setLastRequestTime($this);
         }
+
     }
 
 
@@ -203,7 +208,7 @@ class Request
         if (Throttler::isRequestFromBlacklistedIp($this->ip)) {
             $this->malice = Throttler::MALICE_BLACK_LISTED_IP;
             echo "Sorry.. Your IP has been blocked :(<br>";
-        } elseif ($this->checkDDOSAttack && Throttler::isRequestDDOSAttack()) {
+        } elseif ($this->checkDDOSAttack && Throttler::isRequestDDOSAttack($this)) {
             $this->malice = Throttler::MALICE_DDOS_ATTACK;
 
             $this->session->incrementNumOfConsecutiveFailedRequests();

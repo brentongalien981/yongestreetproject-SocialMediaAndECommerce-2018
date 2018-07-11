@@ -195,6 +195,11 @@ class MainController extends CNMain
     }
 
 
+    public function setGlobalRequestMethodFields($request) {
+        // Override this.
+    }
+
+
     /**
      * Handle the action for both a regular request
      * and ajax request..
@@ -202,6 +207,7 @@ class MainController extends CNMain
     public function doAction($request = null)
     {
         $this->setFieldsToBeValidated();
+        $this->setGlobalRequestMethodFields($request);
         $isValidationOk = $this->validator->validate();
         $isCrudOk = false;
 

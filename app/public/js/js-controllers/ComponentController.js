@@ -17,8 +17,33 @@ class ComponentController extends CnRESTController {
     }
 
     initExtentionalControllers() {
+
+    }
+
+
+    /** @override */
+    regularInit() {
+        super.regularInit();
+
+        this.isCreating = false;
+        this.isReading = false;
+        this.isUpdating = false;
+        this.isDeleting = false;
+
+        this.isPatching = false;
+        this.isShowing = false;
+        this.isIndexing = false;
+
         
+        this.numOfFailedAjaxCreate = 0;
+        this.numOfFailedAjaxRead = 0;
+        this.numOfFailedAjaxUpdate = 0;
+        this.numOfFailedAjaxDelete = 0;
+
+        this.numOfFailedAjaxPatch = 0;
+        this.numOfFailedAjaxShow = 0;
+        this.numOfFailedAjaxIndex = 0;
     }
 }
 
-export { ComponentController as default}
+export { ComponentController as default }

@@ -2,6 +2,7 @@
 
 namespace App\Core\Main2;
 
+
 class Throttler {
 
     public const MALICE_FREE = 0;
@@ -45,7 +46,7 @@ class Throttler {
 
 
 
-    public static function isRequestDDOSAttack() {
+    public static function isRequestDDOSAttack($request) {
 
         // $currentDateInSeconds = date("U");
         $currentDateInSeconds = $_SERVER['REQUEST_TIME'];
@@ -55,7 +56,8 @@ class Throttler {
         
         // $lastRequestDateTimeInSeconds = date_format($lastRequestDateTime, "U");
 
-        $lastRequestDateTimeInSeconds = $session->last_request_datetime;
+        // $lastRequestDateTimeInSeconds = $session->last_request_datetime;
+        $lastRequestDateTimeInSeconds = RequestTimeKeeper::getLastRequestDateTimeInSeconds($request);
 
         $requestTimeInterval = $currentDateInSeconds - $lastRequestDateTimeInSeconds;
 

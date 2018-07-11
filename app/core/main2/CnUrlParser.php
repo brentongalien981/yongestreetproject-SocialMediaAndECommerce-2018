@@ -22,6 +22,7 @@ class CnUrlParser
             }
 
             $jsonDecodedRequestData = json_decode($requestData, true);
+            $request->requestData = $jsonDecodedRequestData;
 
             $request->controllerName = (isset($jsonDecodedRequestData["modelClassName"])) ? $jsonDecodedRequestData["modelClassName"] : ucfirst(Request::DEFAULT_CONTROLLER_NAME);
             $request->controllerAction = (isset($jsonDecodedRequestData["crudType"])) ? $jsonDecodedRequestData["crudType"] : Request::CRUD_TYPE_INDEX;

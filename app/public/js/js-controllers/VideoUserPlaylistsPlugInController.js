@@ -10,10 +10,22 @@ class VideoUserPlaylistsPlugInController extends ComponentController {
         this.view = new VideoUserPlaylistsPlugIn();
     }
 
-    /** @override */
-    read() {
 
-        super.read({ modelClassName: "UserPlaylist" });
+    /** @override */
+    regularRead() {
+
+        // TODO: 
+        var earliestElDate = getLimitDateOfDomElement("earliest", "playlist-items");
+
+        let ajaxRequestData = {
+            controllerObj: this,
+            modelClassName: "UserPlaylist",
+            requestObj: {
+                earliest_el_date: earliestElDate
+            }
+        };
+
+        super.regularRead(ajaxRequestData);
 
     }
 }
