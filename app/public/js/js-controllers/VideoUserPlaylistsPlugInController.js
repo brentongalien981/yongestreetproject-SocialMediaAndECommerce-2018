@@ -28,6 +28,31 @@ class VideoUserPlaylistsPlugInController extends ComponentController {
         super.regularRead(ajaxRequestData);
 
     }
+
+
+    /** @override */
+    regularHandleAjaxRequestResult(ajaxRequest, resultJSON) {
+
+        switch (ajaxRequest.crudType) {
+            case "read":
+                this.view.setView(resultJSON);
+                break;
+            case "show":
+                break;
+            case "create":
+                break;
+            case "update":
+                break;
+            case "delete":
+                break;
+            case "fetch":
+                break;
+            case "patch":
+                break;
+            case "show":
+                break;
+        }
+    }
 }
 
 export { VideoUserPlaylistsPlugInController as default }

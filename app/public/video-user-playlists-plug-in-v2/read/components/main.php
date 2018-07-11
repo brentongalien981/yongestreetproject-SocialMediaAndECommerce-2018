@@ -1,0 +1,1 @@
+<?php require_once(PUBLIC_PATH . "video-user-playlists-plug-in-v2/read/components/video-user-playlists-plug-in.php"); ?>

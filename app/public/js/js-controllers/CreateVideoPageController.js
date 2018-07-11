@@ -9,6 +9,7 @@ class CreateVideoPageController extends PageController {
 
         this.view = new CreateVideoPage();
 
+        this.videoUserPlaylistsController.view.appendTo(this.view.parts.cnLeftCol);
         this.videoUserPlaylistsController.read();
     }
 
@@ -17,8 +18,6 @@ class CreateVideoPageController extends PageController {
      */
     initExtentionalControllers() {
         this.videoUserPlaylistsController = new VideoUserPlaylistsPlugInController();
-
-        // TODO: this.videoUserPlaylistsController.view.appendTo(this.view);
         
     }
 }

@@ -27,7 +27,6 @@
 <!--components / extentional-->
 
 <!--components / main-->
-<?php require_once(PUBLIC_PATH . "video-user-playlists-plug-in-v2/read/components/video-user-playlists-plug-in.php"); ?>
 <?php require_once(PUBLIC_PATH . "video-user-playlists-plug-in-v2/read/components/main.php"); ?>
 
 

@@ -49,6 +49,21 @@ class CnComponent {
     }
 
 
+    setView(json) {
+        this.preSetView();
+        this.regularSetView(json);
+        this.postSetView();
+    }
+
+    preSetView() {}
+
+    regularSetView(resultJSON) {
+
+    }
+
+    postSetView() {}
+
+
     /**
      * @throws Error
      * @param cnChildTemplate
