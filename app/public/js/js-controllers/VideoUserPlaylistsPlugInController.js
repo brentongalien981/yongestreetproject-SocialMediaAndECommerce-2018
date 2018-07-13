@@ -1,7 +1,15 @@
 import ComponentController from "./ComponentController.js";
 import VideoUserPlaylistsPlugIn from "../cn-components/VideoUserPlaylistsPlugIn.js";
+import VideoUserPlaylistsPlugInEventListeners from "../cn-event-listeners/VideoUserPlaylistsPlugInEventListeners.js";
 
 class VideoUserPlaylistsPlugInController extends ComponentController {
+
+    /** @override */
+    implementEventListeners() {
+        super.implementEventListeners();
+        VideoUserPlaylistsPlugInEventListeners.handle(this);
+    }
+
 
     /**
      * @override
@@ -15,7 +23,6 @@ class VideoUserPlaylistsPlugInController extends ComponentController {
     /** @override */
     regularRead() {
 
-        // TODO: 
         var earliestElDate = getLimitDateOfDomElement("earliest", "playlist-items");
 
         let ajaxRequestData = {

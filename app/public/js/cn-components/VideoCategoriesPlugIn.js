@@ -17,6 +17,7 @@ class VideoCategoriesPlugIn extends CnComponent {
 
         var arrayOfCategoryObjs = json.objs;
 
+        if (arrayOfUserPlaylistObjs == null) { return; }
 
         for (let i = 0; i < arrayOfCategoryObjs.length; i++) {
     

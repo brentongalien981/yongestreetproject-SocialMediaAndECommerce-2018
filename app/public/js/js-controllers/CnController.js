@@ -33,17 +33,8 @@ class CnController {
      * and append their views to respective containers.
      */
     postInit() {
-        // this.implementEventListeners();
+        
     }
-
-    /**
-     * After setting up all the childComponents (initiating, appending),
-     * add the event listeners.
-     */
-    // implementEventListeners() {
-
-    // }
-
     
 }
 

@@ -6,19 +6,20 @@ import VideoCategoriesPlugInController from "./VideoCategoriesPlugInController.j
 
 class CreateVideoPageController extends PageController {
 
-    constructor() {
-        super();
-
+    /**
+     * @override
+     */
+    regularInit() {
+        super.regularInit();
+        // this.view = new VideoUserPlaylistsPlugIn();
         this.view = new CreateVideoPage();
-
-        this.implementEventListeners();
-
-        this.videoUserPlaylistsPlugInController = null;
-        this.initExtentionalControllers();
-
     }
 
+
+
+    /** @override */
     implementEventListeners() {
+        super.implementEventListeners();
         // this.eventListenerObj = new ThreeColumnedPageEventListeners();
         // ThreeColumnedPageEventListeners.handle(this);
         ThreeColumnedPageEventListeners.handle(this);
@@ -26,7 +27,7 @@ class CreateVideoPageController extends PageController {
 
 
     /**
-     * 
+     * @override
      */
     initExtentionalControllers() {
 
@@ -35,12 +36,12 @@ class CreateVideoPageController extends PageController {
         this.videoUserPlaylistsPlugInController.read();
 
         let theController = this;
-        
+
         setTimeout(function () {
             let videoCategoriesPlugInController = new VideoCategoriesPlugInController();
             videoCategoriesPlugInController.view.appendTo(theController.view.parts.cnRightCol);
             videoCategoriesPlugInController.read();
-        }, 100);
+        }, 200);
 
 
     }

@@ -9,16 +9,31 @@ class ComponentController extends CnRESTController {
     // }
 
 
-    // /**
-    //  * @override
-    //  */
-    // postInit() {
-    //     this.initExtentionalControllers();
-    // }
 
-    // initExtentionalControllers() {
+    /**
+     * After setting up all the childComponents (initiating, appending),
+     * add the event listeners.
+     */
+    implementEventListeners() {
 
-    // }
+    }
+
+
+
+    /**
+     * @override
+     */
+    postInit() {
+        super.postInit();
+        this.implementEventListeners();
+        this.initExtentionalControllers();
+    }
+
+
+    
+    initExtentionalControllers() {
+
+    }
 
 
     /** @override */

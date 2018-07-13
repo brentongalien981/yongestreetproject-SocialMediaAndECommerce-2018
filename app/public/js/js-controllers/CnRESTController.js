@@ -117,7 +117,6 @@ class CnRESTController extends CnController {
 
     postHandleAjaxRequestResult(ajaxRequest, resultJSON) {
         // Override this.
-        console.log("Invoked method: postHandleAjaxRequestResult() of class: " + this.constructor.name);
     }
 
 }

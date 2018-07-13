@@ -49,6 +49,22 @@ class AjaxRequestResultLogger {
         cnLog("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         cnLog("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n\n\n\n");
 
+        this.postLogAjaxRequestController(ajaxRequest.controllerObj);
+
+    }
+
+
+
+    static postLogAjaxRequestController(controllerObj) {
+        cnLog("\n*******************************");
+        cnLog("Controller Obj: " + controllerObj.constructor.name);
+        cnLog("  after AJAX Request,");
+        cnLog("BUT just before postHandling...");
+        
+        mcnLogObject(controllerObj);
+
+        cnLog("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        cnLog("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n\n\n\n");
     }
 
 
@@ -58,7 +74,8 @@ class AjaxRequestResultLogger {
     static shouldClassLog(modelClassName) {
 
         switch (modelClassName) {
-            case "UserPlaylist":
+            // case "UserPlaylist":
+            case "Category":
                 return true;
         }
 

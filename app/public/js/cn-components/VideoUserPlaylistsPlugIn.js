@@ -16,6 +16,8 @@ class VideoUserPlaylistsPlugIn extends CnComponent {
     regularSetView(json) {
         var arrayOfUserPlaylistObjs = json.objs;
 
+        if (arrayOfUserPlaylistObjs == null) { return; }
+
         for (let i = 0; i < arrayOfUserPlaylistObjs.length; i++) {
 
             // Reference the ith obj.

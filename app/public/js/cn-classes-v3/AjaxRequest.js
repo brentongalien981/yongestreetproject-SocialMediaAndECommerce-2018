@@ -77,26 +77,18 @@ class AjaxRequest {
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
-
-
-                //
+                
                 const response = xhr.responseText.trim();
 
-                // // Re-reference the controllerObj.
-                // this.controllerObj = controllerObj;
-
                 // Log before JSON parsing.
-                // do_browser_ajax_pre_log(x_obj, response, url)
                 AjaxRequestResultLogger.preLog(ajaxRequest, response);
 
-                // 
                 let resultJSON = ajaxRequest.tryParsingAjaxJson(response);
 
                 AjaxRequestResultLogger.postLog(ajaxRequest, resultJSON);
 
                 // Show form errors.
                 // TODO: showFormErrors2(crud_type, caller_class_name, json);
-
 
                 ajaxRequest.controllerObj.handleAjaxRequestResult(ajaxRequest, resultJSON);
             }
