@@ -60,7 +60,6 @@ class AjaxRequestResultLogger {
         switch (modelClassName) {
             case "UserPlaylist":
                 return true;
-                break;
         }
 
         return false;

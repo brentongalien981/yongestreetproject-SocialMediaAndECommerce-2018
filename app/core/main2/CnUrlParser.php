@@ -11,12 +11,13 @@ class CnUrlParser
 
         if (self::handleOldCnRequestScheme($request)) {
             $isUsingOldCnRequestScheme = true;
-        } elseif ($request->isRequestAjax) {
+        } else if ($request->isRequestAjax) {
             // $requestData = json_decode($request->requestData, true);
 
             $requestData = null;
             if (is_request_get()) {
                 $requestData = $_GET['request_data'];
+                
             } else {
                 $requestData = $_POST['request_data'];
             }
@@ -31,6 +32,7 @@ class CnUrlParser
             // Because some request may have the suffix "Controller", try to
             // just remove it.
             $request->controllerName = str_replace("Controller", "", $request->controllerName);
+
         } else {
             //
             self::setWorkableUrl($request);

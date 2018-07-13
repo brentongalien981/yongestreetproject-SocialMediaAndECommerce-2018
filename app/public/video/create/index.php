@@ -19,7 +19,7 @@
 
 <!--extentional views-->
 <?php require_once(PUBLIC_PATH . "video-user-playlists-plug-in-v2/read/index.php"); ?>
-<?php //require_once(PUBLIC_PATH . "video-categories-plug-in/read.php"); ?>
+<?php require_once(PUBLIC_PATH . "video-categories-plug-in-v2/read/index.php"); ?>
 
 
 

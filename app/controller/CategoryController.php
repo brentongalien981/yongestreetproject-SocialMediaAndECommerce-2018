@@ -15,7 +15,6 @@ class CategoryController extends MainController implements AjaxCrudHandlerInterf
     public function __construct($menu = null, $action = null)
     {
         parent::__construct($menu, $action);
-
     }
 
     /**
@@ -27,10 +26,33 @@ class CategoryController extends MainController implements AjaxCrudHandlerInterf
     }
 
 
+
+    /** @override */
+    public function setGlobalRequestMethodFields($request)
+    {
+        $requestObj = [];
+        if (isset($request->requestData['requestObj'])) {
+            $requestObj = $request->requestData['requestObj'];
+        }
+    
+        foreach ($this->validator->fieldsToBeValidated as $field => $value) {
+            if (isset($requestObj[$field])) {
+                $requestValue = $requestObj[$field];
+    
+                if (is_request_get()) {
+                    $_GET[$field] = $requestValue;
+                } else {
+                    $_POST[$field] = $requestValue;
+                }
+            }
+        }
+    }
+    
+
+
     /** @override */
     protected function setFieldsToBeValidated()
     {
-
         switch ($this->action) {
             case 'create':
                 break;
@@ -106,7 +128,5 @@ class CategoryController extends MainController implements AjaxCrudHandlerInterf
 
         //
         return $categories;
-
     }
-
 }

@@ -19,6 +19,9 @@ class Router {
         ],
         'UserPlaylist' => [
             'read'
+        ],
+        'Category' => [
+            'read'
         ]
     ];
 

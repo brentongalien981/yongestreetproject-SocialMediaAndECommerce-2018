@@ -57,6 +57,10 @@ class CnComponent {
 
     preSetView() {}
 
+    /**
+     * TODO: Make this method accept parameters that make use
+     * of the "model" of the MVC (not just a JSON).
+     */
     regularSetView(resultJSON) {
 
     }

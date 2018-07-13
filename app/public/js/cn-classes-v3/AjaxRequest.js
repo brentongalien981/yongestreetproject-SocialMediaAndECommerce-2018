@@ -60,6 +60,7 @@ class AjaxRequest {
     doRegularSend() {
 
         if (this.requestMethod === AjaxRequestConstants.REQUEST_METHOD_GET) {
+
             xhr.send();
         }
         else {
@@ -76,6 +77,7 @@ class AjaxRequest {
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
+
 
                 //
                 const response = xhr.responseText.trim();

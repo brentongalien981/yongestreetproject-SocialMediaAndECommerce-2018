@@ -10,7 +10,7 @@ class CnRESTController extends CnController {
         if (this.preRead()) {
             this.regularRead();
         }
-        
+
         this.postRead();
     }
 
@@ -21,7 +21,7 @@ class CnRESTController extends CnController {
 
         //
         if (this.isReading || (this.numOfFailedAjaxRead >= 3)) { return false; }
-        
+
         this.isReading = true;
 
         return true;
@@ -85,7 +85,7 @@ class CnRESTController extends CnController {
         if (operation.charAt(operation.length - 1) === 'e') {
             operation = operation.substr(0, operation.length - 1);
         }
-        operation = "is" + operation;
+        operation = "is" + operation + "ing";
         this[operation] = false;
 
 
@@ -93,6 +93,26 @@ class CnRESTController extends CnController {
 
     regularHandleAjaxRequestResult(ajaxRequest, resultJSON) {
         // Override this.
+
+        switch (ajaxRequest.crudType) {
+            case "read":
+                this.view.setView(resultJSON);
+                break;
+            case "show":
+                break;
+            case "create":
+                break;
+            case "update":
+                break;
+            case "delete":
+                break;
+            case "fetch":
+                break;
+            case "patch":
+                break;
+            case "show":
+                break;
+        }
     }
 
     postHandleAjaxRequestResult(ajaxRequest, resultJSON) {

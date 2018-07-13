@@ -58,6 +58,7 @@ class Request
         }
 
 
+
         /* Set the request vars. */
         $isUsingOldCnRequestScheme = CnUrlParser::setRequestVars($this);
 
@@ -109,12 +110,16 @@ class Request
             }
 
             Router::route($this);
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) 
+        {
             if (!self::isAjax()) {
                 echo "\nEXCEPTION CAUGHT...\nOops! There's a problem with the request...\n";
                 echo "$e\n";
             }
-        } finally {
+        } 
+        finally 
+        {
             RequestTimeKeeper::setLastRequestTime($this);
         }
 

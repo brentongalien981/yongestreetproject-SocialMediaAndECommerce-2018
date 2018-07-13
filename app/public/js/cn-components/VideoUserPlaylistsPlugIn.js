@@ -7,7 +7,12 @@ class VideoUserPlaylistsPlugIn extends CnComponent {
     }
 
 
-    /** @override */
+    /**
+     * TODO: Make this method accept parameters that make use
+     * of the "model" of the MVC (not just a JSON).
+     * @override
+     * @param {*} json 
+     */
     regularSetView(json) {
         var arrayOfUserPlaylistObjs = json.objs;
 

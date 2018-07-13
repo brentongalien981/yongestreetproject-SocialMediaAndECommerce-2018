@@ -5,10 +5,11 @@ namespace App\Core\Main2;
 
 class RequestTimeKeeper
 {
-    public static function setLastRequestTime(Request $request) {
+    public static function setLastRequestTime(Request $request)
+    {
         $lastRequestTimeForSessionIndexName = 'LAST_REQUEST_TIME';
 
-        if ($request->isAjax()) {
+        if ($request->isRequestAjax) {
             $lastRequestTimeForSessionIndexName .= '_FOR_' . $request->controllerName;
             $lastRequestTimeForSessionIndexName .= '_' . $request->controllerAction;
         }
@@ -17,10 +18,11 @@ class RequestTimeKeeper
     }
 
 
-    public static function getLastRequestDateTimeInSeconds($request) {
+    public static function getLastRequestDateTimeInSeconds($request)
+    {
         $lastRequestTimeForSessionIndexName = 'LAST_REQUEST_TIME';
 
-        if ($request->isAjax()) {
+        if ($request->isRequestAjax) {
             $lastRequestTimeForSessionIndexName .= '_FOR_' . $request->controllerName;
             $lastRequestTimeForSessionIndexName .= '_' . $request->controllerAction;
         }
@@ -31,7 +33,5 @@ class RequestTimeKeeper
         } else {
             return $_SERVER['REQUEST_TIME'] - 3;
         }
-        
-
     }
 }

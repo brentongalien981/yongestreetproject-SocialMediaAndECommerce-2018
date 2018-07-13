@@ -1,0 +1,1 @@
+<?php require_once(PUBLIC_PATH . "video-categories-plug-in-v2/read/components/video-categories-plug-in.php"); ?>

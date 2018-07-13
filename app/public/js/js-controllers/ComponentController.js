@@ -1,5 +1,5 @@
 import CnRESTController from "./CnRESTController.js";
-import AjaxRequest from "../cn-classes-v3/AjaxRequest.js";
+// import AjaxRequest from "../cn-classes-v3/AjaxRequest.js";
 
 
 class ComponentController extends CnRESTController {
@@ -9,21 +9,21 @@ class ComponentController extends CnRESTController {
     // }
 
 
-    /**
-     * @override
-     */
-    postInit() {
-        this.initExtentionalControllers();
-    }
+    // /**
+    //  * @override
+    //  */
+    // postInit() {
+    //     this.initExtentionalControllers();
+    // }
 
-    initExtentionalControllers() {
+    // initExtentionalControllers() {
 
-    }
+    // }
 
 
     /** @override */
-    regularInit() {
-        super.regularInit();
+    preInit() {
+        super.preInit();
 
         this.isCreating = false;
         this.isReading = false;
