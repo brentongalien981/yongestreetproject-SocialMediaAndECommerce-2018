@@ -1,24 +1,22 @@
 import ThreeColumnedPage from './ThreeColumnedPage.js';
-import CnPageProperties from "../cn-classes-v3/CnPageProperties.js";
 import CnForm from "./CnForm.js";
 
 class CreateVideoPage extends ThreeColumnedPage {
 
-    constructor() {
-        super();
-
-        this.setPageProperties (new CnPageProperties({
-            title: "Create Video Page"
-        }));
+    /** @override */
+    initPageProperties() {
+        super.initPageProperties({
+            title: "Create Video Page MoFo | YSP"
+        });
     }
 
-    /**
-     * @override
-     */
-    postInit() {
-        this.form = new CnForm( {nodeSelector: "#video-details-form"} );
-        this.form.appendTo(this.parts.cnCenterCol);
-    }
+
+    // /** @override */
+    // initChildComponents() {
+    //     super.initChildComponents();
+    //     this.form = new CnForm( {nodeSelector: "#video-details-form"} );
+    //     this.form.appendTo(this.parts.cnCenterCol);
+    // }
 
 }
 

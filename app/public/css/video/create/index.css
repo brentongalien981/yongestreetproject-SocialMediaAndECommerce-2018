@@ -40,3 +40,40 @@
     display: none;
     overflow-y: auto;
 }
+
+
+
+
+/* ######################## */
+/* video-details-form */
+
+form#video-details-form {
+    padding: 60px 0;
+}
+
+#video-details-form .form-group,
+#video-details-form .form-check {
+    margin-top: 40px;
+}
+
+#video-details-form input[type=text], 
+#video-details-form textarea,
+#video-details-form select {
+    font-weight: 100;
+    font-size: 14px;
+    padding: 10px;
+    resize: none;
+}
+
+
+#video-details-form #extra-details-title {
+    margin-top: 80px;
+}
+
+#video-details-form #private-video-checkbox {
+    margin-left: 0;
+}
+
+#video-details-form option {
+    padding: 0.5em;
+}

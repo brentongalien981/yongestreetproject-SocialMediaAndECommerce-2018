@@ -578,7 +578,12 @@ class MainModel extends CNMain
             $q .= " ORDER BY {$order_by_field} {$order_arrangement}";
         }
 
-        $q .= " LIMIT {$limit}";
+
+        if (isset($limit)) {
+            $q .= " LIMIT {$limit}";
+        }
+
+        
 
 
         //

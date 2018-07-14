@@ -21,6 +21,7 @@ class Router {
             'read'
         ],
         'Category' => [
+            'index',
             'read'
         ]
     ];

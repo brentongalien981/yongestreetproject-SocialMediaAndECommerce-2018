@@ -23,6 +23,10 @@ class AjaxRequestConstants {
     static get CRUD_TYPE_READ() {
         return "read";
     }
+
+    static get CRUD_TYPE_INDEX() {
+        return "index";
+    }
 }
 
 export { AjaxRequestConstants as default}

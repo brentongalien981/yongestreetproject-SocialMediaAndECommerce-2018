@@ -5,9 +5,9 @@ class CnComponent {
         if (props !== null) {
             this.nodeSelector = (props.nodeSelector !== null) ? props.nodeSelector : null;
             this.nodeId = (props.nodeId !== null) ? props.nodeId : null;
-        
-            this.node = (this.nodeSelector !== null) ? $(this.nodeSelector): $("#" + this.nodeId);
-            
+
+            this.node = (this.nodeSelector !== null) ? $(this.nodeSelector) : $("#" + this.nodeId);
+
         }
 
 
@@ -26,11 +26,24 @@ class CnComponent {
     initParts() { this.parts = null; }
 
 
+    /**
+     * Note that the order of calls here is important.
+     */
     regularInit() {
-        this.initPlugIns();
-        this.initChildComponents();
-        this.initContainers();
         this.initParts();
+        this.initContainers();
+        this.initChildComponents();
+        // TODO: this.initForms();
+        this.initPlugIns();
+
+        // Combine all components to childComponents.
+        this.childComponents = {
+            ...this.parts,
+            ...this.containers,
+            ...this.childComponents,
+            ...this.plugIns
+        };
+        
     }
 
 
@@ -55,7 +68,7 @@ class CnComponent {
         this.postSetView();
     }
 
-    preSetView() {}
+    preSetView() { }
 
     /**
      * TODO: Make this method accept parameters that make use
@@ -65,14 +78,15 @@ class CnComponent {
 
     }
 
-    postSetView() {}
+    postSetView() { }
 
 
     /**
+     * @deprecated
      * @throws Error
      * @param cnChildTemplate
      */
-    append(cnChildTemplate) {
+    appendOld(cnChildTemplate) {
 
         if (this.node === null) {
             throw new Error("Appending Error: Parent-node is null.");
@@ -96,26 +110,47 @@ class CnComponent {
         }
     }
 
+
+    append(childComponent) {
+        let parentComponent = this;
+        this.appendAtLast(parentComponent, childComponent)
+    }
+
+
     /**
      * @throws Error
      * @param {CnComponent} parentComponent 
+     * @param {CnComponent} childComponent 
      */
-    appendTo(parentComponent) {
+    appendAtLast(parentComponent, childComponent) {
+
         if (parentComponent.node === null) {
             throw new Error("Appending Error: Parent-node is null.");
 
         }
-        else if (this.node === null) {
+        else if (childComponent.node === null) {
             throw new Error("Appending Error: Child-node to be appended is null.");
         }
         else {
 
-            const container = $(parentComponent.node).find(".cn-container")[0];
-            // Append.
-            $(container).append($(this.node));
+            let cnContainer = $(parentComponent.node).find(".cn-container")[0];
+
+            // Append to the actual-cn-container of the parent-node.
+            // else if the parent-node doesn't have actual-cn-container,
+            // then append directly to the parent-node.
+            if (cnContainer != null) {
+                $(cnContainer).append($(childComponent.node));
+            } else {
+                $(parentComponent.node).append($(childComponent.node));
+            }
         }
     }
 
+
+    appendTo(parentComponent) {
+        let childComponent = this;
+        this.appendAtLast(parentComponent, childComponent)
+    }
 
 
     show() {

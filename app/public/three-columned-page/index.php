@@ -20,7 +20,7 @@
     <!--...later than the left and right cols, so that you won't have problem-->
     <!--...with the displaying of the DOM.-->
     <div id="cn-center-col" class="cn-col">
-        <div class="cn-container"></div>
+        <div class="cn-container container-fluid row justify-content-center"></div>
     </div>
 
 

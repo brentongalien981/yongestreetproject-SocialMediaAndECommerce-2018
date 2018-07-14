@@ -89,6 +89,7 @@ class MainController extends CNMain
             case 'read':
             case 'show':
             case 'fetch':
+            case 'index':
                 // On $action read, $isCrudOk is either false or json['objs']
                 if ($isCrudOk != false) {
                     $this->json['is_result_ok'] = true;

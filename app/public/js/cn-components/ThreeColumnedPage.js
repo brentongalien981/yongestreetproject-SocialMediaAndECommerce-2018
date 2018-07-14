@@ -27,6 +27,12 @@ class ThreeColumnedPage extends CnPage {
 
         this.parts = { cnLeftCol: cnLeftCol, cnRightCol: cnRightCol, cnCenterCol: cnCenterCol };
 
+    }
+
+
+    /** @override */
+    postInit() {
+        super.postInit();
         this.setSideColsHeight();
         
         this.initCnStickyBottom();

@@ -1,17 +1,24 @@
 import CnComponent from './CnComponent.js';
+import CnPageProperties from "../cn-classes-v3/CnPageProperties.js";
 
 
 class CnPage extends CnComponent {
 
-    // constructor(props = null) {
+    /** @override */
+    regularInit() {
+        super.regularInit();
+        this.initPageProperties();
+    }
 
-    //     super(props);
-    // }
+    
 
-    setPageProperties(cnPageProps) {
-        this.title = cnPageProps.title;
+    initPageProperties(props) {
+
+        this.pageProps = new CnPageProperties(props);
         
-        $("title").html(this.title);
+        $("title").html(this.pageProps.title);
+
+        
     }
 }
 

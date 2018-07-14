@@ -3,6 +3,8 @@ import CreateVideoPage from "../cn-components/CreateVideoPage.js";
 import VideoUserPlaylistsPlugInController from "./VideoUserPlaylistsPlugInController.js";
 import ThreeColumnedPageEventListeners from "../cn-event-listeners/ThreeColumnedPageEventListeners.js";
 import VideoCategoriesPlugInController from "./VideoCategoriesPlugInController.js";
+// import CreateVideoPageEventListeners from "../cn-event-listeners/CreateVideoPageEventListeners.js";
+import VideoDetailsFormController from "./VideoDetailsFormController.js";
 
 class CreateVideoPageController extends PageController {
 
@@ -23,6 +25,7 @@ class CreateVideoPageController extends PageController {
         // this.eventListenerObj = new ThreeColumnedPageEventListeners();
         // ThreeColumnedPageEventListeners.handle(this);
         ThreeColumnedPageEventListeners.handle(this);
+        // CreateVideoPageEventListeners.handle(this);
     }
 
 
@@ -37,11 +40,20 @@ class CreateVideoPageController extends PageController {
 
         let theController = this;
 
+
+        setTimeout(function () {
+            let videoDetailsFormController = new VideoDetailsFormController();
+            videoDetailsFormController.view.appendTo(theController.view.parts.cnCenterCol);
+            videoDetailsFormController.index();
+            
+        }, 200);
+
+
         setTimeout(function () {
             let videoCategoriesPlugInController = new VideoCategoriesPlugInController();
             videoCategoriesPlugInController.view.appendTo(theController.view.parts.cnRightCol);
             videoCategoriesPlugInController.read();
-        }, 200);
+        }, 400);
 
 
     }

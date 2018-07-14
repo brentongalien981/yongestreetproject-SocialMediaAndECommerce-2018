@@ -6,6 +6,36 @@ import AjaxRequestConstants from "../cn-classes-v3/AjaxRequestConstants.js";
 
 class CnRESTController extends CnController {
 
+    index() {
+        if (this.preIndex()) {
+            this.regularIndex();
+        }
+
+        this.postIndex();
+    }
+
+
+    postIndex() {}
+
+
+    regularIndex(ajaxRequestData = {}) {
+        const ajaxRequest = new AjaxRequest(ajaxRequestData);
+
+        ajaxRequest.doSend();
+    }
+
+
+    preIndex() {
+
+        //
+        if (this.isIndexing || (this.numOfFailedAjaxIndex >= 3)) { return false; }
+
+        this.isIndexing = true;
+
+        return true;
+    }
+
+
     read() {
         if (this.preRead()) {
             this.regularRead();
@@ -95,6 +125,7 @@ class CnRESTController extends CnController {
         // Override this.
 
         switch (ajaxRequest.crudType) {
+            case "index":
             case "read":
                 this.view.setView(resultJSON);
                 break;

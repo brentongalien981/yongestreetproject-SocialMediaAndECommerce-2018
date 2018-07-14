@@ -129,4 +129,42 @@ class CategoryController extends MainController implements AjaxCrudHandlerInterf
         //
         return $categories;
     }
+
+
+    public function index()
+    {
+        if (\App\Core\Main2\Request::isAjax()) {
+
+        //      // Find main-objs.
+            //     $dataForProducingReadQuery = [
+            //     'earliest_el_date' => $this->sanitizedFields['earliest_el_date'],
+            //     'limit' => 5,
+            //     'stringifiedIdsOfAlreadyBeenReadCategories' => $this->sanitizedFields['stringified_ids_of_already_been_read_categories']
+            // ];
+        
+            $this->sanitizedFields['limit'] = 1000;
+            $categories = parent::read();
+
+
+            foreach ($categories as $category) {
+
+                // 1) Find extentional-objs.
+    
+    
+                // 2) Filter
+                $category->filterInclude(['id', 'name']);
+    
+                // 3) Refine
+    
+    
+                // 4) Combine
+    
+                /* Add a carbon-date field to the obj. */
+            }
+
+            return $categories;
+        } else {
+            require_once(PUBLIC_PATH . 'video/create/index.php');
+        }
+    }
 }
