@@ -17,8 +17,47 @@ class VideoDetailsForm extends CnForm {
 
         const publishBtn = new CnComponent({ nodeSelector: "#video-details-form #publish-video-btn" });
 
-        this.childComponents = { publishBtn: publishBtn };
+        const videoTitle = new CnComponent({ nodeSelector: "#video-title" });
 
+        const videoOwnerUserName = new CnComponent({ nodeSelector: "#video-owner-user-name" });
+        const videoEmbedCode = new CnComponent({ nodeSelector: "#video-embed-code" });
+        const videoDescription = new CnComponent({ nodeSelector: "#video-description" });
+        const videoTags = new CnComponent({ nodeSelector: "#video-tags" });
+        const videoCategories = new CnComponent({ nodeSelector: "#video-categories-select-control" });
+        const videoPrivacy = new CnComponent({ nodeSelector: "#private-video-checkbox" });
+
+        this.childComponents = { 
+            publishBtn: publishBtn,
+            videoTitle: videoTitle,
+            videoOwnerUserName: videoOwnerUserName,
+            videoEmbedCode: videoEmbedCode,
+            videoDescription: videoDescription,
+            videoTags: videoTags,
+            videoCategories: videoCategories,
+            videoPrivacy: videoPrivacy
+        };
+    }
+
+
+    /** @override */
+    getFormErrorLabelNodeBasedOnModelFieldName(fieldName = "") {
+
+        switch (fieldName) {
+            case "title": 
+                return $("#cn-error-label-video-title");
+            case "description": 
+                return $("#cn-error-label-video-description");    
+            case "url": 
+                return $("#cn-error-label-video-embed-code");    
+            case "owner_name": 
+                return $("#cn-error-label-video-owner-user-name");    
+            case "tags": 
+                return $("#cn-error-label-video-tags"); 
+            case "categories": 
+                return $("#cn-error-label-video-categories-select-control");                    
+            default:
+                return null;
+        }
     }
 
 

@@ -71,8 +71,8 @@ class Cookie extends MainModel
                     
                     if (isset($actualSessionAssocArr['user_id'])) {
                         // TODO: The cookie-session has a valid user_id, so log the user in...
-                        echo "<br>*************************<br>";
-                        echo "TODO: The cookie-session has a valid user_id, so log the user in...<br>";
+                        // echo "<br>*************************<br>";
+                        // echo "TODO: The cookie-session has a valid user_id, so log the user in...<br>";
                     }
                 }
             }

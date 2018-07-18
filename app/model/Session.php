@@ -100,13 +100,17 @@ class Session extends Singleton
     public function logout()
     {
 
-        // TODO: Delete the cookie record in the db.
+        // Delete the cookie record in the db.
         $signedClientCookieValue = isset($_COOKIE[Cookie::CN_COOKIE_NAME]) ? $_COOKIE[Cookie::CN_COOKIE_NAME] : null;
         $cookieObj = Cookie::getCookieObjBasedOnDbRecord($signedClientCookieValue);
-        Cookie::delete(['id' => $cookieObj->id]);
+
+        if (isset($cookieObj) || !empty($cookieObj)) {
+            Cookie::delete(['id' => $cookieObj->id]);
+        }
+        
 
 
-        // TODO: Delete the session record in the db.
+        // Delete the session record in the db.
         $sessionIdWithQuotes = "'{$this->id}'";
         static::staticDelete(['id' => $sessionIdWithQuotes]);
         

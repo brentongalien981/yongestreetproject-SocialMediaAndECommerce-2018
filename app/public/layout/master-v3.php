@@ -64,7 +64,8 @@
 <?php //require_once(JS_PATH . "layout/mcn_core_js_scripts2.php"); ?>
 
 
-<?php require_once(LAYOUT_PATH . "general_loader_el.php"); ?>
+<?php //require_once(LAYOUT_PATH . "general_loader_el.php"); ?>
+<?php require_once(PUBLIC_PATH . "cn-loader-node/cn-loader-node.php"); ?>
 
 <!-- TODO: Re-implement this. -->
 <?php require_once(LAYOUT_PATH . "cn-sticky-bottom.php"); ?>

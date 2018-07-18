@@ -8,7 +8,7 @@
 
 namespace App\Model;
 
-use App\Core\MainModel;
+use App\Core\Main\MainModel;
 
 
 class Tag extends MainModel
@@ -27,4 +27,46 @@ class Tag extends MainModel
     public $tag;
     public $created_at;
     public $updated_at;
+
+
+    public static function trySave($data = []) {
+
+        if (isset($data['withData']) && is_string($data['withData'])) {
+
+            $stringifiedTags = $data['withData'];
+
+            $tags = explode(',', $stringifiedTags);
+        
+    
+            for ($i=0; $i < count($tags); $i++) { 
+
+                $tagName = $tags[$i];
+
+                $doesTagAlreadyExist = static::doesCnRecordExist([
+                    'tableName' => static::$table_name,
+                    'fields' => [
+                        'tag' => $tagName
+                    ]
+
+                ]);
+
+                if ($doesTagAlreadyExist) { continue; }
+
+                $tagObj = new Tag();
+                $tagObj->tag = $tagName;
+                
+                try {
+                    $tagObj->create();
+                } catch (\Exception $e) {
+
+                }
+            }
+
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
 }

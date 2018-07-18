@@ -28,3 +28,4 @@
 <script src="<?= PUBLIC_LOCAL . "js/layout/general.js"; ?>"></script>
 <script src="<?= PUBLIC_LOCAL . "js/layout/main_script.js"; ?>"></script>
 <script src="<?= PUBLIC_LOCAL . "js/layout/main_script2.js"; ?>"></script>
+<script src="<?= PUBLIC_LOCAL . "js/layout/main-script3.js"; ?>"></script>

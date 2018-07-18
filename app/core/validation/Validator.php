@@ -12,7 +12,8 @@ class Validator
     private $isOverallValidationOk = true;
     private $acceptedUrlPrefixes = [
         "https://farm5.staticflickr.com/",
-        "https://www.flickr.com/photos/"
+        "https://www.flickr.com/photos/",
+        "https://www.youtube.com/"
     ];
 
     /**
@@ -207,8 +208,6 @@ class Validator
 
     protected function validateAreNumeric($field)
     {
-        // TODO: If the length of the string is 0, return true.
-
 
         $isValidationProcessOk = true;
 
@@ -221,6 +220,10 @@ class Validator
         } else {
             $stringifiedIds = $_GET[$field];
         }
+
+        
+        // If the length of the string is 0, return true.
+        if (strlen($stringifiedIds) == 0) { return $isValidationProcessOk; }
 
 
         // Convert the ids to an array.

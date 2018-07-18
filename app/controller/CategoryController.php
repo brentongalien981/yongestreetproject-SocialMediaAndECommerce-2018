@@ -58,6 +58,8 @@ class CategoryController extends MainController implements AjaxCrudHandlerInterf
                 break;
             case 'read':
 
+                if (!\App\Core\Main2\Request::isAjax()) { return; }
+
                 $this->validator->fieldsToBeValidated['stringified_ids_of_already_been_read_categories'] = [
                     'required' => 1,
                     'min' => 0,
@@ -164,7 +166,7 @@ class CategoryController extends MainController implements AjaxCrudHandlerInterf
 
             return $categories;
         } else {
-            require_once(PUBLIC_PATH . 'video/create/index.php');
+            require_once(PUBLIC_PATH . 'video/category/index.php');
         }
     }
 }

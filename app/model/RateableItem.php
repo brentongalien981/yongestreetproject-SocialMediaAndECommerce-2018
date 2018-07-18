@@ -8,7 +8,7 @@
 
 namespace App\Model;
 
-use App\Core\MainModel;
+use App\Core\Main\MainModel;
 
 
 class RateableItem extends MainModel

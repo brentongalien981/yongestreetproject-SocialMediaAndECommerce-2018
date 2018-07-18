@@ -75,7 +75,8 @@ class AjaxRequestResultLogger {
 
         switch (modelClassName) {
             // case "UserPlaylist":
-            case "Category":
+            // case "Category":
+            case "Video":
                 return true;
         }
 

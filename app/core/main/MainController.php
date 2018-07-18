@@ -10,6 +10,7 @@ namespace App\Core\Main;
 
 use App\Core\Main\CNMain;
 use App\Core\Validation\Validator;
+
 // use App\Core\CNTrait\CNDataManipulator;
 
 
@@ -27,7 +28,8 @@ class MainController extends CNMain
 //    protected $crudAction;
 
 
-    protected function setIsRequestShow($value) {
+    protected function setIsRequestShow($value)
+    {
         $this->setAction('show');
     }
 
@@ -63,11 +65,9 @@ class MainController extends CNMain
                 $fieldValue = (isset($_POST[$field]) ? $_POST[$field] : $_GET[$field]);
                 $this->sanitizedFields[$field] = $fieldValue;
             }
-        }
-        else {
+        } else {
             $this->sanitizedFields = $superImposingSanitizedFields;
         }
-
     }
 
 
@@ -77,9 +77,13 @@ class MainController extends CNMain
         // TODO: Override this.
     }
 
+    protected function sanitizeFieldsToBeValidated()
+    {
+        // TODO: Override this.
+    }
+
     protected function doRequestFinalization($isCrudOk)
     {
-
         switch ($this->action) {
             case 'create':
             case 'update':
@@ -117,7 +121,6 @@ class MainController extends CNMain
      */
     protected function setMenuObject($menu = null)
     {
-
         if (!$this->hasModel()) {
             return;
         }
@@ -136,7 +139,6 @@ class MainController extends CNMain
         } catch (Exception $e) {
             $cnError = $e->getMessage();
         }
-
     }
 
 
@@ -184,20 +186,35 @@ class MainController extends CNMain
         } else {
             $this->action = $_GET['action'];
         }
-
     }
 
 
     /**
      * This is almost like the method setSpecificQueryClauses(), but for 6th iteration.
      */
-    public static function setQueryData() {
-
+    public static function setQueryData()
+    {
     }
 
 
-    public function setGlobalRequestMethodFields($request) {
-        // Override this.
+    public function setGlobalRequestMethodFields($request)
+    {
+        $requestObj = [];
+        if (isset($request->requestData['requestObj'])) {
+            $requestObj = $request->requestData['requestObj'];
+        }
+    
+        foreach ($this->validator->fieldsToBeValidated as $field => $value) {
+            if (isset($requestObj[$field])) {
+                $requestValue = $requestObj[$field];
+    
+                if (is_request_get()) {
+                    $_GET[$field] = $requestValue;
+                } else {
+                    $_POST[$field] = $requestValue;
+                }
+            }
+        }
     }
 
 
@@ -209,6 +226,7 @@ class MainController extends CNMain
     {
         $this->setFieldsToBeValidated();
         $this->setGlobalRequestMethodFields($request);
+        $this->sanitizeFieldsToBeValidated();
         $isValidationOk = $this->validator->validate();
         $isCrudOk = false;
 
@@ -229,9 +247,13 @@ class MainController extends CNMain
 
 
             //
-            $crudAction = $this->action;
-            $isCrudOk = $this->$crudAction();
-
+            try {
+                $crudAction = $this->action;
+                $isCrudOk = $this->$crudAction();
+            } catch (\Exception $e) {
+                $this->json['comments'][] = "CN: Exception on doing {$crudAction} operation..";
+            }
+            
         }
 
         // TODO: Close the db connection...
@@ -242,7 +264,8 @@ class MainController extends CNMain
         }
     }
 
-    public function index() {
+    public function index()
+    {
         // Override this.
         return null;
     }
@@ -250,11 +273,10 @@ class MainController extends CNMain
 
     protected function setSpecificQueryClauses()
     {
-
     }
 
-    protected function show() {
-
+    protected function show()
+    {
         $this->setSpecificQueryClauses();
 
         $objs = $this->menuObj->show($this->sanitizedFields);
@@ -262,7 +284,6 @@ class MainController extends CNMain
         /* Filter unwanted fields of the objs. */
         foreach ($objs as $obj) {
             $obj->filterExclude([]);
-
         }
 
         /**/
@@ -276,8 +297,8 @@ class MainController extends CNMain
 
 
     /* @deprecated */
-    protected function read() {
-
+    protected function read()
+    {
         $this->setSpecificQueryClauses();
 
         $objs = $this->menuObj->read($this->sanitizedFields);
@@ -296,37 +317,36 @@ class MainController extends CNMain
         return $objs;
     }
 
-    protected function create() {
+    protected function create()
+    {
         $crudAction = $this->action;
         $isCrudOk = $this->menuObj->$crudAction();
         return $isCrudOk;
     }
 
-    protected function update() {
+    protected function update()
+    {
         $crudAction = $this->action;
         $isCrudOk = $this->menuObj->$crudAction();
         return $isCrudOk;
     }
 
 
-    protected function delete() {
+    protected function delete()
+    {
         $isCrudOk = $this->menuObj->deleteByPk();
         return $isCrudOk;
     }
 
-    protected function setDateForHumansAttrib($rawDateAttribName, $objs) {
-
+    protected function setDateForHumansAttrib($rawDateAttribName, $objs)
+    {
         foreach ($objs as $obj) {
-
             foreach ($obj as $field => $value) {
-
                 if ($field == $rawDateAttribName) {
-
                     $obj->human_date = $obj::getMyCarbonDate($obj->$field);
                     break;
                 }
             }
         }
     }
-
 }

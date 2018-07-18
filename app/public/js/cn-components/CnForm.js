@@ -7,6 +7,15 @@ class CnForm extends CnComponent {
 
     //     super(props);
     // }
+
+    getFormErrorLabelNodeBasedOnModelFieldName(fieldName = "") {
+        // TODO: Override this.
+    }
+
+    clearInputFields() {
+        $(this.node).find(".form-control").val("");
+        $(this.node).find(".form-control").attr("value", "");
+    }
 }
 
 

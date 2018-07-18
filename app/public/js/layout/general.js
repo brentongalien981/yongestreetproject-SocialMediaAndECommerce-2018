@@ -7,6 +7,14 @@ function get_csrf_input() {
     return input_csrf_token;
 }
 
+function getCsrfInput() {
+    return get_csrf_input();
+}
+
+function getCsrfToken() {
+    return get_csrf_token();
+}
+
 function getUrlParamValue(url, paramKey) {
     var start_index = url.indexOf(paramKey);
 

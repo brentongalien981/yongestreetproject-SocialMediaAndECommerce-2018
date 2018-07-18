@@ -65,6 +65,9 @@ class AjaxRequest {
         }
         else {
 
+            // Add CSRF key-value pair to this (the controller obj).
+            // this.csrf_token = getCsrfToken();
+            this.requestObj = { ...this.requestObj, csrf_token: getCsrfToken() };
             let requestData = "request_data=" + JSON.stringify(this);
             xhr.send(requestData);
         }
@@ -77,7 +80,7 @@ class AjaxRequest {
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                
+
                 const response = xhr.responseText.trim();
 
                 // Log before JSON parsing.
@@ -87,8 +90,7 @@ class AjaxRequest {
 
                 AjaxRequestResultLogger.postLog(ajaxRequest, resultJSON);
 
-                // Show form errors.
-                // TODO: showFormErrors2(crud_type, caller_class_name, json);
+                showCnFormErrors(ajaxRequest, resultJSON.errors);
 
                 ajaxRequest.controllerObj.handleAjaxRequestResult(ajaxRequest, resultJSON);
             }
@@ -99,7 +101,7 @@ class AjaxRequest {
     tryParsingAjaxJson(response) {
 
         var json = null;
-    
+
         try {
             json = JSON.parse(response);
         } catch (e) {
@@ -107,7 +109,7 @@ class AjaxRequest {
             cnLog('ERROR: PARSING AJAX-JSON ==> ' + e);
             json = null;
         }
-    
+
         return json;
     }
 

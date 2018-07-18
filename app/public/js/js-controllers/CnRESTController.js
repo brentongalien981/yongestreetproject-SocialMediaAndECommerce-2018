@@ -6,6 +6,40 @@ import AjaxRequestConstants from "../cn-classes-v3/AjaxRequestConstants.js";
 
 class CnRESTController extends CnController {
 
+    create() {
+        if (this.preCreate()) {
+            if (!this.regularCreate()) { this.isCreating = false; }
+        }
+
+        this.postCreate();
+    }
+
+    postCreate() {}
+
+
+    regularCreate(ajaxRequestData = {}) {
+        const ajaxRequest = new AjaxRequest(ajaxRequestData);
+
+        ajaxRequest.doSend();
+
+        return true;
+    }
+
+
+    preCreate() {
+
+        //
+        if (this.isCreating || (this.numOfFailedAjaxCreate >= 20)) { return false; }
+
+        this.isCreating = true;
+
+        return true;
+    }
+
+
+
+
+
     index() {
         if (this.preIndex()) {
             this.regularIndex();
@@ -69,8 +103,12 @@ class CnRESTController extends CnController {
 
     handleAjaxRequestResult(ajaxRequest, resultJSON) {
         this.preHandleAjaxRequestResult(ajaxRequest, resultJSON);
-        this.regularHandleAjaxRequestResult(ajaxRequest, resultJSON);
-        this.postHandleAjaxRequestResult(ajaxRequest, resultJSON);
+
+        if (isCnAjaxResultOk(resultJSON)) {
+            this.regularHandleAjaxRequestResult(ajaxRequest, resultJSON);
+            this.postHandleAjaxRequestResult(ajaxRequest, resultJSON);
+        }
+        
     }
 
 
@@ -85,6 +123,7 @@ class CnRESTController extends CnController {
         /**
          * TODO: Unset the loader-element for this view.
          */
+        this.view.hideLoaderNode();
 
 
 

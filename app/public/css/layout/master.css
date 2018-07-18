@@ -101,6 +101,13 @@ div#main_content2 {
     font-weight: 100;
 }
 
+
+.cn-error-label {
+    color: red;
+    font-size: 13px;
+    font-weight: 100;
+}
+
 .cn-template {
     display: none;
 }

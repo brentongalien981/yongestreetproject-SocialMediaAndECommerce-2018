@@ -11,7 +11,7 @@ namespace App\Core\Main2;
 
 class CNMain
 {
-    // public $session;
+    public $session;
     
     public $pseudoSession;
     public $database;

@@ -1,3 +1,7 @@
+import CnLoaderNode from "./CnLoaderNode.js";
+import CnLoaderContainer from "./CnLoaderContainer.js";
+
+
 class CnComponent {
 
     constructor(props = { nodeSelector: null, nodeId: null }) {
@@ -23,7 +27,41 @@ class CnComponent {
     initPlugIns() { this.plugIns = null; }
     initChildComponents() { this.childComponents = null; }
     initContainers() { this.containers = null; }
-    initParts() { this.parts = null; }
+
+    initParts() { 
+        const loaderContainer = new CnLoaderContainer({ nodeSelector: this.nodeSelector + " .loader-element-container" });
+
+        loaderContainer.displayNone();
+
+        const loaderNode = new CnLoaderNode();
+        loaderContainer.append(loaderNode);
+
+        this.loaderContainer = loaderContainer;
+        this.parts = {
+            loaderContainer: loaderContainer
+        }; 
+    }
+
+
+    showLoaderNode(msg) {
+        
+        $(this.loaderContainer.node).removeClass("bounceOutDown");
+        $(this.loaderContainer.node).addClass("bounceInUp");
+        this.parts.loaderContainer.displayBlock();
+
+        if (msg != null) {
+            $(this.parts.loaderContainer.childComponents.loader.node).find(".cn-loader-comment").html(msg);
+            
+        }
+    }
+
+    hideLoaderNode() {
+        
+        this.loaderContainer.displayNone();
+
+        $(this.loaderContainer.node).removeClass("bounceInUp");
+        $(this.loaderContainer.node).addClass("bounceOutDown");
+    }
 
 
     /**
@@ -43,6 +81,8 @@ class CnComponent {
             ...this.childComponents,
             ...this.plugIns
         };
+
+        // this.initLoaderNode();
         
     }
 
@@ -144,6 +184,10 @@ class CnComponent {
                 $(parentComponent.node).append($(childComponent.node));
             }
         }
+
+        // const newChildComponentAlias = childComponent.nodeSelector + "--a" + childComponent.constructor.name + "Component";
+        // this.childComponents = { newChildComponentAlias: childComponent };
+        childComponent.parentComponent = parentComponent;
     }
 
 
@@ -157,6 +201,14 @@ class CnComponent {
         // Remove the html-class-attribs that hides the nodes.
         $(this.node).removeClass("cn-template");
         $(this.node).removeClass("cn-undisplayed");
+    }
+
+    displayNone() {
+        $(this.node).css("display", "none");
+    }
+
+    displayBlock() {
+        $(this.node).css("display", "block");
     }
 }
 

@@ -27,12 +27,6 @@ class VideoDetailsFormEventListeners {
 
 
     static onCreateObjectBtnClicked() {
-        
-        //
-        cnLog("OH YEAH fuck yea");
-        return;
-
-        //
         this.create();
     }
 
