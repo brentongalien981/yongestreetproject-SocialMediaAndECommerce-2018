@@ -61,9 +61,11 @@ function doVideoAfterEffects(className, crudType, json, xObj) {
                 Set the rate-status-item-containers (the pseudo-buttons of
                 the rate-status-container).
             */
-            readUserTwoCentsOfRateableItem(rateableItemId);
-            readRatingSigmaOfRateableItem(rateableItemId);
-            readAverageRatingOfRateableItem(rateableItemId);
+           setTimeout(function () { readUserTwoCentsOfRateableItem(rateableItemId); }, 200);
+           setTimeout(function () { readRatingSigmaOfRateableItem(rateableItemId); }, 400);
+           setTimeout(function () { readAverageRatingOfRateableItem(rateableItemId); }, 600);
+            
+            
 
             /* */
             var loaderContainer = $("#comments-plug-in").find(".loader-element-container");

@@ -20,6 +20,7 @@ class Request
     public $isRequestAjax;
     public $controllerName;
     public $controllerAction;
+    public $requestForObjectId;
     public $requestData;
     private $isInDevelopmentMode = true;
     // private $isInDevelopmentMode = false;
@@ -57,6 +58,9 @@ class Request
             $this->isRequestAjax = true;
         }
 
+
+        // 
+        CnUrlParser::setUrl($this->url);
 
 
         /* Set the request vars. */

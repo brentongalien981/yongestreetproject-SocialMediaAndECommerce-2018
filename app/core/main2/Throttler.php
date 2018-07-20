@@ -48,6 +48,13 @@ class Throttler {
 
     public static function isRequestDDOSAttack($request) {
 
+        // Disregard the checking for these domains for now.
+        if ($request->controllerName == 'RateableItemUser' ||
+            $request->controllerName == 'RateableItem') {
+                return false;
+        }
+
+
         // $currentDateInSeconds = date("U");
         $currentDateInSeconds = $_SERVER['REQUEST_TIME'];
 

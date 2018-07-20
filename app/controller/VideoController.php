@@ -223,12 +223,12 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
         }
     }
 
-//    /** @override */
-//    public function index()
-//    {
-//
-//        require_once(PUBLIC_PATH . "video/read.php");
-//    }
+   /** @override */
+   public function index()
+   {
+
+       require_once(PUBLIC_PATH . "video/index.php");
+   }
 
     /** @override */
     protected function read()
@@ -393,6 +393,14 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
     /** @override */
     protected function show()
     {
+
+        if (!\App\Core\Main2\Request::isAjax()) {
+            require_once(PUBLIC_PATH . "video/show.php");
+            return;
+        }
+
+        
+
         $videos = parent::show();
 
         /**/

@@ -1,4 +1,4 @@
-window.onload = function() {
+$(document).ready(function () {
 
     // for show-more-btn
     $("#video-categories-plug-in").find(".show-more-btn").click(function (event) {
@@ -35,4 +35,4 @@ window.onload = function() {
         // Hide this "show-less-btn".
         $("#video-categories-plug-in").find(".show-less-btn").css("visibility", "hidden");
     });
-};
+});

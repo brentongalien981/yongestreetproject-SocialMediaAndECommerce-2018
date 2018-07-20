@@ -72,6 +72,7 @@ function setLeftCol() {
     initUserVideoPlaylistsPlugIn();
     
     readVideoUserPlaylists();
+
 }
 
 

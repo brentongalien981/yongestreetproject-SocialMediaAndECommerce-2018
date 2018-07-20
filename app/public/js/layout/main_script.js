@@ -418,7 +418,8 @@ function my_ajax(x_obj) {
 
 
     //
-    var url = get_local_ajax_handler_url();
+    // var url = get_local_ajax_handler_url();
+    var url = getLocalAjaxHandlerUrl();
 
     if (caller_class_name == "PaypalSellerAccountAuthentication") {
         // TODO: TODO:
@@ -699,7 +700,14 @@ function should_class_log(x_obj) {
 
     //
     switch (x_obj.class_name) {
-        case "Video":
+        // case "Video":
+        // case "UserPlaylist":
+        // case "Category":
+        // case "RateableItemUser":
+        // case "RateableItem":
+        // case "Comment":
+        // case "VideoRecommendationItem":
+        case "Playlist":
             return true;
             break;
     }

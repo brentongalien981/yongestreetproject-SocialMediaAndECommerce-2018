@@ -3,8 +3,10 @@ function showVideo() {
     //
     var url = window.location.href;
     // var id = getUrlParamValue(url, "?id");
-    var id = extractValueFromUrl(url, "id");
+    // var id = extractValueFromUrl(url, "id");
+    var id = extractValueFromRecipeFrameworkUrl(url, "id");
 
+    if (id == null) { cnLog("no video-id..."); return; }
     //
     doPreShowVideo();
 
@@ -48,7 +50,8 @@ function doPreShowVideo() {
 function getIdOfShownVideo() {
     var url = window.location.href;
     // var id = getUrlParamValue(url, "?id");
-    var id = extractValueFromUrl(url, "id");
+    // var id = extractValueFromUrl(url, "id");
+    var id = extractValueFromRecipeFrameworkUrl(url, "id");
 
     //
     if (id == false) { id = 0; }

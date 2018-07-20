@@ -5,39 +5,120 @@ class CnUrlParser
 {
     public const OLD_CN_REQUEST_SCHEME = 'OLD_CN_REQUEST_SCHEME';
 
+
+    public static function setUrl(&$url)
+    {
+
+        // 1) Get the substring after the string "/public" from url ".../public/video/?video".
+        // or from url ".../public/video/create/?video/create".
+        $indexOfStrPublic = strpos($url, "public");
+        $substrAfterStrPublic = substr($url, $indexOfStrPublic + 6);
+
+
+        // 2) Now you have the string "/video/?video" or
+        // string "/video/?video" or
+        // string "/video/create/?video/create",
+        // break them to two strings, token1 and token2
+        // cutting in between the char "?".
+        $indexOfQmark = strpos($substrAfterStrPublic, "?");
+
+        // If there's no char "?" from the original url,
+        // then there's no problem.
+        if (!$indexOfQmark) {
+            return;
+        }
+
+
+        // 3) token1 is "/video/" or "/video/create/"
+        $token1 = substr($substrAfterStrPublic, 0, $indexOfQmark);
+
+
+        // 4) token2 is "video" or "video/create"
+        $token2 = substr($substrAfterStrPublic, $indexOfQmark + 1);
+
+
+        // 5) Remove the leading and trailing chars "/" from token1 and token2.
+        self::removeLeadingChar($token1, '/');
+        self::removeTrailingChar($token1, '/');
+        self::removeLeadingChar($token2, '/');
+        self::removeTrailingChar($token2, '/');
+
+
+
+        // 6) If token1 and token2 is the same now, then
+        // remove the trailing token "?video/" or
+        // "?video/create/" from the original url reference.
+        if ($token1 === $token2) {
+            $indexOfQmark = strpos($url, "?");
+            $url = substr($url, 0, $indexOfQmark);
+        }
+    }
+
+    public static function removeTrailingChar(&$token, $basisChar)
+    {
+        $trailingChar = substr($token, strlen($token) - 1);
+        if ($trailingChar === $basisChar) {
+            $token = substr($token, 0, strlen($token) - 1);
+        }
+    }
+
+    public static function removeLeadingChar(&$token, $basisChar)
+    {
+        $leadingChar = substr($token, 0, 1);
+        if ($leadingChar === $basisChar) {
+            $token = substr($token, 1);
+        }
+    }
+
+
     public static function setRequestVars(Request $request)
     {
         $isUsingOldCnRequestScheme = false;
 
         if (self::handleOldCnRequestScheme($request)) {
             $isUsingOldCnRequestScheme = true;
-        } else if ($request->isRequestAjax) {
+        } elseif ($request->isRequestAjax) {
             // $requestData = json_decode($request->requestData, true);
 
             $requestData = null;
-            if (is_request_get()) {
+            $isUsingOldAjaxRequestFramework = false;
+
+            if (is_request_get() && isset($_GET['request_data'])) {
                 $requestData = $_GET['request_data'];
-                
-            } else {
+            } elseif (isset($_POST['request_data'])) {
                 $requestData = $_POST['request_data'];
+            } else {
+                $isUsingOldAjaxRequestFramework = true;
             }
 
-            $jsonDecodedRequestData = json_decode($requestData, true);
-            $request->requestData = $jsonDecodedRequestData;
 
-            $request->controllerName = (isset($jsonDecodedRequestData["modelClassName"])) ? $jsonDecodedRequestData["modelClassName"] : ucfirst(Request::DEFAULT_CONTROLLER_NAME);
-            $request->controllerAction = (isset($jsonDecodedRequestData["crudType"])) ? $jsonDecodedRequestData["crudType"] : Request::CRUD_TYPE_INDEX;
-
-
-            // Because some request may have the suffix "Controller", try to
-            // just remove it.
-            $request->controllerName = str_replace("Controller", "", $request->controllerName);
-
-        } else {
             //
+            if ($isUsingOldAjaxRequestFramework) {
+                if (is_request_get()) {
+                    $request->controllerName = $_GET['menu'];
+                    $request->controllerAction = $_GET['action'];
+                } else {
+                    $request->controllerName = $_POST['menu'];
+                    $request->controllerAction = $_POST['action'];
+                }
+            } else {
+                $jsonDecodedRequestData = json_decode($requestData, true);
+                $request->requestData = $jsonDecodedRequestData;
+
+                $request->controllerName = (isset($jsonDecodedRequestData["modelClassName"])) ? $jsonDecodedRequestData["modelClassName"] : ucfirst(Request::DEFAULT_CONTROLLER_NAME);
+                $request->controllerAction = (isset($jsonDecodedRequestData["crudType"])) ? $jsonDecodedRequestData["crudType"] : Request::CRUD_TYPE_INDEX;
+
+
+                // Because some request may have the suffix "Controller", try to
+                // just remove it.
+                $request->controllerName = str_replace("Controller", "", $request->controllerName);
+            }
+        } else {
+            // If it's a regular url request.
             self::setWorkableUrl($request);
             self::setControllerName($request);
             self::setControllerAction($request);
+            self::setRequestForObjectId($request);
         }
 
         return $isUsingOldCnRequestScheme;
@@ -94,6 +175,22 @@ class CnUrlParser
                 $request->controllerAction = Request::CRUD_TYPE_INDEX;
                 break;
         }
+    }
+
+
+    private static function setRequestForObjectId($request) {
+        $workableUrlTokens = explode("/", $request->workableUrl);
+
+        $request->requestForObjectId = isset($workableUrlTokens[2]) ? $workableUrlTokens[2] : null;
+
+        switch ($request->requestForObjectId) {
+            case '':
+            case '/':
+                $request->requestForObjectId = null;
+                break;
+        }
+
+        $_GET['id'] = $request->requestForObjectId;
     }
 
 

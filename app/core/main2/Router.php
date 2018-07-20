@@ -14,8 +14,11 @@ class Router {
             'delete'
         ],
         'Video' => [
+            'index',
             'create',
-            'patch'
+            'read',
+            'patch',
+            'show'
         ],
         'UserPlaylist' => [
             'read'
@@ -23,7 +26,63 @@ class Router {
         'Category' => [
             'index',
             'read'
+        ],
+        'RateableItem' => [
+            'create',
+            'read',
+            'update',
+            'delete',
+            'index',
+            'show',
+            'patch',
+            'save',
+            'fetch'
+        ],
+        'RateableItemUser' => [
+            'create',
+            'read',
+            'update',
+            'delete',
+            'index',
+            'show',
+            'patch',
+            'save',
+            'fetch'
+        ],
+        'Comment' => [
+            'create',
+            'read',
+            'update',
+            'delete',
+            'index',
+            'show',
+            'patch',
+            'save',
+            'fetch'
+        ],
+        'VideoRecommendationItem' => [
+            'create',
+            'read',
+            'update',
+            'delete',
+            'index',
+            'show',
+            'patch',
+            'save',
+            'fetch'
+        ],
+        'Playlist' => [
+            'create',
+            'read',
+            'update',
+            'delete',
+            'index',
+            'show',
+            'patch',
+            'save',
+            'fetch'
         ]
+        
     ];
 
     public static function route($request) {

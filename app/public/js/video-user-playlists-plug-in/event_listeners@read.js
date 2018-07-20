@@ -1,4 +1,5 @@
-window.onload = function() {
+$(document).ready(function() {
+    
 
     // for show-more-btn
     $("#video-user-playlists-plug-in").find(".show-more-btn").click(function (event) {
@@ -16,6 +17,7 @@ window.onload = function() {
             $("#video-user-playlists-plug-in").find(".show-less-btn").css("visibility", "hidden");
         }
 
+        
 
         //
         readVideoUserPlaylists();
@@ -35,4 +37,4 @@ window.onload = function() {
         // Hide this "show-less-btn".
         $("#video-user-playlists-plug-in").find(".show-less-btn").css("visibility", "hidden");
     });
-};
+});

@@ -3,7 +3,7 @@ function get_csrf_input() {
     input_csrf_token.id = "input_csrf_token";
     input_csrf_token.setAttribute("type", "hidden");
     input_csrf_token.setAttribute("value", get_csrf_token());
-    
+
     return input_csrf_token;
 }
 
@@ -106,4 +106,80 @@ function extractValueFromUrl(url, paramKey) {
     return attribute_value;
 }
 
+
+
+
+function extractValueFromRecipeFrameworkUrl(url, paramKey) {
+
+    // Get the index of token "public" from url ".../public/video/create/8/abcd".
+    var tokenPublicIndex = url.indexOf("public");
+
+    // Get the substring "/video/create/8/abc" from the url.
+    var workableUrl = url.substr(tokenPublicIndex + 7);
+
+
+    // Remove the leading and trailing "/".
+    var leadingChar = workableUrl.substr(0, 1);
+
+    if (leadingChar == "/") {
+        workableUrl = workableUrl.substr(1);
+    }
+
+    var trailingChar = workableUrl.substr(workableUrl.length - 1);
+
+    if (trailingChar == "/") {
+        workableUrl = workableUrl.substr(0, workableUrl.length - 1);
+    }
+
+
+
+    // Tokenize from the workableUrl.
+    var urlTokens = workableUrl.split("/", 10)
+
+
+
+    // Return the wanted-extracted-value based on the paramKey.
+    // Ex. paramKey = id is the third token.
+    var paramKeyIndex = false;
+
+    switch (paramKey) {
+        case "domain":
+            paramKeyIndex = 0;
+            break;
+        case "action":
+            paramKeyIndex = 1;
+            break;
+        case "id":
+            paramKeyIndex = 2;
+            break;
+        default:
+            paramKeyIndex = "extra-info";
+            break;
+    }
+
+    if (paramKeyIndex == "extra-info") {
+        // If for ex. the urlTokens include "playlistId" from
+        /**
+         * urlTokens = [
+         *      "video",
+         *      "show",
+         *      "8",
+         *      "playlistId"
+         *      "3"
+         * ], then set paramKeyIndex to index of "playlistId" + 1.
+         */
+        if (urlTokens.includes(paramKey)) {
+            paramKeyIndex = urlTokens.indexOf(paramKey) + 1;
+        } else {
+            paramKeyIndex = false;
+        }
+    }
+
+
+    if (paramKeyIndex != false && paramKeyIndex < urlTokens.length) {
+        return urlTokens[paramKeyIndex];
+    } else {
+        return null;
+    }
+}
 

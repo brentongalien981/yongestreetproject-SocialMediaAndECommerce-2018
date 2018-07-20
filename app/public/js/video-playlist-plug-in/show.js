@@ -20,13 +20,16 @@ function doRegularShowPlaylistVideoThumbnails() {
 
     // App extracts video-id from the url.
     var url = window.location.href;
-    var videoId = extractValueFromUrl(url, "id");
+    // var videoId = extractValueFromUrl(url, "id");
+    var videoId = extractValueFromRecipeFrameworkUrl(url, "id");
 
     // App extracts playlist-id from the url.
-    var playlistId = extractValueFromUrl(url, "playlist_id");
+    // var playlistId = extractValueFromUrl(url, "playlist_id");
+    var playlistId = extractValueFromRecipeFrameworkUrl(url, "playlistId");
 
     //
     if (videoId == false || playlistId == false) { return; }
+    if (videoId == null || playlistId == null) { return; }
 
     var crud_type = "show";
     var request_type = "GET";

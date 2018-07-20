@@ -1,4 +1,5 @@
-<?php if (!\App\Model\Session::getInstance()->is_logged_in()) { return; }?>
+<?php //if (!\App\Model\Session::getInstance()->is_logged_in()) { return; }?>
+<?php //return; ?>
 
 <div id="cn-sticky-bottom-container" class="cn-sticky-bottom fixed-bottom">
     <div class="cn-sticky-bottom-content d-flex align-items-end">
