@@ -184,51 +184,30 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
 
     protected function sanitizeFieldsToBeValidated()
     {
-        foreach ($this->validator->fieldsToBeValidated as $field => $value) {
-            if (is_request_get()) {
-                if (isset($_GET[$field])) {
-                    $actualFieldValue = $_GET[$field];
-                    $actualFieldValue = \App\Core\Main2\Sanitizer::stripHtmlTags($actualFieldValue);
-                    $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlSpecialChars($actualFieldValue);
-                    $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlEntities($actualFieldValue);
-                    $_GET[$field] = $actualFieldValue;
-                }
+
+
+        // Because method: Sanitizer::stripHtmlTags
+        // returns '' if the parameter is false,
+        // then disregard stripping it and stick with
+        // the original bool value if it is actually
+        // a bool value.
+        if (isset($this->validator->fieldsToBeValidated['private'])) {
+            if ($this->validator->fieldsToBeValidated['private'] == true) {
+                $this->validator->fieldsToBeValidated['private'] = 1;
             } else {
-                if (isset($_POST[$field])) {
-
-                    // Because method: Sanitizer::stripHtmlTags
-                    // returns '' if the parameter is false,
-                    // then disregard stripping it and stick with
-                    // the original bool value if it is actually
-                    // a bool value.
-                    if ($field === 'private') {
-                        if ($_POST[$field] === true) {
-                            $_POST[$field] = 1;
-                            continue;
-                        }
-                        if ($_POST[$field] === false) {
-                            $_POST[$field] = 0;
-                            continue;
-                        }
-                    }
-
-
-                    $actualFieldValue = $_POST[$field];
-                    $actualFieldValue = \App\Core\Main2\Sanitizer::stripHtmlTags($actualFieldValue);
-                    $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlSpecialChars($actualFieldValue);
-                    $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlEntities($actualFieldValue);
-                    $_POST[$field] = $actualFieldValue;
-                }
+                $this->validator->fieldsToBeValidated['private'] = 0;
             }
         }
+
+        parent::sanitizeFieldsToBeValidated();
+
     }
 
-   /** @override */
-   public function index()
-   {
-
-       require_once(PUBLIC_PATH . "video/index.php");
-   }
+    /** @override */
+    public function index()
+    {
+        require_once(PUBLIC_PATH . "video/index.php");
+    }
 
     /** @override */
     protected function read()
@@ -291,24 +270,26 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
     }
 
 
-    private function createVideoTags($rateableItem) {
-                
+    private function createVideoTags($rateableItem)
+    {
         $stringifiedTags = $this->sanitizedFields['tags'];
-        if ($stringifiedTags == "") { return; }
+        if ($stringifiedTags == "") {
+            return;
+        }
 
         // Unique-save all the tags in the db.
         $isSavingOk = Tag::trySave(['withData' => $stringifiedTags]);
 
 
-        // Now all the intended tags for the video is 
+        // Now all the intended tags for the video is
         // saved. Loop through all the stringified tags and
         // read the corresponding tag-obj for that tag.
         $tags = explode(',', $stringifiedTags);
         $tagObjs = [];
     
-        for ($i=0; $i < count($tags); $i++) { 
+        for ($i=0; $i < count($tags); $i++) {
             $tagName = $tags[$i];
-            $tagObjs[] = Tag::readByWhereClause(['tag' => $tagName])[0];   
+            $tagObjs[] = Tag::readByWhereClause(['tag' => $tagName])[0];
         }
         
 
@@ -318,7 +299,7 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
         foreach ($tagObjs as $i => $tagObj) {
             if (!in_array($tagObj->id, $uniqueTagObjIds)) {
                 $uniqueTagObjIds[] = $tagObj->id;
-            }            
+            }
         }
 
         $tempTagObjs = [];
@@ -347,7 +328,9 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
     private function createVideoCategories()
     {
         $stringifiedCategoryIds = $this->sanitizedFields['categories'];
-        if ($stringifiedCategoryIds == "") { return; }
+        if ($stringifiedCategoryIds == "") {
+            return;
+        }
 
         // Now all the intended tags for the video is
         // saved. Loop through all the stringified-category-ids and
@@ -393,7 +376,6 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
     /** @override */
     protected function show()
     {
-
         if (!\App\Core\Main2\Request::isAjax()) {
             require_once(PUBLIC_PATH . "video/show.php");
             return;

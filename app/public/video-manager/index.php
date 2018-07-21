@@ -1,5 +1,5 @@
 <!--mandatory-->
-<?php require_once("../layout/master.php"); ?>
+<?php require_once(PUBLIC_PATH . "layout/master.php"); ?>
 
 
 <!--css / main-->

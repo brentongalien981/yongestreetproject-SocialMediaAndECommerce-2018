@@ -108,6 +108,7 @@ class Middleware extends CNMain
                 $typeOfActionId = self::REGULAR_REQUEST_MY_PHOTO_TYPES_OF_ACTIONS;
                 break;
             case "video-manager":
+            case "VideoManager":
                 $typeOfActionId = self::LOGGED_IN_TYPES_OF_ACTIONS;
                 break;
             case CnUrlParser::OLD_CN_REQUEST_SCHEME:

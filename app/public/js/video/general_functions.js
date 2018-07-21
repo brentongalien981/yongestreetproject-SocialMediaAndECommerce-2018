@@ -345,10 +345,12 @@ function setVideoMaskHref(videoItem, videoId, playlistId, doOpenLinkInCurrentTab
     var mask = $(videoItem).find(".video-thumbnail-masks")[0];
 
     //
-    var href = get_local_url() + "video/show.php?id=" + videoId;
+    // var href = get_local_url() + "video/show.php?id=" + videoId;
+    var href = get_local_url() + "video/show/" + videoId + "/";
 
     if (playlistId != null) {
-        href += "&playlist_id=" + playlistId;
+        // href += "&playlist_id=" + playlistId;
+        href += "playlistId/" + playlistId + "/";
     }
 
     //
@@ -397,11 +399,13 @@ function getVideoTitleHref(videoId, playlistId) {
 
 
     //
-    var href = get_local_url() + "video/show.php?id=" + videoId;
+    // var href = get_local_url() + "video/show.php?id=" + videoId;
+    var href = get_local_url() + "video/show/" + videoId + "/";
 
     //
     if (playlistId != null) {
-        href += "&playlist_id=" + playlistId;
+        // href += "&playlist_id=" + playlistId;
+        href += "playlistId/" + playlistId + "/";
     }
 
     //

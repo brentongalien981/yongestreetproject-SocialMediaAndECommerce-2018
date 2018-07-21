@@ -79,7 +79,27 @@ class MainController extends CNMain
 
     protected function sanitizeFieldsToBeValidated()
     {
-        // TODO: Override this.
+        foreach ($this->validator->fieldsToBeValidated as $field => $value) {
+            if (is_request_get()) {
+                if (isset($_GET[$field])) {
+                    $actualFieldValue = $_GET[$field];
+                    $actualFieldValue = \App\Core\Main2\Sanitizer::stripHtmlTags($actualFieldValue);
+                    $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlSpecialChars($actualFieldValue);
+                    $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlEntities($actualFieldValue);
+                    $_GET[$field] = $actualFieldValue;
+                }
+            } else {
+                
+                if (isset($_POST[$field])) {
+
+                    $actualFieldValue = $_POST[$field];
+                    $actualFieldValue = \App\Core\Main2\Sanitizer::stripHtmlTags($actualFieldValue);
+                    $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlSpecialChars($actualFieldValue);
+                    $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlEntities($actualFieldValue);
+                    $_POST[$field] = $actualFieldValue;
+                }
+            }
+        }
     }
 
     protected function doRequestFinalization($isCrudOk)

@@ -81,6 +81,9 @@ class Router {
             'patch',
             'save',
             'fetch'
+        ],
+        'VideoManager' => [
+            'index'
         ]
         
     ];

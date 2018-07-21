@@ -48,4 +48,15 @@ class VideoManagerController extends MainController implements AjaxCrudHandlerIn
                 break;
         }
     }
+
+
+    /** @override */
+    public function index()
+    {
+        if (!\App\Core\Main2\Request::isAjax()) {
+
+            require_once(PUBLIC_PATH . "video-manager/index.php");
+
+        }
+    }
 }

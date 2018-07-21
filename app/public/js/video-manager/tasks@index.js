@@ -71,7 +71,7 @@ function initCenterCol() {
         playlistManagingSection = new ItemxManagingSectionTemplate({itemName: "playlist"});
 
         videoManagingSectionPseudoAddBtn = new ItemxManagingSectionPseudoBtnTemplate();
-        videoManagingSectionPseudoDeleteBtn = new ItemxManagingSectionPseudoBtnTemplate({iconName: "delete"});
+        // videoManagingSectionPseudoDeleteBtn = new ItemxManagingSectionPseudoBtnTemplate({iconName: "delete"});
         videoManagingSectionPseudoEditBtn = new ItemxManagingSectionPseudoBtnTemplate({iconName: "edit"});
         // videoManagingSectionPseudoBtn4 = new ItemxManagingSectionPseudoBtnTemplate();
         // videoManagingSectionPseudoBtn5 = new ItemxManagingSectionPseudoBtnTemplate();
@@ -82,7 +82,7 @@ function initCenterCol() {
 
 
         videoManagingSection.append(videoManagingSectionPseudoAddBtn);
-        videoManagingSection.append(videoManagingSectionPseudoDeleteBtn);
+        // videoManagingSection.append(videoManagingSectionPseudoDeleteBtn);
         videoManagingSection.append(videoManagingSectionPseudoEditBtn);
         // videoManagingSection.append(videoManagingSectionPseudoBtn4);
         // videoManagingSection.append(videoManagingSectionPseudoBtn5);
@@ -99,7 +99,7 @@ function initCenterCol() {
 
 
         videoManagingSectionPseudoAddBtn.show();
-        videoManagingSectionPseudoDeleteBtn.show();
+        // videoManagingSectionPseudoDeleteBtn.show();
         videoManagingSectionPseudoEditBtn.show();
         // videoManagingSectionPseudoBtn4.show();
         // videoManagingSectionPseudoBtn5.show();

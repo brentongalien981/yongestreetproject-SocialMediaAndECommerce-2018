@@ -41,14 +41,14 @@ class ItemxManagingSectionPseudoBtnTemplate extends CnTemplate {
     setHrefCrud(iconName) {
 
         if (iconName == "add") {
-            this.href += "create";
+            this.href += "create/";
         }
         else if (iconName == "edit") {
-            this.href += "update";
+            this.href += "update/";
         }
 
 
-        this.href += ".php";
+        // this.href += ".php";
     }
 
     setHrefHtmlAttrib() {

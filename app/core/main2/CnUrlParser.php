@@ -215,6 +215,9 @@ class CnUrlParser
             case 'too-many-request':
                 $request->controllerName = 'TooManyRequest';
                 break;
+            case 'video-manager':
+                $request->controllerName = 'VideoManager';
+                break;
         }
 
         $request->controllerName = ucfirst($request->controllerName);

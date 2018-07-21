@@ -17,7 +17,7 @@
 
         <a id="menu_videos"
            class="dropdown-item menus sub_menu_links"
-           href="<?= PUBLIC_LOCAL . 'video/index.php'; ?>">
+           href="<?= PUBLIC_LOCAL . 'video/'; ?>">
             <i class="fa fa-youtube-play"></i>
             CuteVideos
         </a>
@@ -25,7 +25,7 @@
         <?php if (\App\Model\Session::getInstance()->is_logged_in()) { ?>
             <a id="menu_video_manager"
                class="dropdown-item menus sub_menu_links"
-               href="<?= PUBLIC_LOCAL . 'video-manager/index.php'; ?>">
+               href="<?= PUBLIC_LOCAL . 'video-manager/'; ?>">
                 <i class="fa fa-video-camera"></i>
                 VideoManager
             </a>

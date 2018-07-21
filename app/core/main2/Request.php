@@ -208,6 +208,9 @@ class Request
     /**
      * @return bool false if the request has no malice. Positive int
      * if there's malice.
+     * TODO: Note that in the method: Throttler::isRequestDDOSAttack(),
+     * we skipped (for now) the checking for models: RateableItem and 
+     * RateableItemUser.
      */
     private function checkMalice()
     {
