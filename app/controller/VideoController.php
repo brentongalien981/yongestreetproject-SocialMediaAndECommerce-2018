@@ -191,11 +191,19 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
         // then disregard stripping it and stick with
         // the original bool value if it is actually
         // a bool value.
-        if (isset($this->validator->fieldsToBeValidated['private'])) {
-            if ($this->validator->fieldsToBeValidated['private'] == true) {
-                $this->validator->fieldsToBeValidated['private'] = 1;
+        if (isset($_GET['private'])) {
+            if ($_GET['private'] == true) { 
+                $_GET['private'] = 1; 
             } else {
-                $this->validator->fieldsToBeValidated['private'] = 0;
+                $_GET['private'] = 0; 
+            }
+        }
+
+        else if (isset($_POST['private'])) {
+            if ($_POST['private'] == true) { 
+                $_POST['private'] = 1; 
+            } else {
+                $_POST['private'] = 0; 
             }
         }
 
@@ -208,6 +216,18 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
     {
         require_once(PUBLIC_PATH . "video/index.php");
     }
+
+
+    /** @override */
+    protected function update() {
+        if (\App\Core\Main2\Request::isAjax()) {
+
+            return true;
+        } else {
+            require_once(PUBLIC_PATH . 'video/update/index.php');
+        }
+    }
+    
 
     /** @override */
     protected function read()

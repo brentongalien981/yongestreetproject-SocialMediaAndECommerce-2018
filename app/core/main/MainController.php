@@ -86,16 +86,18 @@ class MainController extends CNMain
                     $actualFieldValue = \App\Core\Main2\Sanitizer::stripHtmlTags($actualFieldValue);
                     $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlSpecialChars($actualFieldValue);
                     $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlEntities($actualFieldValue);
+                    $actualFieldValue = \App\Core\Main2\Sanitizer::sqlSanitizeStr($actualFieldValue);
                     $_GET[$field] = $actualFieldValue;
                 }
             } else {
-                
+
                 if (isset($_POST[$field])) {
 
                     $actualFieldValue = $_POST[$field];
                     $actualFieldValue = \App\Core\Main2\Sanitizer::stripHtmlTags($actualFieldValue);
                     $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlSpecialChars($actualFieldValue);
                     $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlEntities($actualFieldValue);
+                    $actualFieldValue = \App\Core\Main2\Sanitizer::sqlSanitizeStr($actualFieldValue);
                     $_POST[$field] = $actualFieldValue;
                 }
             }

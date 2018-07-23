@@ -28,4 +28,10 @@ class Sanitizer {
     public static function unsanitizeUrl($url) {
         return urldecode($url);
     }
+
+    public static function sqlSanitizeStr($value) {
+        $db = MySQLDatabase::getInstance();
+
+        return $db->get_escaped_value($value);
+    }
 }

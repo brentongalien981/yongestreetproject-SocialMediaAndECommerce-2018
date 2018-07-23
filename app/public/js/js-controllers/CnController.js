@@ -1,3 +1,5 @@
+import CnDataSource from "../js-models/CnDataSource.js";
+
 class CnController {
 
     constructor() {
@@ -26,6 +28,7 @@ class CnController {
      */
     regularInit() {
         this.view = null;
+        this.dataSource = new CnDataSource();
     }
 
     /**

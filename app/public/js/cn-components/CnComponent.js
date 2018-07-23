@@ -40,6 +40,10 @@ class CnComponent {
         this.parts = {
             loaderContainer: loaderContainer
         }; 
+
+
+
+        // loaderContainer.removeExtraLoaders();
     }
 
 
@@ -92,7 +96,7 @@ class CnComponent {
      * and other extentional-views.
      */
     postInit() {
-
+        // this.loaderContainer.removeExtraLoaders();
     }
 
     init() {

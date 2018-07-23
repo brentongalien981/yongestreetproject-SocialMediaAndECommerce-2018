@@ -70,9 +70,20 @@ class CnRESTController extends CnController {
     }
 
 
-    read() {
+    preCrud(data = {loaderMsg: null}) {
+        this.view.showLoaderNode(data.loaderMsg);
+    }
+
+
+    read(data = {loaderMsg: null}) {
+
+        this.preCrud(data);
+
         if (this.preRead()) {
             this.regularRead();
+        } else {
+            // Hide this controller's view's loader el.
+            this.view.hideLoaderNode();
         }
 
         this.postRead();

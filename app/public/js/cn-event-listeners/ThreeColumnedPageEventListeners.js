@@ -19,6 +19,7 @@ class ThreeColumnedPageEventListeners {
 
         $(window).resize(function () {
             handlerObj.setLeftColHeight();
+            handlerObj.setRightColHeight();
 
             // setRightCol();
             // handlerObj.setRightColHeight();
@@ -39,6 +40,7 @@ class ThreeColumnedPageEventListeners {
     static handle(delegator) {
 
         delegator.setLeftColHeight = this.setLeftColHeight;
+        delegator.setRightColHeight = this.setRightColHeight;
         this.implement(delegator);
 
     }
@@ -47,6 +49,10 @@ class ThreeColumnedPageEventListeners {
     static setLeftColHeight() {
         // $("#cn-left-col").height($(this).outerHeight());
         $(this.view.parts.cnLeftCol.node).height($(window).outerHeight());
+    }
+
+    static setRightColHeight() {
+        $(this.view.parts.cnRightCol.node).height($(window).outerHeight());
     }
 
 }

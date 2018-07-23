@@ -57,7 +57,7 @@ class VideoDetailsFormController extends CnFormController {
 
         // 
         if (this.checkVideoEmbedCodeAttributes(videoEmbedCodeAttribs)) {
-        
+
             let ajaxRequestObj = {
                 title: videoTitle,
                 description: videoDescription,
@@ -68,7 +68,7 @@ class VideoDetailsFormController extends CnFormController {
                 private: videoPrivacy
             }
 
-            
+
             let ajaxRequestData = {
                 controllerObj: this,
                 modelClassName: "Video",
@@ -82,15 +82,22 @@ class VideoDetailsFormController extends CnFormController {
             return true;
 
         } else {
+
+            // Here means pre-creation fails so reset things.
+            this.view.hideLoaderNode();
+
+            // Disable the publish button.
+            $(this.view.childComponents.publishBtn.node).removeAttr("disabled");
+
             return false;
         }
-   
+
     }
 
-    
+
     /** @override */
     preCreate() {
-        
+
         // Show the cn-loader-node.
         this.view.showLoaderNode("We're just saving your video real quick...");
 
@@ -99,6 +106,7 @@ class VideoDetailsFormController extends CnFormController {
 
         //
         if (super.preCreate()) { return true; }
+
         return false;
     }
 

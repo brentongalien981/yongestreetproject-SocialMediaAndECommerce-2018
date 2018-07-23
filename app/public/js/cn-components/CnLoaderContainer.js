@@ -1,3 +1,5 @@
+import CnLoaderNode from "./CnLoaderNode.js";
+
 class CnLoaderContainer {
 
     constructor(props = { nodeSelector: null, nodeId: null }) {
@@ -12,10 +14,30 @@ class CnLoaderContainer {
     }
 
 
+    removeExtraLoaders() {
+
+
+        // Get a reference to the loader(s).
+        const loaders = $(this.node).find(".cn-loader-node");
+
+        for (let i = 1; i < loaders.length; i++) {
+            $(loaders[i]).remove();
+        }
+
+        if (loaders.length > 0) {
+            // const finalLoaderNode = new CnLoaderNode({ node: loaders[0] });
+
+            // this.childComponents = { loader: finalLoaderNode };
+        }
+
+
+    }
+
+
     append(childComponent) {
         let parentComponent = this;
         this.appendAtLast(parentComponent, childComponent)
-        
+
     }
 
 
@@ -47,7 +69,7 @@ class CnLoaderContainer {
             }
         }
 
-        
+
         this.childComponents = { loader: childComponent };
         childComponent.parentComponent = parentComponent;
     }

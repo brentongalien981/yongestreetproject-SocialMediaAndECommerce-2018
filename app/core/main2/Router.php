@@ -18,7 +18,8 @@ class Router {
             'create',
             'read',
             'patch',
-            'show'
+            'show',
+            'update'
         ],
         'UserPlaylist' => [
             'read'
@@ -84,6 +85,28 @@ class Router {
         ],
         'VideoManager' => [
             'index'
+        ],
+        'NotificationRateableItem' => [
+            'create',
+            'read',
+            'update',
+            'delete',
+            'index',
+            'show',
+            'patch',
+            'save',
+            'fetch'
+        ],
+        'NotificationTimelinePostReply' => [
+            'create',
+            'read',
+            'update',
+            'delete',
+            'index',
+            'show',
+            'patch',
+            'save',
+            'fetch'
         ]
         
     ];
