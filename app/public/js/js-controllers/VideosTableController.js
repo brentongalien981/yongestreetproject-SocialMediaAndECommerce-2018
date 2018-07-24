@@ -14,12 +14,14 @@ class VideosTableController extends ComponentController {
 
     /** @override */
     regularRead() {
-
+        
         const earliestElDate = this.dataSource.getLimitDate("earliest");
 
         let ajaxRequestData = {
             controllerObj: this,
+            controllerClassName: "UserVideo",
             modelClassName: "Video",
+            isUsingRecipeFramework: true,
             requestObj: {
                 earliest_el_date: earliestElDate
             }

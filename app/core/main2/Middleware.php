@@ -88,6 +88,8 @@ class Middleware extends CNMain
             case "VideoUserPlaylistsPlugIn":
 
             case "Category":
+
+            case "UserVideo":
                 $typeOfActionId = self::REGULAR_TYPES_OF_ACTIONS;
                 break;
             case "timeline-post":

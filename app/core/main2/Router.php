@@ -21,6 +21,10 @@ class Router {
             'show',
             'update'
         ],
+        'UserVideo' => [
+            'read',
+            'update'
+        ],
         'UserPlaylist' => [
             'read'
         ],
@@ -120,9 +124,14 @@ class Router {
 
         $controllerPath = "\\App\\Controller\\{$request->controllerName}Controller";
         
+        $controllerObj = null;
 
-
-        $controllerObj = new $controllerPath($request->controllerName, $request->controllerAction);
+        if ($request->isUsingRecipeFramework) {
+            $controllerObj = new $controllerPath($request);
+        } else {
+            $controllerObj = new $controllerPath($request->controllerName, $request->controllerAction);
+        }
+        
     
     
         $controllerObj->doAction($request);

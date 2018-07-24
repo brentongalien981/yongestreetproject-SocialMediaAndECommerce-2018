@@ -14,7 +14,7 @@ class CnRESTController extends CnController {
         this.postCreate();
     }
 
-    postCreate() {}
+    postCreate() { }
 
 
     regularCreate(ajaxRequestData = {}) {
@@ -49,7 +49,7 @@ class CnRESTController extends CnController {
     }
 
 
-    postIndex() {}
+    postIndex() { }
 
 
     regularIndex(ajaxRequestData = {}) {
@@ -70,12 +70,12 @@ class CnRESTController extends CnController {
     }
 
 
-    preCrud(data = {loaderMsg: null}) {
+    preCrud(data = { loaderMsg: null }) {
         this.view.showLoaderNode(data.loaderMsg);
     }
 
 
-    read(data = {loaderMsg: null}) {
+    read(data = { loaderMsg: null }) {
 
         this.preCrud(data);
 
@@ -119,7 +119,7 @@ class CnRESTController extends CnController {
             this.regularHandleAjaxRequestResult(ajaxRequest, resultJSON);
             this.postHandleAjaxRequestResult(ajaxRequest, resultJSON);
         }
-        
+
     }
 
 
@@ -177,7 +177,19 @@ class CnRESTController extends CnController {
         switch (ajaxRequest.crudType) {
             case "index":
             case "read":
-                this.view.setView(resultJSON);
+
+                if (ajaxRequest.isUsingRecipeFramework) {
+
+                    this.dataSource.appendNewObjs({ ajaxRequest: ajaxRequest, json: resultJSON, forceSetObjProps: true });
+
+                    this.view.setView({
+                        dataSource: this.dataSource,
+                        json: resultJSON
+                    });
+                } else {
+                    this.view.setView({ json: resultJSON });
+                }
+
                 break;
             case "show":
                 break;

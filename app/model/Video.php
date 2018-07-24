@@ -72,4 +72,23 @@ class Video extends MainModel
         return $rateableItem;
     }
 
+
+    public static function getUserVideos() {
+
+        $session = Session::getInstance();
+
+        $qData = [
+            'user_id' => $session->actual_user_id,
+            'limit' => 10
+        ];
+
+        $userVideos = static::readByWhereClause($qData);
+
+        foreach ($userVideos as $video) {
+            $video->filterExclude();
+        }
+
+        return $userVideos;
+    }
+
 }

@@ -31,7 +31,7 @@ class UpdateVideoPage extends ThreeColumnedPage {
         super.postInit();
 
         this.childComponents.updateVideoPageMainContent.appendTo(this.parts.cnCenterCol);
-        
+    
     }
 }
 

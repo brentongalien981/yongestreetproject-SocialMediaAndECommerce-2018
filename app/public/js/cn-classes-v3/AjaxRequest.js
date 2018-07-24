@@ -21,8 +21,9 @@ class AjaxRequest {
         this.requestObj = (props.requestObj != null) ? props.requestObj : null;
         this.requestUrl = getLocalAjaxHandlerUrl();
         this.controllerObj = (props.controllerObj != null) ? props.controllerObj : null; // The calling CnController obj.
-        // this.controllerClassName = this.controllerObj.constructor.name;
+        this.controllerClassName = (props.controllerClassName != null) ? props.controllerClassName : null;
         this.modelClassName = (props.modelClassName != null) ? props.modelClassName : null;
+        this.isUsingRecipeFramework = (props.isUsingRecipeFramework != null) ? props.isUsingRecipeFramework : null;
 
     }
 

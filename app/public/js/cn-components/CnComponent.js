@@ -106,9 +106,15 @@ class CnComponent {
     }
 
 
-    setView(json) {
+    setView(data = { dataSource: null, json: null }) {
         this.preSetView();
-        this.regularSetView(json);
+
+        if (data.dataSource == null) {
+            this.regularSetView(data.json);
+        } else {
+            this.regularSetView(data);
+        }
+        
         this.postSetView();
     }
 

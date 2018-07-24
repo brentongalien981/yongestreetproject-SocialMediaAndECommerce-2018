@@ -19,6 +19,7 @@ class Request
     public $workableUrl;
     public $isRequestAjax;
     public $controllerName;
+    public $modelName;
     public $controllerAction;
     public $requestForObjectId;
     public $requestData;
@@ -31,6 +32,8 @@ class Request
     private $checkDDOSAttack = true;
     public $isAccessConstrained = true;
     public $isLogInCredentialsValid = null;
+
+    public $isUsingRecipeFramework = false;
 
 
 

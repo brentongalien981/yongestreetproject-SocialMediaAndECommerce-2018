@@ -102,10 +102,23 @@ class CnUrlParser
                     $request->controllerAction = $_POST['action'];
                 }
             } else {
+
                 $jsonDecodedRequestData = json_decode($requestData, true);
                 $request->requestData = $jsonDecodedRequestData;
 
-                $request->controllerName = (isset($jsonDecodedRequestData["modelClassName"])) ? $jsonDecodedRequestData["modelClassName"] : ucfirst(Request::DEFAULT_CONTROLLER_NAME);
+                $request->isUsingRecipeFramework = isset($jsonDecodedRequestData["isUsingRecipeFramework"]) ? $jsonDecodedRequestData["isUsingRecipeFramework"] : false;;
+
+                $request->controllerName = (isset($jsonDecodedRequestData["controllerClassName"])) ? $jsonDecodedRequestData["controllerClassName"] : null;
+
+                // If there's no provided controllerClassName
+                // from the ajax-request, then set it based
+                // on the provided modelClassName.
+                if (!isset($request->controllerName)) {
+                    $request->controllerName = (isset($jsonDecodedRequestData["modelClassName"])) ? $jsonDecodedRequestData["modelClassName"] : ucfirst(Request::DEFAULT_CONTROLLER_NAME);
+                }
+
+                $request->modelName = (isset($jsonDecodedRequestData["modelClassName"])) ? $jsonDecodedRequestData["modelClassName"] : null;
+                
                 $request->controllerAction = (isset($jsonDecodedRequestData["crudType"])) ? $jsonDecodedRequestData["crudType"] : Request::CRUD_TYPE_INDEX;
 
 
@@ -178,7 +191,8 @@ class CnUrlParser
     }
 
 
-    private static function setRequestForObjectId($request) {
+    private static function setRequestForObjectId($request)
+    {
         $workableUrlTokens = explode("/", $request->workableUrl);
 
         $request->requestForObjectId = isset($workableUrlTokens[2]) ? $workableUrlTokens[2] : null;

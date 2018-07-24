@@ -30,6 +30,10 @@ class UpdateVideoPageController extends PageController {
 
         setTimeout(function () {
             let videoDetailsFormController = new VideoDetailsFormController();
+
+            $(videoDetailsFormController.view.node).removeClass("col-10");
+            $(videoDetailsFormController.view.node).addClass("col-12");
+            
             // videoDetailsFormController.view.appendTo(theController.view.parts.cnCenterCol);
             videoDetailsFormController.index();
 
