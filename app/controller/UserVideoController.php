@@ -41,6 +41,13 @@ class UserVideoController extends MainController2 implements AjaxCrudHandlerInte
                     'blank' => 1
                 ];
 
+                $this->validator->fieldsToBeValidated['stringified_already_read_obj_ids'] = [
+                    'required' => 1,
+                    'min' => 0,
+                    'max' => 8192,
+                    'areNumeric' => 1
+                ];
+
                 break;
         }
     }
@@ -48,7 +55,7 @@ class UserVideoController extends MainController2 implements AjaxCrudHandlerInte
     /** @override */
     protected function read()
     {
-        $userVideos = \App\Model\Video::getUserVideos();
+        $userVideos = \App\Model\Video::getUserVideos($this->sanitizedFields);
 
         return $userVideos;
     }

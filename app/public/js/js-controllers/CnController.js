@@ -36,9 +36,32 @@ class CnController {
      * and append their views to respective containers.
      */
     postInit() {
-        
+
     }
-    
+
+
+    canReadMoreObjs(data = { refNodeSelector: "", heightGap: 1000 }) {
+        
+        // Boundaries of the sides of the reference.
+        var referenceForLoadingMoreObjs = $(data.refNodeSelector).get(0).getBoundingClientRect();
+
+
+        if (referenceForLoadingMoreObjs == null) { return false; }
+        
+
+        var triggerYPositionForAjaxReadingMoreObjs = data.heightGap;
+
+        // // lOG:
+        // cnLog("ref POS: " + referenceForLoadingMoreObjs.top);
+
+        if (referenceForLoadingMoreObjs.top <= triggerYPositionForAjaxReadingMoreObjs) {
+            return true
+        }
+
+
+        return false;
+    }
+
 }
 
-export { CnController as default}
+export { CnController as default }

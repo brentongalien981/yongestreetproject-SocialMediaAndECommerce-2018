@@ -411,7 +411,11 @@ class MainModel extends CNMain
 
                     //
                     if ($comparisonOperator === 'NOT IN') {
-                        $data['whereClause'] .= "WHERE {$field} NOT IN(" . "{$value})";
+                        
+                        if (!empty($value)) {
+                            $data['whereClause'] .= "WHERE {$field} NOT IN(" . "{$value})";
+                        }
+                        
                     } else {
                         $data['whereClause'] .= "WHERE {$field}" . " {$comparisonOperator}" . " '{$value}'";
                     }
@@ -425,7 +429,11 @@ class MainModel extends CNMain
 
                     //
                     if ($comparisonOperator === 'NOT IN') {
-                        $data['whereClause'] .= " AND {$field} NOT IN(" . "{$value})";
+
+                        if (!empty($value)) {
+                            $data['whereClause'] .= " AND {$field} NOT IN(" . "{$value})";
+                        }
+                        
                     } else {
                         $data['whereClause'] .= " AND {$field}" . " {$comparisonOperator}" . " '{$value}'";
                     }

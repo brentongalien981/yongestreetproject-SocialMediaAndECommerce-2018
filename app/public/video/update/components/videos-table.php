@@ -5,23 +5,31 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th>id</th>
+                    <!-- <th>id</th> -->
                     <th>title</th>
                     <th>owner</th>
+                    <th>date added</th>
+                    <th>last update</th>
                 </tr>
             </thead>
 
             <tbody class="videos-table-body">
                 <tr id="video-record-row-template">
-                    <td class="video-record-id">#zzz</td>
+                    <!-- <td class="video-record-id">#zzz</td> -->
                     <td class="video-record-title">{title}</td>
                     <td class="video-record-owner">{owner}</td>
+                    <td class="video-record-created-at">{date added}</td>
+                    <td class="video-record-updated-at">{last update}</td>
                 </tr>
             </tbody>
         </table>
-    </div>
 
-    <div class="loader-element-container"></div>
+        <div class="loader-element-container"></div>
+        
+        <!-- Reference-->
+        <div class="reference-for-loading-more-objs"></div>
+
+    </div>
 </div>
 
 
@@ -48,15 +56,17 @@
 
     #videos-table .cn-table-container {
         overflow: scroll;
-        max-height: 700px;
+        max-height: 600px;
+    }
+
+    #videos-table #video-record-row-template {
+        display: none;
     }
 
 
     /* Extra small devices (phones, 640px and down) */
 
-    @media only screen and (max-width: 640px) {
-
-    }
+    @media only screen and (max-width: 640px) {}
 
     /* Small devices (portrait tablets and large phones, 600px and up) */
 

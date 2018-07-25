@@ -73,19 +73,50 @@ class Video extends MainModel
     }
 
 
-    public static function getUserVideos() {
+    public static function getUserVideos($data = []) {
 
         $session = Session::getInstance();
 
         $qData = [
+            'disregardUsingPkIdForQuery' => true,
             'user_id' => $session->actual_user_id,
-            'limit' => 10
+            'limit' => 20,
+            'orderByFields' => 'created_at',
+            'orderArrangement' => 'DESC'
+
         ];
 
+        if (isset($data['earliest_el_date'])) {
+            $qData['created_at'] = [
+                'comparisonOperator' => '<=',
+                'value' => $data['earliest_el_date']
+            ];
+        }
+
+        if (isset($data['stringified_already_read_obj_ids'])) {
+            $qData['id'] = [
+                'comparisonOperator' => 'NOT IN',
+                'value' => $data['stringified_already_read_obj_ids']
+            ];
+        }
+
+        
         $userVideos = static::readByWhereClause($qData);
 
         foreach ($userVideos as $video) {
             $video->filterExclude();
+
+            /* Add a carbon-date field to the obj. */
+            $rawDateTimeFieldName = "created_at";
+            $video->addReadableDateField($rawDateTimeFieldName);
+
+            $video->replaceFieldNamesForAjax(['human_date' => 'created_at_human_date']);
+
+            /* Add a carbon-date field to the obj. */
+            $rawDateTimeFieldName = "updated_at";
+            $video->addReadableDateField($rawDateTimeFieldName);
+
+            $video->replaceFieldNamesForAjax(['human_date' => 'updated_at_human_date']);
         }
 
         return $userVideos;

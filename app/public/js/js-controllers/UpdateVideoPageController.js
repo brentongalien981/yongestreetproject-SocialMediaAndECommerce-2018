@@ -35,6 +35,10 @@ class UpdateVideoPageController extends PageController {
             $(videoDetailsFormController.view.node).addClass("col-12");
             
             // videoDetailsFormController.view.appendTo(theController.view.parts.cnCenterCol);
+            theController.view.addChildComponent({
+                videoDetailsForm: videoDetailsFormController.view
+            });
+
             videoDetailsFormController.index();
 
         }, 200);
@@ -48,7 +52,9 @@ class UpdateVideoPageController extends PageController {
 
         setTimeout(function () {
             let videosTableController = new VideosTableController();
+            videosTableController.view.parentComponent = theController.view;
             videosTableController.read({loaderMsg: "Reading more videos real quick..."});
+            
         }, 600);
 
 

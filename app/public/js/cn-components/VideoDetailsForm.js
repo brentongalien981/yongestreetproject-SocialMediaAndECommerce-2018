@@ -93,6 +93,16 @@ class VideoDetailsForm extends CnForm {
         }
 
     }
+
+
+    populateFields(selectedVideoObj) {
+
+        $(this.childComponents.videoTitle.node).val(selectedVideoObj.title);
+        $(this.childComponents.videoOwnerUserName.node).val(selectedVideoObj.owner_name);
+        $(this.childComponents.videoEmbedCode.node).val(selectedVideoObj.url);
+        $(this.childComponents.videoDescription.node).val(selectedVideoObj.description);
+        // $(this.childComponents.videoDescription.node).val(selectedVideoObj.description);
+    }
 }
 
 

@@ -28,7 +28,7 @@ class CnComponent {
     initChildComponents() { this.childComponents = null; }
     initContainers() { this.containers = null; }
 
-    initParts() { 
+    initParts() {
         const loaderContainer = new CnLoaderContainer({ nodeSelector: this.nodeSelector + " .loader-element-container" });
 
         loaderContainer.displayNone();
@@ -39,7 +39,7 @@ class CnComponent {
         this.loaderContainer = loaderContainer;
         this.parts = {
             loaderContainer: loaderContainer
-        }; 
+        };
 
 
 
@@ -48,19 +48,19 @@ class CnComponent {
 
 
     showLoaderNode(msg) {
-        
+
         $(this.loaderContainer.node).removeClass("bounceOutDown");
         $(this.loaderContainer.node).addClass("bounceInUp");
         this.parts.loaderContainer.displayBlock();
 
         if (msg != null) {
             $(this.parts.loaderContainer.childComponents.loader.node).find(".cn-loader-comment").html(msg);
-            
+
         }
     }
 
     hideLoaderNode() {
-        
+
         this.loaderContainer.displayNone();
 
         $(this.loaderContainer.node).removeClass("bounceInUp");
@@ -87,7 +87,7 @@ class CnComponent {
         };
 
         // this.initLoaderNode();
-        
+
     }
 
 
@@ -114,7 +114,7 @@ class CnComponent {
         } else {
             this.regularSetView(data);
         }
-        
+
         this.postSetView();
     }
 
@@ -219,6 +219,17 @@ class CnComponent {
 
     displayBlock() {
         $(this.node).css("display", "block");
+    }
+
+
+    addChildComponent(component = null) {
+
+        if (component == null) { return; }
+
+        this.childComponents = {
+            ...this.childComponents,
+            ...component
+        };
     }
 }
 

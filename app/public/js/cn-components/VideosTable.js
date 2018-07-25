@@ -20,12 +20,14 @@ class VideosTable extends CnComponent2 {
         const headerTitle = new CnComponent({ nodeSelector: "#videos-table .header-title" });
         const videosTableBody = new CnComponent({ nodeSelector: "#videos-table tbody" });
         const videoRecordRowTemplate = new CnComponent({ nodeSelector: "#videos-table #video-record-row-template" });
+        const refForLoadingMoreObjs = new CnComponent({ nodeSelector: "#videos-table .reference-for-loading-more-objs" });
 
         this.childComponents = { 
             ...this.childComponents,
             headerTitle: headerTitle,
             videosTableBody: videosTableBody,
-            videoRecordRowTemplate: videoRecordRowTemplate
+            videoRecordRowTemplate: videoRecordRowTemplate,
+            refForLoadingMoreObjs: refForLoadingMoreObjs
         };
     }
 
@@ -41,9 +43,12 @@ class VideosTable extends CnComponent2 {
 
             const videoRecordRowEl = cnCloneTemplate("#videos-table #video-record-row-template");
 
-            $(videoRecordRowEl).find(".video-record-id").html(video.title);
+            $(videoRecordRowEl).attr("obj-id", video.id);
+            // $(videoRecordRowEl).find(".video-record-id").html(video.id);
             $(videoRecordRowEl).find(".video-record-title").html(video.title);
             $(videoRecordRowEl).find(".video-record-owner").html(video.owner_name);
+            $(videoRecordRowEl).find(".video-record-created-at").html(video.created_at_human_date + " (" + video.created_at + ")");
+            $(videoRecordRowEl).find(".video-record-updated-at").html(video.updated_at_human_date);
 
             $("#videos-table tbody").append($(videoRecordRowEl));
         }

@@ -62,37 +62,38 @@ class Request
         }
 
 
-        // 
-        CnUrlParser::setUrl($this->url);
-
-
-        /* Set the request vars. */
-        $isUsingOldCnRequestScheme = CnUrlParser::setRequestVars($this);
-
-        
-
-
-        /* */
-        if ($this->isRequestForFrontEndFiles()) {
-            return;
-        }
-
-        if ($this->isRequestSpecialCase()) {
-            Router::route($this);
-            return;
-        }
-
-        // // TODO: Remove this.
-        // $this->session->setNumOfConsecutiveFailedRequests(0);
-
-
-        //
+        /** */
         try {
             
             // If it's a redirection, don't check for the request malice and constraints.
             if (isset($_SESSION['isInTheProcessOfRedirection']) && $_SESSION['isInTheProcessOfRedirection']) {
                 $_SESSION['isInTheProcessOfRedirection'] = false;
             } else {
+
+                //
+                CnUrlParser::setUrl($this->url);
+
+
+                /* Set the request vars. */
+                $isUsingOldCnRequestScheme = CnUrlParser::setRequestVars($this);
+
+        
+
+
+                /* */
+                if ($this->isRequestForFrontEndFiles()) {
+                    return;
+                }
+
+                if ($this->isRequestSpecialCase()) {
+                    Router::route($this);
+                    return;
+                }
+
+                // // TODO: Remove this.
+                // $this->session->setNumOfConsecutiveFailedRequests(0);
+
+
 
                 if (!$this->checkMalice()) {
                     return;
@@ -117,19 +118,20 @@ class Request
             }
 
             Router::route($this);
-        } 
-        catch (\Exception $e) 
-        {
-            if (!self::isAjax()) {
+        } catch (\Exception $e) {
+            if (self::isAjax()) {
+                echo json_encode([
+                    'is_result_ok' => false,
+                    'comment' => null,
+                    'errors' => "EXCEPTION CAUGHT...\nOops! There's a problem with the request... \n{$e}"
+                ]);
+            } else {
                 echo "\nEXCEPTION CAUGHT...\nOops! There's a problem with the request...\n";
                 echo "$e\n";
             }
-        } 
-        finally 
-        {
+        } finally {
             RequestTimeKeeper::setLastRequestTime($this);
         }
-
     }
 
 
@@ -212,7 +214,7 @@ class Request
      * @return bool false if the request has no malice. Positive int
      * if there's malice.
      * TODO: Note that in the method: Throttler::isRequestDDOSAttack(),
-     * we skipped (for now) the checking for models: RateableItem and 
+     * we skipped (for now) the checking for models: RateableItem and
      * RateableItemUser.
      */
     private function checkMalice()
