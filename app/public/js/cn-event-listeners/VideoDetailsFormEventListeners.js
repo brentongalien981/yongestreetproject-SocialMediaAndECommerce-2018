@@ -9,6 +9,14 @@ class VideoDetailsFormEventListeners {
 
         });
 
+
+        $(handlerObj.view.childComponents.updateBtn.node).click(function (event) {
+
+            event.preventDefault();
+            handlerObj.onUpdateObjectBtnClicked();
+
+        });
+
     }
 
 
@@ -21,6 +29,7 @@ class VideoDetailsFormEventListeners {
     static handle(delegator) {
 
         delegator.onCreateObjectBtnClicked = this.onCreateObjectBtnClicked;
+        delegator.onUpdateObjectBtnClicked = this.onUpdateObjectBtnClicked;
         this.implement(delegator);
 
     }
@@ -28,6 +37,10 @@ class VideoDetailsFormEventListeners {
 
     static onCreateObjectBtnClicked() {
         this.create();
+    }
+
+    static onUpdateObjectBtnClicked() {
+        this.update({ loaderMsg: "update is fucking on" });
     }
 
 }

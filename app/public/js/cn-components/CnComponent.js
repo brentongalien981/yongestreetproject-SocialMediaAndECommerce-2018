@@ -16,6 +16,7 @@ class CnComponent {
 
 
         this.init();
+        this.controller = null;
     }
 
 

@@ -73,6 +73,40 @@ class Video extends MainModel
     }
 
 
+    public function getRateableItemWithRefinements($data = []) {
+        // Find
+        $data = [
+            'item_x_id' => $this->id,
+            'item_x_type_id' => \App\Model\RateableItem::ITEM_X_TYPE_ID_VIDEO
+        ];
+
+        $rateableItem = \App\Model\RateableItem::readByWhereClause($data)[0];
+
+        // if (isset($data['']))
+        $rateableItem->doRefinements($data);
+
+        return $rateableItem;
+    }
+
+
+    public function getCategories($refinementData = []) {
+
+        // $categories = [];
+
+        // Find
+        $categories = $this->hasMany2('Category');
+
+        foreach ($categories as $category) {
+
+            $category->doRefinements($refinementData);
+        }
+
+
+        //
+        return $categories;
+    }
+
+
     public static function getUserVideos($data = []) {
 
         $session = Session::getInstance();
@@ -104,6 +138,15 @@ class Video extends MainModel
         $userVideos = static::readByWhereClause($qData);
 
         foreach ($userVideos as $video) {
+
+            $categories = $video->getCategories([
+                'excludedProps' => ['unwantedJsonProps']
+            ]);
+            $rateableItemOfVideo = $video->getRateableItemWithRefinements();
+            // $rateableItemOfVideo->primary_key_id_name = 'id';
+            $videoTags = $rateableItemOfVideo->getTags();
+
+
             $video->filterExclude();
 
             /* Add a carbon-date field to the obj. */
@@ -117,6 +160,11 @@ class Video extends MainModel
             $video->addReadableDateField($rawDateTimeFieldName);
 
             $video->replaceFieldNamesForAjax(['human_date' => 'updated_at_human_date']);
+
+
+            // Combine
+            $video->categories = $categories;
+            $video->tags = $videoTags;
         }
 
         return $userVideos;

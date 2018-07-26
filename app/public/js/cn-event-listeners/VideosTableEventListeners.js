@@ -40,7 +40,9 @@ class VideosTableEventListeners {
 
         const selectedVideoObj = this.dataSource.getObj({ withId: $(rowEl).attr("obj-id") });
         
-        this.view.parentComponent.childComponents.videoDetailsForm.populateFields(selectedVideoObj);
+        const videoDetailsForm = this.view.parentComponent.childComponents.videoDetailsForm;
+        // videoDetailsForm.controller.
+        videoDetailsForm.populateFields(selectedVideoObj);
 
     }
 

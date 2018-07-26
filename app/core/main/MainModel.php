@@ -977,7 +977,10 @@ class MainModel extends CNMain
         // Dynamically figure out the name of the field of the extentional
         // obj based on this obj's class name and then appending the string "_id".
         $fkName = self::getPascalCasedNameOf(static::$className) . "_id";
-        $pkName = $this->primary_key_id_name;
+
+        $pkName = isset($this->primary_key_id_name) ? $this->primary_key_id_name : $this->primaryKeyName;
+
+
         $pkValue = $this->$pkName;
         $data[$fkName] = $pkValue;
 
@@ -1187,6 +1190,21 @@ class MainModel extends CNMain
                 $this->$newFieldName = $this->$oldFieldName;
                 unset($this->$oldFieldName);
             }
+        }
+    }
+
+
+    public function doRefinements($data = []) {
+        if (isset($data['excludedProps'])) {
+            $this->filterExclude($data['excludedProps']);
+        }
+
+        if (isset($data['includedProps'])) {
+            $this->filterInclude($data['includedProps']);
+        }
+
+        if (isset($data['propNameModifications'])) {
+            $this->replaceFieldNamesForAjax($data['propNameModifications']);
         }
     }
 }

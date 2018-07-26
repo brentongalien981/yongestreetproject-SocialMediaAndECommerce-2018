@@ -16,6 +16,7 @@ class VideoDetailsForm extends CnForm {
         super.initChildComponents();
 
         const publishBtn = new CnComponent({ nodeSelector: "#video-details-form #publish-video-btn" });
+        const updateBtn = new CnComponent({ nodeSelector: "#video-details-form #update-video-btn" });
 
         const videoTitle = new CnComponent({ nodeSelector: "#video-title" });
 
@@ -28,6 +29,7 @@ class VideoDetailsForm extends CnForm {
 
         this.childComponents = { 
             publishBtn: publishBtn,
+            updateBtn: updateBtn,
             videoTitle: videoTitle,
             videoOwnerUserName: videoOwnerUserName,
             videoEmbedCode: videoEmbedCode,
@@ -101,7 +103,75 @@ class VideoDetailsForm extends CnForm {
         $(this.childComponents.videoOwnerUserName.node).val(selectedVideoObj.owner_name);
         $(this.childComponents.videoEmbedCode.node).val(selectedVideoObj.url);
         $(this.childComponents.videoDescription.node).val(selectedVideoObj.description);
-        // $(this.childComponents.videoDescription.node).val(selectedVideoObj.description);
+
+        this.setTagsField(selectedVideoObj.tags);
+        this.setCategoriesField(selectedVideoObj.categories);
+        this.setPrivacyField(selectedVideoObj.private);
+
+    }
+
+    setPrivacyField(privacy) {
+        if (privacy == 0) {
+            $(this.childComponents.videoPrivacy.node).prop("checked", false);
+        } else {
+            $(this.childComponents.videoPrivacy.node).prop("checked", true);
+        }
+
+    }
+
+
+
+    setCategoriesField(categoryObjs) {
+
+        let categoryOptionElements = $(this.childComponents.videoCategories.node).find("option");
+
+        let categoryIds = [];
+
+        for (let i = 0; i < categoryObjs.length; i++) {
+            const categoryId = categoryObjs[i].id;
+            categoryIds.push(categoryId);
+        }
+
+        for (let i = 0; i < categoryOptionElements.length; i++) {
+
+            const categoryOptionEl = categoryOptionElements[i];
+
+            const categoryOptionVal = $(categoryOptionEl).attr("value");
+
+            if (categoryIds.includes(categoryOptionVal)) {
+                $(categoryOptionEl).attr("selected", "");
+            } else {
+                $(categoryOptionEl).removeAttr("selected");
+            }
+            
+        }
+    }
+
+
+
+    setTagsField(tagObjs) {
+
+        let tagNames = [];
+
+        for (let i = 0; i < tagObjs.length; i++) {
+            const tagName = tagObjs[i].tag;
+            tagNames.push(tagName);
+        }
+
+        const stringifiedTagNames = cnStringify(tagNames);
+
+        $(this.childComponents.videoTags.node).val(stringifiedTagNames);
+    }
+
+
+    editLabels(data = {}) {
+        if (data.headerLabel != null) {
+            $(this.node).find(".header-label").html(data.headerLabel);
+        }
+
+        if (data.submitBtn != null) {
+            $(this.childComponents.publishBtn.node).html(data.submitBtn);
+        }
     }
 }
 

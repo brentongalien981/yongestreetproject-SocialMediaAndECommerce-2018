@@ -15,7 +15,6 @@ class UpdateVideoPageController extends PageController {
     }
 
 
-
     /**
      * @override
      */
@@ -31,16 +30,24 @@ class UpdateVideoPageController extends PageController {
         setTimeout(function () {
             let videoDetailsFormController = new VideoDetailsFormController();
 
-            $(videoDetailsFormController.view.node).removeClass("col-10");
-            $(videoDetailsFormController.view.node).addClass("col-12");
-            
-            // videoDetailsFormController.view.appendTo(theController.view.parts.cnCenterCol);
+            videoDetailsFormController.view.controller = videoDetailsFormController;
+
             theController.view.addChildComponent({
                 videoDetailsForm: videoDetailsFormController.view
             });
 
-            videoDetailsFormController.index();
+            videoDetailsFormController.view.editLabels({
+                headerLabel: "Edit Video"
+            });
 
+            $(videoDetailsFormController.view.childComponents.updateBtn.node).css("display", "block");
+            $(videoDetailsFormController.view.childComponents.publishBtn.node).css("display", "none");
+
+            $(videoDetailsFormController.view.node).removeClass("col-10");
+            $(videoDetailsFormController.view.node).addClass("col-12");
+        
+
+            videoDetailsFormController.index();
         }, 200);
 
 

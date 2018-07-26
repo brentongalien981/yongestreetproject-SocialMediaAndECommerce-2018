@@ -1,6 +1,6 @@
 <form id="video-details-form" class="col-10">
 
-    <h3>Add Video</h3>
+    <h3 class="header-label">Add Video</h3>
 
     <div class="form-group">
         <input type="text" class="form-control" id="video-title" aria-describedby="" placeholder="TITLE (max of 256 characters...)">
@@ -51,6 +51,7 @@
 
     <div class="form-group">
         <button id="publish-video-btn" class="btn btn-primary">publish</button>
+        <button id="update-video-btn" class="btn btn-primary">update</button>
     </div>
 
     <div class="loader-element-container"></div>

@@ -10,6 +10,7 @@
                     <th>owner</th>
                     <th>date added</th>
                     <th>last update</th>
+                    <th>action</th>
                 </tr>
             </thead>
 
@@ -20,6 +21,7 @@
                     <td class="video-record-owner">{owner}</td>
                     <td class="video-record-created-at">{date added}</td>
                     <td class="video-record-updated-at">{last update}</td>
+                    <td><button type="button" class="video-record-delete-btn btn btn-danger"><i class="fa fa-trash-o"></i></button></td>
                 </tr>
             </tbody>
         </table>
@@ -61,6 +63,14 @@
 
     #videos-table #video-record-row-template {
         display: none;
+    }
+
+    #videos-table .video-record-delete-btn {
+        padding: 0 5px;
+    }
+
+    #videos-table .video-record-delete-btn:hover {
+        box-shadow: 0 0 5px red;
     }
 
 

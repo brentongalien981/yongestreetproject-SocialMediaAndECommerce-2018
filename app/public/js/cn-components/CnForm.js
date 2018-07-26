@@ -1,7 +1,7 @@
-import CnComponent from './CnComponent.js';
+import CnComponent2 from './CnComponent2.js';
 
 
-class CnForm extends CnComponent {
+class CnForm extends CnComponent2 {
 
     // constructor(props = null) {
 
