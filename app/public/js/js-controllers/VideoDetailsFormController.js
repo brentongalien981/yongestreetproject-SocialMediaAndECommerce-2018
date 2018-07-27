@@ -24,12 +24,71 @@ class VideoDetailsFormController extends CnFormController {
 
         switch (ajaxRequest.crudType) {
             case "create":
-                alert("oh yeah");
+                // alert("oh yeah");
                 break;
             default:
                 super.regularHandleAjaxRequestResult(ajaxRequest, resultJSON);
         }
     }
+
+
+    /** @override */
+    regularUpdate(ajaxRequestData = {}) {
+
+        let videoTitle = $(this.view.childComponents.videoTitle.node).val();
+        let videoOwnerUserName = $(this.view.childComponents.videoOwnerUserName.node).val();
+
+        let videoEmbedCode = $(this.view.childComponents.videoEmbedCode.node).val();
+        let videoDescription = $(this.view.childComponents.videoDescription.node).val();
+
+        let videoTags = $(this.view.childComponents.videoTags.node).val();
+        let videoCategories = $(this.view.childComponents.videoCategories.node).val();
+        let videoPrivacy = $(this.view.childComponents.videoPrivacy.node).prop("checked");
+
+
+        //
+        let videoEmbedCodeAttribs = {
+            src: getAttributeValue(videoEmbedCode, "src")
+        };
+
+        let stringifiedCategories = cnStringify(videoCategories);
+
+
+
+        // 
+        if (this.checkVideoEmbedCodeAttributes(videoEmbedCodeAttribs)) {
+
+            let ajaxRequestObj = {
+                title: videoTitle,
+                description: videoDescription,
+                url: videoEmbedCodeAttribs.src,
+                owner_name: videoOwnerUserName,
+                tags: videoTags,
+                categories: stringifiedCategories,
+                private: videoPrivacy
+            }
+
+
+            let ajaxRequestData = {
+                controllerObj: this,
+                controllerClassName: "Video",
+                modelClassName: "Video",
+                isUsingRecipeFramework: true,
+                requestMethod: AjaxRequestConstants.REQUEST_METHOD_POST,
+                crudType: AjaxRequestConstants.CRUD_TYPE_UPDATE,
+                requestObj: ajaxRequestObj
+            };
+
+            super.regularUpdate(ajaxRequestData);
+
+            return true;
+
+        }
+
+        return false;
+
+    }
+
 
 
     /** @override */
@@ -126,7 +185,8 @@ class VideoDetailsFormController extends CnFormController {
     /** @override */
     implementEventListeners() {
         super.implementEventListeners();
-        VideoDetailsFormEventListeners.handle(this);
+
+        VideoDetailsFormEventListeners.handleEvents({ forDelegator: this });
     }
 
 

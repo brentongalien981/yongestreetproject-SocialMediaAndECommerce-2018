@@ -9,7 +9,7 @@ class VideosTableController extends ComponentController {
         super.implementEventListeners();
         VideosTableEventListeners.handle(this);
     }
-    
+
 
     /**
      * @override
@@ -17,6 +17,7 @@ class VideosTableController extends ComponentController {
     regularInit() {
         super.regularInit();
         this.view = new VideosTable();
+        this.view.controller = this;
     }
 
 
@@ -40,6 +41,23 @@ class VideosTableController extends ComponentController {
         };
 
         super.regularRead(ajaxRequestData);
+
+    }
+
+
+    /** @implement */
+    onVideosTableRowClick(data = {}) {
+
+        if (data.videoObj == null) { return; }
+        
+        const selectedVideoObj = this.dataSource.getObj({ withId: data.videoObj.id });
+        
+        this.dataSource.obj = selectedVideoObj;
+
+        const videoDetailsForm = this.view.parentComponent.childComponents.videoDetailsForm;
+        
+        videoDetailsForm.populateFields(selectedVideoObj);
+
 
     }
 }

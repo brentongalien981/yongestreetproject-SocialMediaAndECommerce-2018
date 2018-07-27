@@ -5,6 +5,7 @@ import ThreeColumnedPageEventListeners from "../cn-event-listeners/ThreeColumned
 import VideoCategoriesPlugInController from "./VideoCategoriesPlugInController.js";
 import VideoDetailsFormController from "./VideoDetailsFormController.js";
 import VideosTableController from "./VideosTableController.js";
+import VideoDetailsFormEventListeners from "../cn-event-listeners/VideoDetailsFormEventListeners.js";
 
 class UpdateVideoPageController extends PageController {
 
@@ -48,7 +49,16 @@ class UpdateVideoPageController extends PageController {
         
 
             videoDetailsFormController.index();
+
+            VideoDetailsFormEventListeners.implement({
+                event: "onVideoUpdate",
+                eventSource: videoDetailsFormController,
+                eventHandler: theController,
+                preventBaseHandler: true
+            });
+
         }, 200);
+
 
 
         setTimeout(function () {
@@ -56,6 +66,7 @@ class UpdateVideoPageController extends PageController {
             videoCategoriesPlugInController.view.appendTo(theController.view.parts.cnRightCol);
             videoCategoriesPlugInController.read();
         }, 400);
+
 
         setTimeout(function () {
             let videosTableController = new VideosTableController();
@@ -75,6 +86,12 @@ class UpdateVideoPageController extends PageController {
     regularInit() {
         super.regularInit();
         this.view = new UpdateVideoPage();
+    }
+
+
+    /** @implement */
+    onVideoUpdate() {
+        alert("method: onVideoUpdate() from class: UpdateVideoPageController.");
     }
 
 }

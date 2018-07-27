@@ -1,22 +1,29 @@
 class VideoDetailsFormEventListeners {
 
-    static implement(handlerObj) {
+    static implement(data = {}) {
 
-        $(handlerObj.view.childComponents.publishBtn.node).click(function (event) {
+        if (data.event == null || data.eventSource == null || data.eventHandler == null) { return; }
 
-            event.preventDefault();
-            handlerObj.onCreateObjectBtnClicked();
+        switch (data.event) {
+            case "onVideoCreate":
+                $(data.eventSource.view.childComponents.publishBtn.node).click(function (event) {
 
-        });
+                    event.preventDefault();
+                    data.eventHandler.onVideoCreate();
 
+                });
+                break;
 
-        $(handlerObj.view.childComponents.updateBtn.node).click(function (event) {
+            case "onVideoUpdate":
 
-            event.preventDefault();
-            handlerObj.onUpdateObjectBtnClicked();
+                $(data.eventSource.view.childComponents.updateBtn.node).click(function (event) {
 
-        });
-
+                    event.preventDefault();
+                    data.eventHandler.onVideoUpdate();
+                    
+                });
+                break;
+        }
     }
 
 
@@ -26,22 +33,38 @@ class VideoDetailsFormEventListeners {
      * doesn't want to implement the event.
      * @param {ComponentController} delegator 
      */
-    static handle(delegator) {
+    static handleEvents(data = { forDelegator: null }) {
 
-        delegator.onCreateObjectBtnClicked = this.onCreateObjectBtnClicked;
-        delegator.onUpdateObjectBtnClicked = this.onUpdateObjectBtnClicked;
-        this.implement(delegator);
+        if (data.forDelegator == null) { return; }
+
+        // Dynamically add the event-handler-funcs to the delegator.
+        data.forDelegator.onVideoCreate = VideoDetailsFormEventListeners.onVideoCreate;
+        // data.forDelegator.onVideoUpdate = VideoDetailsFormEventListeners.onVideoUpdate;
+
+        // Now the delegator, becomes a handler.
+        this.implement({
+            event: "onVideoCreate",
+            eventSource: data.forDelegator,
+            eventHandler: data.forDelegator
+        });
+
+        // this.implement({
+        //     event: "onVideoUpdate",
+        //     eventSource: data.forDelegator,
+        //     eventHandler: data.forDelegator
+        // });
 
     }
 
 
-    static onCreateObjectBtnClicked() {
+    static onVideoCreate() {
         this.create();
     }
 
-    static onUpdateObjectBtnClicked() {
-        this.update({ loaderMsg: "update is fucking on" });
-    }
+    // static onVideoUpdate() {
+    //     // this.update({ loaderMsg: "Updating your video..." });
+    //     alert("uh oh.. the default handler method is still being called.");
+    // }
 
 }
 

@@ -5,6 +5,7 @@ class CnDataSource {
     constructor() {
         this.objs = [];
         this.newlyAddedObjs = [];
+        this.obj = {};
     }
 
     getAlreadyReadObjIds() {

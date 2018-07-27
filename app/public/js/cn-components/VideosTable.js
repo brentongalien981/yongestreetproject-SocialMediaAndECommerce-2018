@@ -1,11 +1,13 @@
 import CnComponent2 from './CnComponent2.js';
 import CnComponent from './CnComponent.js';
+import VideosTableRowController from '../js-controllers/VideosTableRowController.js';
+import VideosTableRowEventListeners from '../cn-event-listeners/VideosTableRowEventListeners.js';
 
 class VideosTable extends CnComponent2 {
 
     constructor() {
         super({ nodeSelector: "#videos-table" });
-        
+
     }
 
 
@@ -22,7 +24,7 @@ class VideosTable extends CnComponent2 {
         const videoRecordRowTemplate = new CnComponent({ nodeSelector: "#videos-table #video-record-row-template" });
         const refForLoadingMoreObjs = new CnComponent({ nodeSelector: "#videos-table .reference-for-loading-more-objs" });
 
-        this.childComponents = { 
+        this.childComponents = {
             ...this.childComponents,
             headerTitle: headerTitle,
             videosTableBody: videosTableBody,
@@ -41,18 +43,17 @@ class VideosTable extends CnComponent2 {
 
             let video = videos[i];
 
-            const videoRecordRowEl = cnCloneTemplate("#videos-table #video-record-row-template");
+            let videosTableRowController = new VideosTableRowController();
+            videosTableRowController.view.regularSetView({ obj: video });
+            this.childComponents.videosTableBody.append(videosTableRowController.view);
 
-            $(videoRecordRowEl).attr("obj-id", video.id);
-            // $(videoRecordRowEl).find(".video-record-id").html(video.id);
-            $(videoRecordRowEl).find(".video-record-title").html(video.title);
-            $(videoRecordRowEl).find(".video-record-owner").html(video.owner_name);
-            $(videoRecordRowEl).find(".video-record-created-at").html(video.created_at_human_date + " (" + video.created_at + ")");
-            $(videoRecordRowEl).find(".video-record-updated-at").html(video.updated_at_human_date);
+            VideosTableRowEventListeners.implement({
+                eventSource: videosTableRowController,
+                eventHandler: this.controller
+            });
 
-            $("#videos-table tbody").append($(videoRecordRowEl));
         }
     }
 }
 
-export { VideosTable as default}
+export { VideosTable as default }

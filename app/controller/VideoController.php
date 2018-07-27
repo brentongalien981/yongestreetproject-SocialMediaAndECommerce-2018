@@ -96,6 +96,7 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
     {
         switch ($this->action) {
             case 'create':
+            case 'update':
 
                 if (!\App\Core\Main2\Request::isAjax()) {
                     return;
@@ -149,8 +150,6 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
                 ];
 
                 break;
-
-            case 'update':
 
             case 'delete':
 

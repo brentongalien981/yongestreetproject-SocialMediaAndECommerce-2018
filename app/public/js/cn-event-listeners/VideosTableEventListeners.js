@@ -8,11 +8,11 @@ class VideosTableEventListeners {
         });
 
 
-        $(handlerObj.view.nodeSelector + " tbody tr").click(function () {
+        // $(handlerObj.view.nodeSelector + " tbody tr").click(function () {
 
-            handlerObj.onRowClick(this);
+        //     handlerObj.onRowClick(this);
 
-        });
+        // });
 
     }
 
@@ -26,25 +26,25 @@ class VideosTableEventListeners {
     static handle(delegator) {
 
         delegator.onScrollForMoreObjs = this.onScrollForMoreObjs;
-        delegator.onRowClick = this.onRowClick;
+        // delegator.onRowClick = this.onRowClick;
         this.implement(delegator);
 
     }
 
 
-    static onRowClick(rowEl) {
+    // static onRowClick(rowEl) {
 
-        $(this.view.nodeSelector + " tbody tr").css("box-shadow", "none");
+    //     $(this.view.nodeSelector + " tbody tr").css("box-shadow", "none");
 
-        $(rowEl).css("box-shadow", "0 0 20px lightblue");
+    //     $(rowEl).css("box-shadow", "0 0 20px lightblue");
 
-        const selectedVideoObj = this.dataSource.getObj({ withId: $(rowEl).attr("obj-id") });
+    //     const selectedVideoObj = this.dataSource.getObj({ withId: $(rowEl).attr("obj-id") });
         
-        const videoDetailsForm = this.view.parentComponent.childComponents.videoDetailsForm;
-        // videoDetailsForm.controller.
-        videoDetailsForm.populateFields(selectedVideoObj);
+    //     const videoDetailsForm = this.view.parentComponent.childComponents.videoDetailsForm;
+    //     // videoDetailsForm.controller.
+    //     videoDetailsForm.populateFields(selectedVideoObj);
 
-    }
+    // }
 
 
     static onScrollForMoreObjs() {

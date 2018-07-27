@@ -4,11 +4,6 @@ import CnRESTController from "./CnRESTController.js";
 
 class ComponentController extends CnRESTController {
 
-    // constructor() {
-    //     super();
-    // }
-
-
 
     /**
      * After setting up all the childComponents (initiating, appending),

@@ -4,7 +4,7 @@ import CnLoaderContainer from "./CnLoaderContainer.js";
 
 class CnComponent {
 
-    constructor(props = { nodeSelector: null, nodeId: null }) {
+    constructor(props = { nodeSelector: null, nodeId: null, node: null }) {
 
         if (props !== null) {
             this.nodeSelector = (props.nodeSelector !== null) ? props.nodeSelector : null;
@@ -12,6 +12,10 @@ class CnComponent {
 
             this.node = (this.nodeSelector !== null) ? $(this.nodeSelector) : $("#" + this.nodeId);
 
+        }
+
+        if (props.node != null) {
+            this.node = $(props.node);
         }
 
 
