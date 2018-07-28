@@ -6,7 +6,7 @@ import VideoCategoriesPlugInController from "./VideoCategoriesPlugInController.j
 import VideoDetailsFormController from "./VideoDetailsFormController.js";
 import VideosTableController from "./VideosTableController.js";
 import VideoDetailsFormEventListeners from "../cn-event-listeners/VideoDetailsFormEventListeners.js";
-import VideoDetailsFormBroadcastSubscription from "../cn-subscription-schemes/VideoDetailsFormBroadcastSubscription.js";
+
 
 class UpdateVideoPageController extends PageController {
 

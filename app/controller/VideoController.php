@@ -245,7 +245,7 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
     {
         if (\App\Core\Main2\Request::isAjax()) {
             
-            // 
+            //
             $this->menuObj->updateTags([
                 'tagNames' => $this->sanitizedFields['tags']
             ]);
@@ -256,10 +256,60 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
 
             $this->menuObj->update();
 
-            return true;
+
+            $updatedObj = \App\Model\Video::readById(['id' => $this->menuObj->id])[0];
+
+            $categories = $updatedObj->getCategories([
+                'excludedProps' => ['unwantedJsonProps']
+            ]);
+            
+            $rateableItemOfVideo = $updatedObj->getRateableItemWithRefinements();
+            $videoTags = $rateableItemOfVideo->getTags();
+
+
+            /* Add a carbon-date field to the obj. */
+            $rawDateTimeFieldName = "created_at";
+            $updatedObj->addReadableDateField($rawDateTimeFieldName);
+
+            $updatedObj->replaceFieldNamesForAjax(['human_date' => 'created_at_human_date']);
+
+            /* Add a carbon-date field to the obj. */
+            $rawDateTimeFieldName = "updated_at";
+            $updatedObj->addReadableDateField($rawDateTimeFieldName);
+
+            $updatedObj->replaceFieldNamesForAjax(['human_date' => 'updated_at_human_date']);
+
+            $updatedObj->doRefinements([
+                'excludedProps' => ['unwantedJsonProps']
+            ]);
+
+            // Combine
+            $updatedObj->categories = $categories;
+            $updatedObj->tags = $videoTags;
+            
+            return $updatedObj;
+
         } else {
             require_once(PUBLIC_PATH . 'video/update/index.php');
         }
+    }
+
+
+    /** @override */
+    protected function doRequestFinalization($isCrudOk)
+    {
+        switch ($this->action) {
+            case 'update':
+                
+                if ($isCrudOk instanceof \App\Model\Video) {
+                    $this->json['objs'][] = $isCrudOk;
+                }
+                 
+                break;
+        }
+
+
+        parent::doRequestFinalization(true);
     }
     
 

@@ -2,6 +2,7 @@ import ComponentController from "./ComponentController.js";
 import VideosTable from "../cn-components/VideosTable.js";
 import VideosTableEventListeners from "../cn-event-listeners/VideosTableEventListeners.js";
 import VideoDetailsFormBroadcastSubscription from "../cn-subscription-schemes/VideoDetailsFormBroadcastSubscription.js";
+import CnComponent2 from "../cn-components/CnComponent2.js";
 
 class VideosTableController extends ComponentController {
 
@@ -11,14 +12,33 @@ class VideosTableController extends ComponentController {
         super.postInit();
 
         VideoDetailsFormBroadcastSubscription.subscribe({
-            subscriber: this
+            subscriber: this,
+            eventNames: [
+                "onVideoUpdateSuccess"
+            ]
         });
     }
 
 
     /** @implements */
-    onVideoUpdateSuccess() {
-        cnLog("handled event: onVideoUpdateSuccess() from class: " + this.constructor.name);
+    onVideoUpdateSuccess(data = { updatedObj: null }) {
+
+        if (data.updatedObj == null) { return; }
+
+        const selectedVideosTableRow = CnComponent2.getComponent({
+            id: this.dataSource.obj.id,
+            nodeIdPrefix: "VideosTableRow",
+            fromComponents: this.view.childComponents.videosTableRows
+        });
+
+        // Update the dataSource.objs and dataSource.newlyAddedObjs.
+        this.dataSource.updateObjs({
+            updatedObj: data.updatedObj
+        });
+
+
+        // Update the component.
+        selectedVideosTableRow.regularSetView({ obj: data.updatedObj });
     }
 
 

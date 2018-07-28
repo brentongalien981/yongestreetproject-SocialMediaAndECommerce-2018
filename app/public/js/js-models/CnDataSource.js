@@ -8,6 +8,24 @@ class CnDataSource {
         this.obj = {};
     }
 
+    updateObjs(data = { updatedObj: null }) {
+        // Update the dataSource.objs.
+        for (let i = 0; i < this.objs.length; i++) {
+            if (this.objs[i].id == data.updatedObj.id) {
+                this.objs[i] = data.updatedObj;
+                break;
+            }
+        }
+
+        // Update the dataSource.newlyAddedObjs.
+        for (let i = 0; i < this.newlyAddedObjs.length; i++) {
+            if (this.newlyAddedObjs[i].id == data.updatedObj.id) {
+                this.newlyAddedObjs[i] = data.updatedObj;
+                break;
+            }
+        }
+    }
+
     getAlreadyReadObjIds() {
         let ids = [];
 
@@ -23,7 +41,7 @@ class CnDataSource {
 
         // let limitDate = "2010-09-11 10:54:45";
 
-        
+
         let limitDate = "0000-00-00 00:00:00";
 
 

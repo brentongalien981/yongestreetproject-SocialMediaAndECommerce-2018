@@ -3,6 +3,7 @@ import VideoDetailsForm from "../cn-components/VideoDetailsForm.js";
 import VideoDetailsFormEventListeners from "../cn-event-listeners/VideoDetailsFormEventListeners.js";
 import AjaxRequestConstants from "../cn-classes-v3/AjaxRequestConstants.js";
 import VideoDetailsFormBroadcastSubscription from "../cn-subscription-schemes/VideoDetailsFormBroadcastSubscription.js";
+import Video from "../js-models/Video.js";
 
 
 class VideoDetailsFormController extends CnFormController {
@@ -42,7 +43,9 @@ class VideoDetailsFormController extends CnFormController {
                 break;
             case "update":
                 // TODO: This
+                this.dataSource.obj = resultJSON.objs[0];
                 VideoDetailsFormBroadcastSubscription.broadcast({ eventName: "onVideoUpdateSuccess" });
+            
             default:
                 super.regularHandleAjaxRequestResult(ajaxRequest, resultJSON);
         }
@@ -96,6 +99,7 @@ class VideoDetailsFormController extends CnFormController {
                 crudType: AjaxRequestConstants.CRUD_TYPE_UPDATE,
                 requestObj: ajaxRequestObj
             };
+
 
             super.regularUpdate(ajaxRequestData);
 

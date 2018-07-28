@@ -29,7 +29,8 @@ class VideosTable extends CnComponent2 {
             headerTitle: headerTitle,
             videosTableBody: videosTableBody,
             videoRecordRowTemplate: videoRecordRowTemplate,
-            refForLoadingMoreObjs: refForLoadingMoreObjs
+            refForLoadingMoreObjs: refForLoadingMoreObjs,
+            videosTableRows: []
         };
     }
 
@@ -44,8 +45,10 @@ class VideosTable extends CnComponent2 {
             let video = videos[i];
 
             let videosTableRowController = new VideosTableRowController();
+            videosTableRowController.view.nodeId = videosTableRowController.view.constructor.name + video.id;
             videosTableRowController.view.regularSetView({ obj: video });
             this.childComponents.videosTableBody.append(videosTableRowController.view);
+            this.childComponents.videosTableRows.push(videosTableRowController.view);
 
             VideosTableRowEventListeners.implement({
                 eventSource: videosTableRowController,
