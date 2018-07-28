@@ -21,7 +21,7 @@ class VideosTableRow extends CnComponent2 {
         
 
         $(this.node).attr("obj-id", video.id);
-        // $(this.node).find(".video-record-id").html(video.id);
+        $(this.node).find(".video-record-id").html(video.id);
         $(this.node).find(".video-record-title").html(video.title);
         $(this.node).find(".video-record-owner").html(video.owner_name);
         $(this.node).find(".video-record-created-at").html(video.created_at_human_date + " (" + video.created_at + ")");

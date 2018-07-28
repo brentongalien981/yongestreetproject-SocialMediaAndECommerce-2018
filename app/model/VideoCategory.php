@@ -18,4 +18,9 @@ class VideoCategory extends MainModel
     public $category_id;
 
     public $primary_key_id_name = null;
+
+    protected $pkNames = [
+        "video_id",
+        "category_id"
+    ];
 }

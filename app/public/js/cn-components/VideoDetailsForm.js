@@ -101,7 +101,11 @@ class VideoDetailsForm extends CnForm {
 
         $(this.childComponents.videoTitle.node).val(selectedVideoObj.title);
         $(this.childComponents.videoOwnerUserName.node).val(selectedVideoObj.owner_name);
-        $(this.childComponents.videoEmbedCode.node).val(selectedVideoObj.url);
+
+        let youtubeEmbedCode = "<iframe width=\"560\" height=\"315\" src=\"[SRC-URL]\" frameborder=\"0\" allow=\"autoplay; encrypted-media\" allowfullscreen></iframe>";
+        youtubeEmbedCode = youtubeEmbedCode.replace("[SRC-URL]", selectedVideoObj.url);
+        $(this.childComponents.videoEmbedCode.node).val(youtubeEmbedCode);
+
         $(this.childComponents.videoDescription.node).val(selectedVideoObj.description);
 
         this.setTagsField(selectedVideoObj.tags);

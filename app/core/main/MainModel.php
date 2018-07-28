@@ -16,6 +16,7 @@ class MainModel extends CNMain
 {
     use \App\Core\Main2\CNModelRelationshipTrait;
     use \App\Core\Main2\CNModelExtraTrait;
+    use \App\Core\Main2\CNModelSafeCrudOperationsTrait;
 
     public const CURRENT_TIMESTAMP = "CURRENT_TIMESTAMP";
     public const CN_DB_NULL = "CN_DB_NULL";
@@ -30,6 +31,10 @@ class MainModel extends CNMain
     public static $searchable_fields = array();
     public $primary_key_id_name = "id";
     protected static $primaryKeyName = "id";
+
+    // Override this if the primary key name(s) of the inheriting
+    // class isn't named 'id' or it has multiple primary keys.
+    protected $pkNames = ['id'];
 
     protected static function instantiate($record)
     {
@@ -411,11 +416,9 @@ class MainModel extends CNMain
 
                     //
                     if ($comparisonOperator === 'NOT IN') {
-                        
                         if (!empty($value)) {
                             $data['whereClause'] .= "WHERE {$field} NOT IN(" . "{$value})";
                         }
-                        
                     } else {
                         $data['whereClause'] .= "WHERE {$field}" . " {$comparisonOperator}" . " '{$value}'";
                     }
@@ -429,11 +432,9 @@ class MainModel extends CNMain
 
                     //
                     if ($comparisonOperator === 'NOT IN') {
-
                         if (!empty($value)) {
                             $data['whereClause'] .= " AND {$field} NOT IN(" . "{$value})";
                         }
-                        
                     } else {
                         $data['whereClause'] .= " AND {$field}" . " {$comparisonOperator}" . " '{$value}'";
                     }
@@ -1047,7 +1048,10 @@ class MainModel extends CNMain
         return $objs;
     }
 
-    /** TODO: Change this name later: hasMany2(). */
+    /** 
+     * TODO: Change this name later: hasMany2(). 
+     * Note: This is equivalent to Laravel's method: morphToMany().
+     */
     public function hasMany2($class, $data = null)
     {
 
@@ -1068,8 +1072,11 @@ class MainModel extends CNMain
             $obj = $pivotObj->belongsTo2($class);
 
             //
-            $includedPivotFields = $data['includedPivotFields'];
-            $this->joinPivotFieldsToObj($pivotObj, $includedPivotFields, $obj);
+            if (isset($data['includedPivotFields'])) {
+                $includedPivotFields = $data['includedPivotFields'];
+                $this->joinPivotFieldsToObj($pivotObj, $includedPivotFields, $obj);
+            }
+            
 
 
             array_push($objs, $obj);
@@ -1194,7 +1201,8 @@ class MainModel extends CNMain
     }
 
 
-    public function doRefinements($data = []) {
+    public function doRefinements($data = [])
+    {
         if (isset($data['excludedProps'])) {
             $this->filterExclude($data['excludedProps']);
         }

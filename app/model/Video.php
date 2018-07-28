@@ -10,7 +10,6 @@ namespace App\Model;
 
 use App\Core\Main\MainModel;
 
-
 class Video extends MainModel
 {
     protected static $table_name = "Videos";
@@ -39,7 +38,8 @@ class Video extends MainModel
     public $created_at;
     public $updated_at;
 
-    public function getPosterUser() {
+    public function getPosterUser()
+    {
 
         // Find
         $posterUser = $this->belongsTo2("User");
@@ -53,7 +53,142 @@ class Video extends MainModel
         return $posterUser;
     }
 
-    public function getRateableItem() {
+
+    public function updateCategories($data = [])
+    {
+        if (!isset($data['categoryIds'])) {
+            return;
+        }
+
+        //
+        $categoryIds = $data['categoryIds'];
+        
+        // Try to unique read the new categories.
+        $categories = Category::uniqueReadMany([
+            'uniqueFieldName' => 'id',
+            'uniqueFieldValues' => $categoryIds
+        ]);
+
+        // Get the old VideoCategory records for this video.
+        $videoCategories = $this->cnHasMany([
+            'extentionalClassName' => 'Category',
+            'limit' => 16
+        ]);
+
+
+        // Loop through the updated-categories.
+        foreach ($categories as $category) {
+
+            // Flag.
+            $findings = null;
+                        
+            // Loop through all the old mapping records.
+            foreach ($videoCategories as $videoCategory) {
+                    
+                // If this current-category-id is equal to this current
+                // old mapping record's category-id,
+                // then dynamically add a property "isStillReferenced"
+                // to this mapping obj.
+                // Then break the loop.
+                if ($category->id == $videoCategory->category_id) {
+                    $videoCategory->isStillReferenced = true;
+                    $findings = 'isStillReferenced';
+                    break;
+                }
+            }
+
+
+            // If there's no findings, then create a new
+            // mapping record with this updated-category-id.
+            if ($findings != 'isStillReferenced') {
+                $newMappingObj = new VideoCategory();
+                $newMappingObj->video_id = $this->id;
+                $newMappingObj->category_id = $category->id;
+                $newMappingObj->create();
+            }
+        }
+
+
+        // Loop through all the old mapping records.
+        foreach ($videoCategories as $videoCategory) {
+            // If this current mapping obj doesn't have a
+            // property "isStillReferenced", then delete this db-record.
+            if (!isset($videoCategory->isStillReferenced)) {
+                $videoCategory->cnDeleteByPk();
+            }
+        }
+    }
+
+
+    public function updateTags($data = [])
+    {
+        if (!isset($data['tagNames'])) {
+            return;
+        }
+
+        // Try to unique save the new updated-tags.
+        $tagNames = $data['tagNames'];
+        $results = Tag::staticSaveMany(['withTags' => $tagNames]);
+        
+        // Try to unique read the new updated-tags.
+        $newTags = Tag::uniqueReadMany([
+            'uniqueFieldName' => 'tag',
+            'uniqueFieldValues' => $tagNames
+        ]);
+        
+        // Get the old RateableItemTag records for this video.
+        $rateableItem = $this->getRateableItemWithRefinements();
+        $rateableItemTags = $rateableItem->cnHasMany([
+            'extentionalClassName' => 'Tag',
+            'limit' => 32
+        ]);
+        
+        
+        // Loop through the updated-tags.
+        foreach ($newTags as $newTag) {
+        
+            // Flag.
+            $findings = null;
+                        
+            // Loop through all the old RateableItemTag records
+            foreach ($rateableItemTags as $rateableItemTag) {
+        
+                            // If this current-tag-id is equal to this current
+                // old RateableItemTag record's tag-id,
+                // then dynamically add a property "isStillReferenced"
+                // to this RateableItemTag. Break the loop.
+                if ($newTag->id == $rateableItemTag->tag_id) {
+                    $rateableItemTag->isStillReferenced = true;
+                    $findings = 'isStillReferenced';
+                    break;
+                }
+            }
+        
+            // If there's no findings, then create a new
+            // RateableItemTag record with this updated-tag-id.
+            if ($findings != 'isStillReferenced') {
+                $newRateableItemTag = new RateableItemTag();
+                $newRateableItemTag->rateable_item_id = $rateableItem->id;
+                $newRateableItemTag->tag_id = $newTag->id;
+                $newRateableItemTag->create();
+            }
+        }
+        
+        
+        
+        // Loop through all the old RateableItemTag records.
+        foreach ($rateableItemTags as $rateableItemTag) {
+            // If this current RateableItemTag doesn't have a
+            // property "isStillReferenced", then delete this db-record.
+            if (!isset($rateableItemTag->isStillReferenced)) {
+                $rateableItemTag->cnDeleteByPk();
+            }
+        }
+    }
+
+
+    public function getRateableItem()
+    {
 
         // Find
         $data = [
@@ -73,7 +208,8 @@ class Video extends MainModel
     }
 
 
-    public function getRateableItemWithRefinements($data = []) {
+    public function getRateableItemWithRefinements($data = [])
+    {
         // Find
         $data = [
             'item_x_id' => $this->id,
@@ -89,7 +225,8 @@ class Video extends MainModel
     }
 
 
-    public function getCategories($refinementData = []) {
+    public function getCategories($refinementData = [])
+    {
 
         // $categories = [];
 
@@ -97,7 +234,6 @@ class Video extends MainModel
         $categories = $this->hasMany2('Category');
 
         foreach ($categories as $category) {
-
             $category->doRefinements($refinementData);
         }
 
@@ -107,8 +243,8 @@ class Video extends MainModel
     }
 
 
-    public static function getUserVideos($data = []) {
-
+    public static function getUserVideos($data = [])
+    {
         $session = Session::getInstance();
 
         $qData = [
@@ -138,7 +274,6 @@ class Video extends MainModel
         $userVideos = static::readByWhereClause($qData);
 
         foreach ($userVideos as $video) {
-
             $categories = $video->getCategories([
                 'excludedProps' => ['unwantedJsonProps']
             ]);
@@ -169,5 +304,5 @@ class Video extends MainModel
 
         return $userVideos;
     }
-
 }
+

@@ -6,6 +6,7 @@ import VideoCategoriesPlugInController from "./VideoCategoriesPlugInController.j
 import VideoDetailsFormController from "./VideoDetailsFormController.js";
 import VideosTableController from "./VideosTableController.js";
 import VideoDetailsFormEventListeners from "../cn-event-listeners/VideoDetailsFormEventListeners.js";
+import VideoDetailsFormBroadcastSubscription from "../cn-subscription-schemes/VideoDetailsFormBroadcastSubscription.js";
 
 class UpdateVideoPageController extends PageController {
 
@@ -33,6 +34,9 @@ class UpdateVideoPageController extends PageController {
 
             videoDetailsFormController.view.controller = videoDetailsFormController;
 
+
+            theController.videoDetailsFormController = videoDetailsFormController;
+
             theController.view.addChildComponent({
                 videoDetailsForm: videoDetailsFormController.view
             });
@@ -46,7 +50,7 @@ class UpdateVideoPageController extends PageController {
 
             $(videoDetailsFormController.view.node).removeClass("col-10");
             $(videoDetailsFormController.view.node).addClass("col-12");
-        
+
 
             videoDetailsFormController.index();
 
@@ -71,11 +75,11 @@ class UpdateVideoPageController extends PageController {
         setTimeout(function () {
             let videosTableController = new VideosTableController();
             videosTableController.view.parentComponent = theController.view;
-            videosTableController.read({loaderMsg: "Reading more videos real quick..."});
-            
+            videosTableController.read({ loaderMsg: "Reading more videos real quick..." });
+
+            theController.videosTableController = videosTableController;
+
         }, 600);
-
-
     }
 
 
@@ -89,9 +93,11 @@ class UpdateVideoPageController extends PageController {
     }
 
 
-    /** @implement */
+    /** @implements */
     onVideoUpdate() {
-        alert("method: onVideoUpdate() from class: UpdateVideoPageController.");
+        this.videoDetailsFormController.dataSource.obj = this.videosTableController.dataSource.obj;
+        this.videoDetailsFormController.update({ loaderMsg: "fuck yeah update shit" });
+        // alert("method: onVideoUpdate() from class: UpdateVideoPageController.");
     }
 
 }

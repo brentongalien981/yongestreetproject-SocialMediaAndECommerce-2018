@@ -1,8 +1,26 @@
 import ComponentController from "./ComponentController.js";
 import VideosTable from "../cn-components/VideosTable.js";
 import VideosTableEventListeners from "../cn-event-listeners/VideosTableEventListeners.js";
+import VideoDetailsFormBroadcastSubscription from "../cn-subscription-schemes/VideoDetailsFormBroadcastSubscription.js";
 
 class VideosTableController extends ComponentController {
+
+
+    /** @override */
+    postInit() {
+        super.postInit();
+
+        VideoDetailsFormBroadcastSubscription.subscribe({
+            subscriber: this
+        });
+    }
+
+
+    /** @implements */
+    onVideoUpdateSuccess() {
+        cnLog("handled event: onVideoUpdateSuccess() from class: " + this.constructor.name);
+    }
+
 
     /** @override */
     implementEventListeners() {
@@ -49,13 +67,13 @@ class VideosTableController extends ComponentController {
     onVideosTableRowClick(data = {}) {
 
         if (data.videoObj == null) { return; }
-        
+
         const selectedVideoObj = this.dataSource.getObj({ withId: data.videoObj.id });
-        
+
         this.dataSource.obj = selectedVideoObj;
 
         const videoDetailsForm = this.view.parentComponent.childComponents.videoDetailsForm;
-        
+
         videoDetailsForm.populateFields(selectedVideoObj);
 
 

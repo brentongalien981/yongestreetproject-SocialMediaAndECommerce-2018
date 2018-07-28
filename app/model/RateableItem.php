@@ -101,7 +101,7 @@ class RateableItem extends MainModel
         $tags = [];
 
         // Find
-        $tags = $this->hasMany2("Tag");
+        $tags = $this->hasMany2("Tag", ['limit' => 32]);
 
         foreach ($tags as $tag) {
 

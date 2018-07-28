@@ -9,7 +9,6 @@ class CnRESTController extends CnController {
     update(data = { loaderMsg: null }) {
 
         this.preCrud(data);
-        return;
 
         if (this.preUpdate() && this.regularUpdate()) {
             
@@ -26,6 +25,7 @@ class CnRESTController extends CnController {
     regularUpdate(ajaxRequestData = {}) {
         const ajaxRequest = new AjaxRequest(ajaxRequestData);
 
+        
         ajaxRequest.doSend();
 
         return true;

@@ -27,4 +27,6 @@ class Category extends MainModel
     public $name;
     public $created_at;
     public $updated_at;
+
+
 }

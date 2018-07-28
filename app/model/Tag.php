@@ -9,7 +9,7 @@
 namespace App\Model;
 
 use App\Core\Main\MainModel;
-
+use PHPUnit\Framework\Error\Error;
 
 class Tag extends MainModel
 {
@@ -29,17 +29,63 @@ class Tag extends MainModel
     public $updated_at;
 
 
-    public static function trySave($data = []) {
+    public static function staticSave($data = [])
+    {
+        $result = null;
 
+        $doesRecordAlreadyExist = static::doesCnRecordExist([
+            'tableName' => static::$table_name,
+            'fields' => [
+                'tag' => $data['tag']
+            ]
+
+        ]);
+
+        if (!$doesRecordAlreadyExist) {
+            $obj = new static;
+            $obj->tag = $data['tag'];
+            
+            try {
+                $obj->create();
+            } catch (Error $e) {
+                $result['errors'][] = "Error on method: staticSave(), class: Tag.\n Reason ==> {$e}\n";
+            }
+        }
+
+        return $result;
+    }
+
+
+    public static function staticSaveMany($data = [])
+    {
+        $results = [];
+
+        if (!isset($data['withTags'])) { return $results; }
+
+        $tagNames = $data['withTags'];
+
+        if (is_array($tagNames)) {
+            for ($i=0; $i < count($tagNames); $i++) {
+                $results[] = static::staticSave(['tag' => $tagNames[$i]]);
+            }
+        } elseif ($tagNames != "") {
+            $tagNames = explode(',', $tagNames);
+            static::staticSaveMany(['withTags' => $tagNames]);
+        }
+
+        return $results;
+    }
+
+
+    public static function trySave($data = [])
+    {
         if (isset($data['withData']) && is_string($data['withData'])) {
-
             $stringifiedTags = $data['withData'];
 
             $tags = explode(',', $stringifiedTags);
         
     
-            for ($i=0; $i < count($tags); $i++) { 
-
+            for ($i=0; $i < count($tags); $i++) {
                 $tagName = $tags[$i];
 
                 $doesTagAlreadyExist = static::doesCnRecordExist([
@@ -50,7 +96,9 @@ class Tag extends MainModel
 
                 ]);
 
-                if ($doesTagAlreadyExist) { continue; }
+                if ($doesTagAlreadyExist) {
+                    continue;
+                }
 
                 $tagObj = new Tag();
                 $tagObj->tag = $tagName;
@@ -58,15 +106,12 @@ class Tag extends MainModel
                 try {
                     $tagObj->create();
                 } catch (\Exception $e) {
-
                 }
             }
 
             return true;
-        }
-        else {
+        } else {
             return false;
         }
-
     }
 }

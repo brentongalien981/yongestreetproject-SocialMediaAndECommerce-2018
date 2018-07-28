@@ -24,5 +24,10 @@ class RateableItemTag extends MainModel
     public $rateable_item_id;
     public $tag_id;
 
+    protected $pkNames = [
+        'rateable_item_id', 
+        'tag_id'
+    ];
+
     public $primary_key_id_name = null;
 }

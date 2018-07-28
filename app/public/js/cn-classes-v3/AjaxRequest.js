@@ -91,7 +91,7 @@ class AjaxRequest {
 
                 AjaxRequestResultLogger.postLog(ajaxRequest, resultJSON);
 
-                if (isCnAjaxResultOk(resultJSON)) {
+                if (resultJSON != null) {
                     showCnFormErrors(ajaxRequest, resultJSON.errors);
 
                 }

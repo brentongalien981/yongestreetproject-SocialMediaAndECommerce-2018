@@ -83,6 +83,22 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
                 break;
 
             case 'update':
+
+                $this->menuObj->id = $this->sanitizedFields['id'];
+                $this->menuObj->user_id = $this->session->actual_user_id;
+                $this->menuObj->title = $this->sanitizedFields['title'];
+
+                $this->menuObj->owner_name = $this->sanitizedFields['owner_name'];
+                $this->menuObj->description = $this->sanitizedFields['description'];
+                $this->menuObj->url = $this->sanitizedFields['url'];
+                
+                // $this->menuObj->private = 0;
+                $this->menuObj->private = $this->sanitizedFields['private'];
+
+                // $this->menuObj->created_at = $this->sanitizedFields[];
+                $this->menuObj->updated_at = \App\Core\Main\MainModel::CURRENT_TIMESTAMP;
+
+                break;
             case 'delete':
             case 'read':
             case 'fetch':
@@ -100,6 +116,16 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
 
                 if (!\App\Core\Main2\Request::isAjax()) {
                     return;
+                }
+
+                if ($this->action == 'update') {
+                    $this->validator->fieldsToBeValidated['id'] = [
+                        'required' => 1,
+                        'min' => 1,
+                        'max' => 12,
+                        'blank' => 1,
+                        'numeric' => 1
+                    ];
                 }
 
                 $this->validator->fieldsToBeValidated['title'] = [
@@ -191,23 +217,20 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
         // the original bool value if it is actually
         // a bool value.
         if (isset($_GET['private'])) {
-            if ($_GET['private'] == true) { 
-                $_GET['private'] = 1; 
+            if ($_GET['private'] == true) {
+                $_GET['private'] = 1;
             } else {
-                $_GET['private'] = 0; 
+                $_GET['private'] = 0;
             }
-        }
-
-        else if (isset($_POST['private'])) {
-            if ($_POST['private'] == true) { 
-                $_POST['private'] = 1; 
+        } elseif (isset($_POST['private'])) {
+            if ($_POST['private'] == true) {
+                $_POST['private'] = 1;
             } else {
-                $_POST['private'] = 0; 
+                $_POST['private'] = 0;
             }
         }
 
         parent::sanitizeFieldsToBeValidated();
-
     }
 
     /** @override */
@@ -218,8 +241,20 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
 
 
     /** @override */
-    protected function update() {
+    protected function update()
+    {
         if (\App\Core\Main2\Request::isAjax()) {
+            
+            // 
+            $this->menuObj->updateTags([
+                'tagNames' => $this->sanitizedFields['tags']
+            ]);
+
+            $this->menuObj->updateCategories([
+                'categoryIds' => $this->sanitizedFields['categories']
+            ]);
+
+            $this->menuObj->update();
 
             return true;
         } else {

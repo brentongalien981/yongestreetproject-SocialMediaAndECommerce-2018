@@ -5,7 +5,7 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <!-- <th>id</th> -->
+                    <th>id</th>
                     <th>title</th>
                     <th>owner</th>
                     <th>date added</th>
@@ -16,7 +16,7 @@
 
             <tbody class="videos-table-body">
                 <tr id="video-record-row-template">
-                    <!-- <td class="video-record-id">#zzz</td> -->
+                    <td class="video-record-id">#zzz</td>
                     <td class="video-record-title">{title}</td>
                     <td class="video-record-owner">{owner}</td>
                     <td class="video-record-created-at">{date added}</td>

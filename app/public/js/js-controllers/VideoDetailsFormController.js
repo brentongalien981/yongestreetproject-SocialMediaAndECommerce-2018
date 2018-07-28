@@ -2,9 +2,21 @@ import CnFormController from "./CnFormController.js";
 import VideoDetailsForm from "../cn-components/VideoDetailsForm.js";
 import VideoDetailsFormEventListeners from "../cn-event-listeners/VideoDetailsFormEventListeners.js";
 import AjaxRequestConstants from "../cn-classes-v3/AjaxRequestConstants.js";
+import VideoDetailsFormBroadcastSubscription from "../cn-subscription-schemes/VideoDetailsFormBroadcastSubscription.js";
 
 
 class VideoDetailsFormController extends CnFormController {
+
+
+    /** @override */
+    postInit() {
+        super.postInit();
+
+        VideoDetailsFormBroadcastSubscription.implement({
+            broadcaster: this
+        });
+    }
+
 
 
     /** @override */
@@ -14,7 +26,9 @@ class VideoDetailsFormController extends CnFormController {
         // Enable the publish button.
         $(this.view.childComponents.publishBtn.node).removeAttr("disabled");
 
-        this.view.clearInputFields();
+        if (isCnAjaxResultOk(resultJSON)) {
+            this.view.clearInputFields();
+        }
     }
 
 
@@ -24,8 +38,11 @@ class VideoDetailsFormController extends CnFormController {
 
         switch (ajaxRequest.crudType) {
             case "create":
-                // alert("oh yeah");
+                alert("TODO: Display a section that alerts the user that he successfully created the video. \nAlso give her a link that shows the video.");
                 break;
+            case "update":
+                // TODO: This
+                VideoDetailsFormBroadcastSubscription.broadcast({ eventName: "onVideoUpdateSuccess" });
             default:
                 super.regularHandleAjaxRequestResult(ajaxRequest, resultJSON);
         }
@@ -59,6 +76,7 @@ class VideoDetailsFormController extends CnFormController {
         if (this.checkVideoEmbedCodeAttributes(videoEmbedCodeAttribs)) {
 
             let ajaxRequestObj = {
+                id: this.dataSource.obj.id,
                 title: videoTitle,
                 description: videoDescription,
                 url: videoEmbedCodeAttribs.src,
@@ -73,7 +91,7 @@ class VideoDetailsFormController extends CnFormController {
                 controllerObj: this,
                 controllerClassName: "Video",
                 modelClassName: "Video",
-                isUsingRecipeFramework: true,
+                // isUsingRecipeFramework: true,
                 requestMethod: AjaxRequestConstants.REQUEST_METHOD_POST,
                 crudType: AjaxRequestConstants.CRUD_TYPE_UPDATE,
                 requestObj: ajaxRequestObj

@@ -4,6 +4,53 @@ namespace App\Core\Main2;
 
 trait CNModelRelationshipTrait
 {
+    public function cnHasMany($data = [])
+    {
+        $extentionalObjs = $this->cnHasX($data);
+        return $extentionalObjs;
+    }
+
+    private function cnHasX($data = [])
+    {
+        $extentionalObjs = [];
+        
+        if (!isset($data['extentionalClassName'])) {
+            return $extentionalObjs;
+        }
+
+        // Dynamically figure out the name of the field of the extentional
+        // obj based on this obj's class name and then appending the string "_id".
+        $classPathTokens = explode('\\', static::class);
+        $className = $classPathTokens[count($classPathTokens) - 1];
+        $fkName = self::getPascalCasedNameOf($className) . "_id";
+
+        $pkName = isset($this->primary_key_id_name) ? $this->primary_key_id_name : $this->primaryKeyName;
+
+        $pkValue = $this->$pkName;
+        $data[$fkName] = $pkValue;
+
+        
+        //
+        $extentionalClass = static::class . $data['extentionalClassName'];
+        static::reWriteClassForExemptedCases($extentionalClass);
+
+        //
+        unset($data['extentionalClassName']);
+        $extentionalObjs = $extentionalClass::readByWhereClause($data);
+
+        return $extentionalObjs;
+    }
+
+
+    public static function reWriteClassForExemptedCases(&$class)
+    {
+        if ($class == "\\App\\Model\\UserFriend") {
+            $class = "\\App\\Model\\Friendship";
+        }
+    }
+
+    
+
     public function createOneRelationship($data = [])
     {
         if (!isset($data['withModel'])) {
@@ -51,6 +98,19 @@ trait CNModelRelationshipTrait
             $mappingObj = new $mappingClass;
             $mappingObj->$fkName1 = $pkValue1;
             $mappingObj->$fkName2 = $pkValue2;
+
+            // $doesRecordAlreadyExist = $mappingObj::doesCnRecordExist([
+            //     'tableName' => $mappingObj::$table_name,
+            //     'fields' => [
+            //         $fkName1 => $pkValue1,
+            //         $fkName2 => $pkValue2
+            //     ]
+
+            // ]);
+
+            // if (!$doesRecordAlreadyExist) {
+            //     $mappingObj->create();
+            // }
 
             $mappingObj->create();
         }
