@@ -15,6 +15,7 @@ class CnForm extends CnComponent2 {
     clearInputFields() {
         $(this.node).find(".form-control").val("");
         $(this.node).find(".form-control").attr("value", "");
+        $(this.node).find("[type=checkbox]").prop("checked", false);
     }
 }
 

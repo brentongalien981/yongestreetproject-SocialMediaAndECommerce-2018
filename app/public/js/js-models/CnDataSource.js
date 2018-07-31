@@ -8,6 +8,29 @@ class CnDataSource {
         this.obj = {};
     }
 
+    deleteObj(data = { obj: null }) {
+        // Update the dataSource.objs.
+        for (let i = 0; i < this.objs.length; i++) {
+            if (this.objs[i].id == data.obj.id) {
+                this.objs.splice(i, 1)
+                break;
+            }
+        }
+
+        // Update the dataSource.newlyAddedObjs.
+        for (let i = 0; i < this.newlyAddedObjs.length; i++) {
+            if (this.newlyAddedObjs[i].id == data.obj.id) {
+                this.newlyAddedObjs.splice(i, 1)
+                break;
+            }
+        }
+
+        //
+        if (this.obj.id == data.obj.id) {
+            this.obj = null;
+        }
+    }
+
     updateObjs(data = { updatedObj: null }) {
         // Update the dataSource.objs.
         for (let i = 0; i < this.objs.length; i++) {

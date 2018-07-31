@@ -1,14 +1,33 @@
 class VideosTableRowEventListeners {
 
-    static implement(data = { eventSource: null, eventHandler: null }) {
+    static implement(data = { eventNames: [], eventSource: null, eventHandler: null }) {
 
-        $(data.eventSource.view.node).click( function () {
+        data.eventNames.forEach(eventName => {
 
-            $(data.eventHandler.view.node).find("tr").css("box-shadow", "none");
-            $(data.eventSource.view.node).css("box-shadow", "0 0 20px lightblue");
-            data.eventHandler.onVideosTableRowClick( { videoObj: data.eventSource.dataSource.obj } );
+            switch (eventName) {
+                case "onVideosTableRowClick":
+
+                    $(data.eventSource.view.node).click(function () {
+
+                        $(data.eventHandler.view.node).find("tr").css("box-shadow", "none");
+                        $(data.eventSource.view.node).css("box-shadow", "0 0 20px lightblue");
+                        data.eventHandler.onVideosTableRowClick({ videoObj: data.eventSource.dataSource.obj });
+                    });
+
+                    break;
+
+
+                case "onVideosTableRowDelete":
+
+                    $(data.eventSource.view.node).find(".video-record-delete-btn").click(function () {
+
+                        data.eventHandler.onVideosTableRowDelete({ videosTableRowController: data.eventSource });
+                    });
+                    
+                    break;
+            }
+
         });
-
     }
 
 }

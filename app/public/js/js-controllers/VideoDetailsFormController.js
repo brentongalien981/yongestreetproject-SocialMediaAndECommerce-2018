@@ -42,12 +42,12 @@ class VideoDetailsFormController extends CnFormController {
                 alert("TODO: Display a section that alerts the user that he successfully created the video. \nAlso give her a link that shows the video.");
                 break;
             case "update":
-                // TODO: This
                 this.dataSource.obj = resultJSON.objs[0];
                 VideoDetailsFormBroadcastSubscription.broadcast({ eventName: "onVideoUpdateSuccess" });
-            
+                break;
             default:
                 super.regularHandleAjaxRequestResult(ajaxRequest, resultJSON);
+                break;
         }
     }
 

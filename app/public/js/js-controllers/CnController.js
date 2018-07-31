@@ -62,6 +62,11 @@ class CnController {
         return false;
     }
 
+
+    delete() {
+        this.view.delete();
+    }
+
 }
 
 export { CnController as default }

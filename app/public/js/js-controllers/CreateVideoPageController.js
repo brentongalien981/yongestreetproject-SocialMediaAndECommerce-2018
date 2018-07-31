@@ -45,6 +45,10 @@ class CreateVideoPageController extends PageController {
             let videoDetailsFormController = new VideoDetailsFormController();
             videoDetailsFormController.view.appendTo(theController.view.parts.cnCenterCol);
             videoDetailsFormController.index();
+
+            $(videoDetailsFormController.view.childComponents.publishBtn.node).css("display", "block");
+            $(videoDetailsFormController.view.childComponents.updateBtn.node).css("display", "none");
+
             
         }, 200);
 

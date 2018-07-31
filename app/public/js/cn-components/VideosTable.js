@@ -51,6 +51,10 @@ class VideosTable extends CnComponent2 {
             this.childComponents.videosTableRows.push(videosTableRowController.view);
 
             VideosTableRowEventListeners.implement({
+                eventNames: [
+                    "onVideosTableRowClick",
+                    "onVideosTableRowDelete"
+                ],
                 eventSource: videosTableRowController,
                 eventHandler: this.controller
             });

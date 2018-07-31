@@ -236,6 +236,11 @@ class CnComponent {
             ...component
         };
     }
+
+
+    delete() {
+        $(this.node).remove();
+    }
 }
 
 

@@ -83,7 +83,7 @@ class VideosTableController extends ComponentController {
     }
 
 
-    /** @implement */
+    /** @implements */
     onVideosTableRowClick(data = {}) {
 
         if (data.videoObj == null) { return; }
@@ -96,6 +96,24 @@ class VideosTableController extends ComponentController {
 
         videoDetailsForm.populateFields(selectedVideoObj);
 
+
+    }
+
+
+    /** @implements */
+    onVideosTableRowDelete(data = { videosTableRowController: null }) {
+
+        // Delete the dataSource obj VideosTableRow Data / Model.
+        this.dataSource.deleteObj({ obj: data.videosTableRowController.dataSource.obj });
+
+        // Delete the VideosTableRowController or delete
+        // the VideosTableRowController's view.
+        data.videosTableRowController.delete();
+
+        data.videosTableRowController = null;
+
+        // Clear the form.
+        this.view.parentComponent.childComponents.videoDetailsForm.clearInputFields();
 
     }
 }
