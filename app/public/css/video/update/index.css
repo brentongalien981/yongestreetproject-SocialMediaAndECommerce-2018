@@ -46,6 +46,7 @@
 
 /* ######################## */
 /* video-details-form */
+/* ######################## */
 
 form#video-details-form {
     padding: 60px 0;
@@ -76,4 +77,46 @@ form#video-details-form {
 
 #video-details-form option {
     padding: 0.5em;
+}
+
+
+
+
+/* ######################## */
+/* videos-table */
+/* ######################## */
+#videos-table {
+    padding: 60px 0;
+}
+
+#videos-table table {
+    font-size: 12px;
+    font-weight: 100;
+    width: 800px;
+}
+
+#videos-table table td {
+    max-width: 500px;
+    word-wrap: break-word;
+}
+
+#videos-table table td:hover {
+    cursor: pointer;
+}
+
+#videos-table .cn-table-container {
+    overflow: scroll;
+    max-height: 600px;
+}
+
+#videos-table #video-record-row-template {
+    display: none;
+}
+
+#videos-table .video-record-delete-btn {
+    padding: 0 5px;
+}
+
+#videos-table .video-record-delete-btn:hover {
+    box-shadow: 0 0 5px red;
 }

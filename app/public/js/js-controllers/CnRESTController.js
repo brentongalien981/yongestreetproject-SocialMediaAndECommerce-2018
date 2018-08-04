@@ -6,6 +6,49 @@ import AjaxRequestConstants from "../cn-classes-v3/AjaxRequestConstants.js";
 
 class CnRESTController extends CnController {
 
+    preDelete() {
+
+        //
+        if (this.isDeleting || (this.numOfFailedAjaxDelete >= 20)) { return false; }
+
+        this.isDeleting = true;
+
+        return true;
+    }
+
+    delete(data = { loaderMsg: null }) {
+
+        this.preCrud(data);
+
+        if (this.preDelete() && this.regularDelete()) {
+            
+        } else {
+            // Hide this controller's view's loader el.
+            this.view.hideLoaderNode();
+
+            this.isDeleting = false;
+        }
+
+        this.postDelete();
+    }
+
+
+    postDelete() {
+        this.view.delete();
+    }
+
+
+    regularDelete(ajaxRequestData = {}) {
+        const ajaxRequest = new AjaxRequest(ajaxRequestData);
+
+        
+        ajaxRequest.doSend();
+
+        return true;
+    }
+
+
+
     update(data = { loaderMsg: null }) {
 
         this.preCrud(data);

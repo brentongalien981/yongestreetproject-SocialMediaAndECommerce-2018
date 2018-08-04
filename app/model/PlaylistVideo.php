@@ -30,4 +30,9 @@ class PlaylistVideo extends MainModel
 
     public $primary_key_id_name = null;
 
+    protected $pkNames = [
+        "playlist_id",
+        "video_id"
+    ];
+
 }

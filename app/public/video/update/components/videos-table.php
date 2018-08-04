@@ -36,8 +36,8 @@
 
 
 
-<style>
-    #videos-table {
+<!-- <style> -->
+    <!-- /* #videos-table {
         padding: 60px 0;
     }
 
@@ -71,26 +71,6 @@
 
     #videos-table .video-record-delete-btn:hover {
         box-shadow: 0 0 5px red;
-    }
+    } */ -->
 
-
-    /* Extra small devices (phones, 640px and down) */
-
-    @media only screen and (max-width: 640px) {}
-
-    /* Small devices (portrait tablets and large phones, 600px and up) */
-
-    @media only screen and (min-width: 641px) {}
-
-    /* Medium devices (landscape tablets, 768px and up) */
-
-    @media only screen and (min-width: 768px) {}
-
-    /* Large devices (laptops/desktops, 992px and up) */
-
-    @media only screen and (min-width: 992px) {}
-
-    /* Extra large devices (large laptops and desktops, 1200px and up) */
-
-    @media only screen and (min-width: 1200px) {}
-</style>
+<!-- /* </style> */ -->

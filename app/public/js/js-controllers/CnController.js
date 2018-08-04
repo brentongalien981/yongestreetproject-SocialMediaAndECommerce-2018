@@ -63,9 +63,9 @@ class CnController {
     }
 
 
-    delete() {
-        this.view.delete();
-    }
+    // delete() {
+    //     this.view.delete();
+    // }
 
 }
 

@@ -4,13 +4,23 @@ namespace App\Core\Main2;
 
 trait CNModelRelationshipTrait
 {
-    public function cnHasMany($data = [])
+    public function cnBelongsToMany($data = [])
     {
-        $extentionalObjs = $this->cnHasX($data);
+        $data['relationshipType'] = 'belongsTo';
+        $extentionalObjs = $this->getCnModelRelationshipObjs($data);
         return $extentionalObjs;
     }
 
-    private function cnHasX($data = [])
+
+
+    public function cnHasMany($data = [])
+    {
+        $data['relationshipType'] = 'has';
+        $extentionalObjs = $this->getCnModelRelationshipObjs($data);
+        return $extentionalObjs;
+    }
+
+    private function getCnModelRelationshipObjs($data = [])
     {
         $extentionalObjs = [];
         
@@ -32,10 +42,16 @@ trait CNModelRelationshipTrait
         
         //
         $extentionalClass = static::class . $data['extentionalClassName'];
+        if ($data['relationshipType'] == 'belongsTo') {
+            $extentionalClass = static::class;
+            $extentionalClass = str_replace($className, $data['extentionalClassName'] . $className, $extentionalClass);
+        }
+        
         static::reWriteClassForExemptedCases($extentionalClass);
 
         //
         unset($data['extentionalClassName']);
+        unset($data['relationshipType']);
         $extentionalObjs = $extentionalClass::readByWhereClause($data);
 
         return $extentionalObjs;

@@ -23,7 +23,8 @@ class Router {
         ],
         'UserVideo' => [
             'read',
-            'update'
+            'update',
+            'delete'
         ],
         'UserPlaylist' => [
             'read'

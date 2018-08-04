@@ -20,6 +20,10 @@ class AjaxRequestConstants {
         return "create";
     }
 
+    static get CRUD_TYPE_DELETE() {
+        return "delete";
+    }
+
     static get CRUD_TYPE_UPDATE() {
         return "update";
     }

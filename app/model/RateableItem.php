@@ -30,6 +30,7 @@ class RateableItem extends MainModel
     public $item_x_id;
     public $item_x_type_id;
 
+
     /** @override */
     public function init()
     {

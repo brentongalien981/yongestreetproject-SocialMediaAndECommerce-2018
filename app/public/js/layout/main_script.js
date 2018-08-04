@@ -709,8 +709,7 @@ function should_class_log(x_obj) {
         // case "VideoRecommendationItem":
         // case "Playlist":
         // case "Notification":
-        // case "NotificationRateableItem":
-        case "NotificationTimelinePostReply":
+        case "NotificationRateableItem":
             return true;
             break;
     }

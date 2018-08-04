@@ -9,6 +9,9 @@ class CnDataSource {
     }
 
     deleteObj(data = { obj: null }) {
+
+        if (data.obj == null) { return; }
+
         // Update the dataSource.objs.
         for (let i = 0; i < this.objs.length; i++) {
             if (this.objs[i].id == data.obj.id) {
@@ -26,7 +29,7 @@ class CnDataSource {
         }
 
         //
-        if (this.obj.id == data.obj.id) {
+        if (this.obj != null && this.obj.id == data.obj.id) {
             this.obj = null;
         }
     }

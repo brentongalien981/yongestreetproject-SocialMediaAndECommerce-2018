@@ -18,6 +18,7 @@ class MainModel extends CNMain
     use \App\Core\Main2\CNModelExtraTrait;
     use \App\Core\Main2\CNModelSafeCrudOperationsTrait;
 
+    
     public const CURRENT_TIMESTAMP = "CURRENT_TIMESTAMP";
     public const CN_DB_NULL = "CN_DB_NULL";
     

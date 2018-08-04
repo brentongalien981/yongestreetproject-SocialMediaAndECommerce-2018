@@ -92,4 +92,5 @@ trait CNModelSafeCrudOperationsTrait
 
         return $isDeletionOk;
     }
+
 }

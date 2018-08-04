@@ -40,7 +40,7 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
             case 'read':
 
 //                $this->sanitizedFields['where_clause'] = "WHERE created_at < '{$this->sanitizedFields['earliestElDate']}'";
-                $this->sanitizedFields['where_clause'] = "WHERE private = 0";
+                $this->sanitizedFields['where_clause'] = "WHERE private = 0 AND is_deleted = '0'";
 
                 if (strlen($this->sanitizedFields['displayedVideoIds']) != 0) {
                     $this->sanitizedFields['where_clause'] .= " AND id NOT IN(" . $this->sanitizedFields['displayedVideoIds'] . ")";
@@ -49,6 +49,7 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
 
                 $this->sanitizedFields['order_by_field'] = "created_at";
                 $this->sanitizedFields['limit'] = 6;
+                // $this->sanitizedFields['is_deleted'] = 0;
 
                 break;
 
@@ -309,7 +310,7 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
         }
 
 
-        parent::doRequestFinalization(true);
+        parent::doRequestFinalization($isCrudOk);
     }
     
 
@@ -320,6 +321,12 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
 
         /**/
         foreach ($videos as $video) {
+
+            // 
+            if ($video->is_deleted == '1') {
+                $video = null;
+                continue;
+            }
 
             // Find the extentional obj.
             $posterUser = $video->getPosterUser();

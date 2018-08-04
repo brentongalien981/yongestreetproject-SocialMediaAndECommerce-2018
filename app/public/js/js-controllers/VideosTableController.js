@@ -103,12 +103,14 @@ class VideosTableController extends ComponentController {
     /** @implements */
     onVideosTableRowDelete(data = { videosTableRowController: null }) {
 
-        // Delete the dataSource obj VideosTableRow Data / Model.
-        this.dataSource.deleteObj({ obj: data.videosTableRowController.dataSource.obj });
+        const objToBeDeleted = data.videosTableRowController.dataSource.obj;
 
-        // Delete the VideosTableRowController or delete
-        // the VideosTableRowController's view.
-        data.videosTableRowController.delete();
+        // Delete the dataSource obj VideosTableRow Data / Model.
+        this.dataSource.deleteObj({ obj: objToBeDeleted });
+
+        // // Delete the VideosTableRowController or delete
+        // // the VideosTableRowController's view.
+        // data.videosTableRowController.delete();
 
         data.videosTableRowController = null;
 

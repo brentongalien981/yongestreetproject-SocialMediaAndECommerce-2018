@@ -23,6 +23,7 @@ class Video extends MainModel
         "url",
         "owner_name",
         "private",
+        "is_deleted",
         "created_at",
         "updated_at"
     );
@@ -35,6 +36,7 @@ class Video extends MainModel
     public $url;
     public $owner_name;
     public $private;
+    public $is_deleted;
     public $created_at;
     public $updated_at;
 
@@ -251,6 +253,7 @@ class Video extends MainModel
             'disregardUsingPkIdForQuery' => true,
             'user_id' => $session->actual_user_id,
             'limit' => 20,
+            'is_deleted' => 0,
             'orderByFields' => 'created_at',
             'orderArrangement' => 'DESC'
 
