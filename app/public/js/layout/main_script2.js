@@ -274,7 +274,8 @@ function cnCloneTemplate(id) {
     $(template).removeClass("cn-template");
     $(template).removeAttr("id");
 
-    $(template).addClass("contact-detail-item");
+    // TODO: Maybe you needed this with page: profile@read?
+    // $(template).addClass("contact-detail-item");
     return template;
 }
 

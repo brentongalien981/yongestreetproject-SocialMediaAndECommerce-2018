@@ -289,7 +289,6 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
             $updatedObj->tags = $videoTags;
             
             return $updatedObj;
-
         } else {
             require_once(PUBLIC_PATH . 'video/update/index.php');
         }
@@ -300,6 +299,8 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
     protected function doRequestFinalization($isCrudOk)
     {
         switch ($this->action) {
+
+            case 'create':
             case 'update':
                 
                 if ($isCrudOk instanceof \App\Model\Video) {
@@ -322,7 +323,7 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
         /**/
         foreach ($videos as $video) {
 
-            // 
+            //
             if ($video->is_deleted == '1') {
                 $video = null;
                 continue;
@@ -374,7 +375,8 @@ class VideoController extends MainController implements AjaxCrudHandlerInterface
             $this->createVideoTags($rateableItem);
             $this->createVideoCategories();
             
-            return true;
+            $this->menuObj->filterExclude();
+            return $this->menuObj;
         } else {
             require_once(PUBLIC_PATH . 'video/create/index.php');
         }

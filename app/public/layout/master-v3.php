@@ -67,6 +67,8 @@
 <?php //require_once(LAYOUT_PATH . "general_loader_el.php"); ?>
 <?php require_once(PUBLIC_PATH . "cn-loader-node/cn-loader-node.php"); ?>
 
+<?php require_once(PUBLIC_PATH . "cn-notice-component/cn-notice-component.php"); ?>
+
 <!-- TODO: Re-implement this. -->
 <?php require_once(LAYOUT_PATH . "cn-sticky-bottom.php"); ?>
 

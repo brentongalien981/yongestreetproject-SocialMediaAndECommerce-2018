@@ -43,14 +43,25 @@ class CnComponent2 extends CnComponent {
         const completeNodeId = data.nodeIdPrefix + data.id;
         const components = data.fromComponents;
         for (let index = 0; index < components.length; index++) {
-            
+
             if (completeNodeId == components[index].nodeId) {
                 return components[index];
             }
-            
+
         }
 
         return null;
+    }
+
+
+    static cnCloneTemplate(data = { id: null }) {
+
+        if (data.id == null) { return null; }
+
+        var template = $("#" + data.id).clone(true);
+        $(template).removeClass("cn-template");
+        $(template).removeAttr("id");
+        return template;
     }
 
 }

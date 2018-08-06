@@ -4,6 +4,7 @@ import VideoDetailsFormEventListeners from "../cn-event-listeners/VideoDetailsFo
 import AjaxRequestConstants from "../cn-classes-v3/AjaxRequestConstants.js";
 import VideoDetailsFormBroadcastSubscription from "../cn-subscription-schemes/VideoDetailsFormBroadcastSubscription.js";
 import Video from "../js-models/Video.js";
+import CnNoticeComponent from "../cn-components/CnNoticeComponent.js";
 
 
 class VideoDetailsFormController extends CnFormController {
@@ -39,7 +40,20 @@ class VideoDetailsFormController extends CnFormController {
 
         switch (ajaxRequest.crudType) {
             case "create":
-                alert("TODO: Display a section that alerts the user that he successfully created the video. \nAlso give her a link that shows the video.");
+                let noticeComponent = new CnNoticeComponent({ message: "You successfully created your video..." });
+
+                let newVideoPageLinkNode = document.createElement("a");
+
+                const newVideoObj = resultJSON.objs[0];
+
+                let newVideoPageLink = getLocalUrl() + "video/show/" + newVideoObj.id + "/";
+
+                $(newVideoPageLinkNode).attr("href", newVideoPageLink);
+                $(newVideoPageLinkNode).html("You can click here to view it..");
+
+                $(noticeComponent.extraMessageNode).append(newVideoPageLinkNode);
+
+                this.view.append(noticeComponent);
                 break;
             case "update":
                 this.dataSource.obj = resultJSON.objs[0];

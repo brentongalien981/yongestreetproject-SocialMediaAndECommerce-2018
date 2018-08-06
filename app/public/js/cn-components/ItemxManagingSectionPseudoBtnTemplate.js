@@ -4,7 +4,13 @@ class ItemxManagingSectionPseudoBtnTemplate extends CnTemplate {
      * @override
      * @returns {*}
      */
-    constructor(data = {iconName: "add", itemName: "video"}) {
+    constructor(data = {}) {
+
+        data = {
+            iconName: "add", 
+            itemName: "video",
+            ...data
+        }
 
         var selector = "#itemx-managing-section-pseudo-btn-template";
         super(selector);
