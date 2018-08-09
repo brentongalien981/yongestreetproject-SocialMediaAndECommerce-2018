@@ -111,6 +111,7 @@ class Middleware extends CNMain
                 break;
             case "video-manager":
             case "VideoManager":
+            case "StoreManager":
                 $typeOfActionId = self::LOGGED_IN_TYPES_OF_ACTIONS;
                 break;
             case CnUrlParser::OLD_CN_REQUEST_SCHEME:

@@ -13,7 +13,9 @@ class Validator
     private $acceptedUrlPrefixes = [
         "https://farm5.staticflickr.com/",
         "https://www.flickr.com/photos/",
-        "https://www.youtube.com/"
+        "https://www.youtube.com/",
+        "//www.dailymotion.com/",
+        "https://player.vimeo.com/"
     ];
 
     /**

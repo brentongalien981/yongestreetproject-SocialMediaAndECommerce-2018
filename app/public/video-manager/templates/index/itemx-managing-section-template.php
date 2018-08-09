@@ -2,17 +2,23 @@
 
     <h4 class="itemx-managing-section-title">[TODO: Add Title]</h4>
 
-    <div class="itemx-managing-section-container cn-actual-container"></div>
+    <div class="itemx-managing-section-container cn-actual-container cn-container"></div>
 </div>
 
 
 
 <!--<style>-->
-<!--    .itemx-managing-section {-->
-<!--        background-color: rgb(251, 251, 251);-->
-<!--        /* border-top: 1px solid black; */-->
-<!--        box-shadow: 0 0 30px rgb(240, 240, 240);-->
-<!--        margin-bottom: 40px;-->
-<!--        padding: 30px 60px;-->
-<!--    }-->
+    <!-- /* ################################ */
+    /* ItemxManagingSectionTemplate */
+    /* ################################ */
+    .itemx-managing-section {
+        /* background-color: aliceblue; */
+        border: 1px solid rgb(220, 220, 220);
+        box-shadow: 0 0 20px rgb(220, 220, 220);
+        margin: 50px 70px;
+        margin-bottom: 120px;
+        padding: 30px 70px;
+        padding-bottom: 80px;
+        border-radius: 10px;
+    } -->
 <!--</style>-->

@@ -127,28 +127,7 @@
 
 
             <!--MyBusiness-->
-            <?php if (\App\Model\Session::getInstance()->is_logged_in()) { ?>
-
-                <li class="nav-item dropdown"
-                    data-toggle="tooltip"
-                    data-placement="bottom"
-                    title="MyBusiness">
-                    <a class="nav-link menus menus_with_sub_menus dropdown-toggle"
-                       href="<?= LOCAL . "/public/__view/view_my_store/index.php" ?>" id="menu_my_store"
-                       menu_name="store"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
-                                class="fa fa-bitcoin"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="admin-dropdown-toggle">
-                        <a id="menu_my_sales" class="dropdown-item menus sub_menu_links"
-                           href="<?= LOCAL . "/public/__view/invoices/index.php"; ?>"><i class="fa fa-bar-chart"></i>
-                            MySales</a>
-                        <a id="menu_my_store" class="dropdown-item menus sub_menu_links"
-                           href="<?= LOCAL . "/public/__view/store_items/index.php"; ?>"><i
-                                    class="fa fa-credit-card-alt"></i> MyStore</a>
-                    </div>
-                </li>
-
-            <?php } ?>
+            <?php require_once(PUBLIC_PATH . "layout/nav-business.php"); ?>
 
 
             <!--TODO: New cart-->
@@ -218,7 +197,7 @@
     </div>
 
 
-    <?php require_once(LAYOUT_PATH . "nav-page-actions.php"); ?>
+    <?php //require_once(LAYOUT_PATH . "nav-page-actions.php"); ?>
 
 </nav>
 

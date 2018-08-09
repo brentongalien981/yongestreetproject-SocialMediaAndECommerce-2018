@@ -64,6 +64,12 @@ class CnComponent2 extends CnComponent {
         return template;
     }
 
+
+    show() {
+        $(this.node).removeClass("cn-template");
+        $(this.node).removeClass("cn-undisplayed");
+    }
+
 }
 
 

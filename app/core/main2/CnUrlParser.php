@@ -232,6 +232,9 @@ class CnUrlParser
             case 'video-manager':
                 $request->controllerName = 'VideoManager';
                 break;
+            case 'store-manager':
+                $request->controllerName = 'StoreManager';
+                break;
         }
 
         $request->controllerName = ucfirst($request->controllerName);

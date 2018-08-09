@@ -1,8 +1,8 @@
-import CnComponent from './CnComponent.js';
+import CnComponent2 from './CnComponent2.js';
 import CnPageProperties from "../cn-classes-v3/CnPageProperties.js";
 
 
-class CnPage extends CnComponent {
+class CnPage extends CnComponent2 {
 
     /** @override */
     regularInit() {

@@ -1,5 +1,5 @@
 import CnComponent2 from './CnComponent2.js';
-import CnComponent from './CnComponent.js';
+// import CnComponent from './CnComponent.js';
 
 class VideosTableRow extends CnComponent2 {
 

@@ -4,7 +4,7 @@
     title="Videos">
 
     <a class="nav-link menus menus_with_sub_menus dropdown-toggle"
-       href="<?= PUBLIC_LOCAL . 'video/index.php' ?>"
+       href="<?= PUBLIC_LOCAL . 'video/'; ?>"
        id="menu_videos"
        menu_name="video"
        data-toggle="dropdown"

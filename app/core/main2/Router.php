@@ -112,6 +112,9 @@ class Router {
             'patch',
             'save',
             'fetch'
+        ],
+        'StoreManager' => [
+            'index'
         ]
         
     ];
@@ -127,7 +130,8 @@ class Router {
         
         $controllerObj = null;
 
-        if ($request->isUsingRecipeFramework) {
+
+        if ($request->isUsingRecipeFramework || self::isRequestConsideredUsingRecipeFramework($request->controllerName)) {
             $controllerObj = new $controllerPath($request);
         } else {
             $controllerObj = new $controllerPath($request->controllerName, $request->controllerAction);
@@ -136,6 +140,18 @@ class Router {
     
     
         $controllerObj->doAction($request);
+    }
+
+
+    private static function isRequestConsideredUsingRecipeFramework($controllerName) {
+
+        switch ($controllerName) {
+            case 'StoreManager':
+                return true;
+            
+            default:
+                return false;
+        }
     }
 
 

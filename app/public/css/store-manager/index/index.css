@@ -1,0 +1,50 @@
+/* ################################ */
+/* ItemxManagingSection */
+/* ################################ */
+.itemx-managing-section {
+    /* background-color: aliceblue; */
+     border: 1px solid rgb(220, 220, 220);
+    box-shadow: 0 0 20px rgb(220, 220, 220);
+    margin: 50px 70px;
+    margin-bottom: 120px;
+    padding: 30px 70px;
+    padding-bottom: 80px;
+    border-radius: 10px;
+}
+
+
+
+/* ################################ */
+/* ItemxManagingSectionPseudoBtn */
+/* ################################ */
+.itemx-managing-section-pseudo-btn {
+    width: 250px;
+    /* background-color: lightblue; */
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 20px;
+    margin-left: 0;
+    display: inline-block;
+    color: black;
+}
+
+.cn-undisplayed {
+   display: none;
+}
+
+.itemx-managing-section-pseudo-btn:hover {
+   cursor: pointer;
+   box-shadow: 0 0 20px lightblue;
+   border: 1px solid blue;
+}
+
+.itemx-managing-section-pseudo-btn .item-icon {
+   font-size: 130px;
+   text-align: center;
+   margin-top: -50px;
+}
+
+.itemx-managing-section-pseudo-btn .crud-icon {
+   font-size: 32px;
+   padding-left: 20px;
+}
