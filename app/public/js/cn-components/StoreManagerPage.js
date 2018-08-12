@@ -22,9 +22,9 @@ export default class StoreManagerPage extends CnPage {
 
         const storeManagerComponent = new CnPart({ nodeSelector: "#store-manager-component" });
 
-        this.parts = { 
+        this.parts = {
             ...this.parts,
-            storeManagerComponent: storeManagerComponent 
+            storeManagerComponent: storeManagerComponent
         };
 
     }
@@ -35,37 +35,73 @@ export default class StoreManagerPage extends CnPage {
         super.initChildComponents();
 
         // sections
-        let salesPendingsStatusManagingSection = new ItemXManagingSection({
-            sectionTitle: "Sales Pending Status"
-        });
+        let salesPendingsStatusManagingSection = new ItemXManagingSection({ sectionTitle: "Sales Pending Status" });
+        let inventoryManagingSection = new ItemXManagingSection({ sectionTitle: "Inventory" });
+        let storeReportManagingSection = new ItemXManagingSection({ sectionTitle: "Store Reports / Analytics" });
 
 
         // buttons
         let updateOrdersBtn = new ItemXManagingSectionPseudoBtn({
             itemName: "order",
-            iconName: "update"
+            iconName: "update",
+            toolTipMsg: "Update the status of your sold items."
+        });
+        
+        let addStoreItemBtn = new ItemXManagingSectionPseudoBtn({
+            itemName: "item",
+            iconName: "create",
+            toolTipMsg: "Add a new store item."
+        });
+
+        let updateStoreItemsBtn = new ItemXManagingSectionPseudoBtn({
+            itemName: "item",
+            iconName: "update",
+            toolTipMsg: "Edit your store items."
+        });
+
+        let storeAnalyticsBtn = new ItemXManagingSectionPseudoBtn({
+            itemName: "analytics",
+            iconName: "update",
+            toolTipMsg: "View store reports and analytics.",
+            href: "#"
         });
 
 
 
-        //
+        // Append the btns to the sections.
         salesPendingsStatusManagingSection.append(updateOrdersBtn);
 
+        inventoryManagingSection.append(addStoreItemBtn);
+        inventoryManagingSection.append(updateStoreItemsBtn);
+
+        storeReportManagingSection.append(storeAnalyticsBtn);
 
 
-        // Unhide.
+
+        // Unhide the sections and the btns.
         salesPendingsStatusManagingSection.show();
+        inventoryManagingSection.show();
+        storeReportManagingSection.show();
         updateOrdersBtn.show();
+        addStoreItemBtn.show();
+        updateStoreItemsBtn.show();
+        storeAnalyticsBtn.show();
 
-        
+
 
         //
         this.childComponents = {
             ...this.childComponents,
-            salesPendingsStatusManagingSection: salesPendingsStatusManagingSection
+            salesPendingsStatusManagingSection: salesPendingsStatusManagingSection,
+            inventoryManagingSection: inventoryManagingSection,
+            storeReportManagingSection: storeReportManagingSection
         };
 
+
+        // Append the sections to main-content.
         this.parts.storeManagerComponent.append(salesPendingsStatusManagingSection);
+        this.parts.storeManagerComponent.append(inventoryManagingSection);
+        this.parts.storeManagerComponent.append(storeReportManagingSection);
 
 
     }
@@ -76,6 +112,6 @@ export default class StoreManagerPage extends CnPage {
         super.postInit();
 
         // this.childComponents.updateVideoPageMainContent.appendTo(this.parts.cnCenterCol);
-    
+
     }
 }

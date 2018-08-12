@@ -48,3 +48,22 @@
    font-size: 32px;
    padding-left: 20px;
 }
+
+
+
+
+
+/* ################################ */
+/* side-col-toggle-btns */
+/* ################################ */
+.col-toggle-btn {
+    display: none;
+
+}
+
+
+
+#store-manager-component .title {
+    margin: 30px 70px;
+    margin-bottom: 0;
+}

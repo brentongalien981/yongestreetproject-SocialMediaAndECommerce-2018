@@ -11,6 +11,7 @@ export default class ItemXManagingSectionPseudoBtn extends CnComponent2 {
         data = {
             iconName: "create", 
             itemName: "video",
+            toolTipMsg: "",
             ...data
         }
 
@@ -21,6 +22,7 @@ export default class ItemXManagingSectionPseudoBtn extends CnComponent2 {
 
         this.setIcon(data.iconName);
         this.setItem(data.itemName);
+        this.setToolTipMsg(data.toolTipMsg);
         this.setHref(data);
     }
 
@@ -44,7 +46,10 @@ export default class ItemXManagingSectionPseudoBtn extends CnComponent2 {
                 break;
             case "order":
                 this.href += "order/";
-                break;                
+                break;  
+            case "item":
+                this.href += "item/";
+                break;               
     
         }
     }
@@ -65,6 +70,13 @@ export default class ItemXManagingSectionPseudoBtn extends CnComponent2 {
         // this.href += ".php";
     }
 
+
+    setToolTipMsg(toolTipMsg) {
+
+        $(this.node).attr("title", toolTipMsg);
+    }
+
+
     setHrefHtmlAttrib() {
         $(this.node).attr("href", this.href);
     }
@@ -83,6 +95,13 @@ export default class ItemXManagingSectionPseudoBtn extends CnComponent2 {
             case "order":
                 $(iconTag).addClass("fa fa-credit-card-alt")
                 break;
+            case "item":
+                $(iconTag).addClass("fa fa-archive")
+                break;
+            case "analytics":
+                $(iconTag).addClass("fa fa-area-chart")
+                break;
+                
             default:
                 $(iconTag).addClass("fa fa-list-alt")
                 break;
