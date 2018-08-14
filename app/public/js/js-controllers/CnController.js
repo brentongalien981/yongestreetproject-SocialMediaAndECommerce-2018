@@ -29,6 +29,7 @@ class CnController {
     regularInit() {
         this.view = null;
         this.dataSource = new CnDataSource();
+        this.instanceController = this;
     }
 
     /**

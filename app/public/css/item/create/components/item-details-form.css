@@ -1,0 +1,34 @@
+/* ######################## */
+/* item-details-form */
+/* ######################## */
+
+form#item-details-form {
+    padding: 60px 0;
+}
+
+#item-details-form .form-group,
+#item-details-form .form-check {
+    margin-top: 40px;
+}
+
+#item-details-form input[type=text], 
+#item-details-form textarea,
+#item-details-form select {
+    font-weight: 100;
+    font-size: 14px;
+    padding: 10px;
+    resize: none;
+}
+
+
+/* #item-details-form #extra-details-title {
+    margin-top: 80px;
+} */
+
+/* #item-details-form #private-item-checkbox {
+    margin-left: 0;
+} */
+
+#item-details-form option {
+    padding: 0.5em;
+}

@@ -115,6 +115,9 @@ class Router {
         ],
         'StoreManager' => [
             'index'
+        ],
+        'Item' => [
+            'create'
         ]
         
     ];
@@ -147,6 +150,7 @@ class Router {
 
         switch ($controllerName) {
             case 'StoreManager':
+            case 'Item':
                 return true;
             
             default:

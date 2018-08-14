@@ -58,6 +58,8 @@ function toggleCnCol(toggleBtnId) {
     //
     var isBtnActivated = $("#" + toggleBtnId).attr("is-activated");
 
+    var activeCnColId = null;
+
     if (isBtnActivated == "no") {
 
         // Hide
@@ -83,6 +85,8 @@ function toggleCnCol(toggleBtnId) {
                 // $("#" + activeCnColId).css("display", "none");
                 break;
         }
+
+        // $("#" + activeCnColId).css("display", "none");
     }
     else {
 
@@ -107,6 +111,8 @@ function toggleCnCol(toggleBtnId) {
                 $("#" + activeCnColId).addClass("fadeInRight");
                 break;
         }
+
+        $("#" + activeCnColId).css("display", "block");
     }
 }
 
