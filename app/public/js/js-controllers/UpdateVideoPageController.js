@@ -96,7 +96,7 @@ class UpdateVideoPageController extends PageController {
     /** @implements */
     onVideoUpdate() {
         this.videoDetailsFormController.dataSource.obj = this.videosTableController.dataSource.obj;
-        this.videoDetailsFormController.update({ loaderMsg: "fuck yeah update shit" });
+        this.videoDetailsFormController.update({ loaderMsg: "Updating..." });
         // alert("method: onVideoUpdate() from class: UpdateVideoPageController.");
     }
 

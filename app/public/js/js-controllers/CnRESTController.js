@@ -21,7 +21,7 @@ class CnRESTController extends CnController {
         this.preCrud(data);
 
         if (this.preDelete() && this.regularDelete()) {
-            
+
         } else {
             // Hide this controller's view's loader el.
             this.view.hideLoaderNode();
@@ -41,7 +41,7 @@ class CnRESTController extends CnController {
     regularDelete(ajaxRequestData = {}) {
         const ajaxRequest = new AjaxRequest(ajaxRequestData);
 
-        
+
         ajaxRequest.doSend();
 
         return true;
@@ -54,7 +54,7 @@ class CnRESTController extends CnController {
         this.preCrud(data);
 
         if (this.preUpdate() && this.regularUpdate()) {
-            
+
         } else {
             // Hide this controller's view's loader el.
             this.view.hideLoaderNode();
@@ -68,7 +68,7 @@ class CnRESTController extends CnController {
     regularUpdate(ajaxRequestData = {}) {
         const ajaxRequest = new AjaxRequest(ajaxRequestData);
 
-        
+
         ajaxRequest.doSend();
 
         return true;
@@ -91,9 +91,20 @@ class CnRESTController extends CnController {
 
 
 
-    create() {
-        if (this.preCreate()) {
-            if (!this.regularCreate()) { this.isCreating = false; }
+    create(data = { loaderMsg: null }) {
+        // if (this.preCreate()) {
+        //     if (!this.regularCreate()) { this.isCreating = false; }
+        // }
+
+        this.preCrud(data);
+
+        if (this.preCreate() && this.regularCreate()) {
+
+        } else {
+            // Hide this controller's view's loader el.
+            this.view.hideLoaderNode();
+
+            this.isCreating = false;
         }
 
         this.postCreate();
@@ -211,8 +222,8 @@ class CnRESTController extends CnController {
     /**
      * This is like the method: doPreAfterEffects() from the old
      * mini-framework after receiving the ajax-request-result.
-     * @param {AjaxRequest} ajaxRequest 
-     * @param {JSON} resultJSON 
+     * @param {AjaxRequest} ajaxRequest
+     * @param {JSON} resultJSON
      */
     preHandleAjaxRequestResult(ajaxRequest, resultJSON) {
 

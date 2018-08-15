@@ -82,27 +82,58 @@ class MainController extends CNMain
         foreach ($this->validator->fieldsToBeValidated as $field => $value) {
             if (is_request_get()) {
                 if (isset($_GET[$field])) {
-                    $actualFieldValue = $_GET[$field];
-                    $actualFieldValue = \App\Core\Main2\Sanitizer::stripHtmlTags($actualFieldValue);
-                    $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlSpecialChars($actualFieldValue);
-                    $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlEntities($actualFieldValue);
-                    $actualFieldValue = \App\Core\Main2\Sanitizer::sqlSanitizeStr($actualFieldValue);
-                    $_GET[$field] = $actualFieldValue;
+
+                    // $actualFieldValue = $_GET[$field];
+                    // $actualFieldValue = \App\Core\Main2\Sanitizer::stripHtmlTags($actualFieldValue);
+                    // $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlSpecialChars($actualFieldValue);
+                    // $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlEntities($actualFieldValue);
+                    // $actualFieldValue = \App\Core\Main2\Sanitizer::sqlSanitizeStr($actualFieldValue);
+                    // $_GET[$field] = $actualFieldValue;
+
+                    $_GET[$field] = $this->getSanitizedSpecificField($_GET[$field]);
                 }
             } else {
 
                 if (isset($_POST[$field])) {
 
-                    $actualFieldValue = $_POST[$field];
-                    $actualFieldValue = \App\Core\Main2\Sanitizer::stripHtmlTags($actualFieldValue);
-                    $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlSpecialChars($actualFieldValue);
-                    $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlEntities($actualFieldValue);
-                    $actualFieldValue = \App\Core\Main2\Sanitizer::sqlSanitizeStr($actualFieldValue);
-                    $_POST[$field] = $actualFieldValue;
+                    // $actualFieldValue = $_POST[$field];
+                    // $actualFieldValue = \App\Core\Main2\Sanitizer::stripHtmlTags($actualFieldValue);
+                    // $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlSpecialChars($actualFieldValue);
+                    // $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlEntities($actualFieldValue);
+                    // $actualFieldValue = \App\Core\Main2\Sanitizer::sqlSanitizeStr($actualFieldValue);
+                    // $_POST[$field] = $actualFieldValue;
+
+                    $_POST[$field] = $this->getSanitizedSpecificField($_POST[$field]);
                 }
             }
         }
     }
+
+
+    private function getSanitizedSpecificField($fieldValue) {
+
+        if (is_array($fieldValue)) {
+
+            $sanitizedFieldValues = [];
+
+            foreach ($fieldValue as $pseudoFieldValue) {
+                $sanitizedFieldValues[] = $this->getSanitizedSpecificField($pseudoFieldValue);
+            }
+
+            return $sanitizedFieldValues;
+
+
+        } else {
+            $fieldValue = \App\Core\Main2\Sanitizer::stripHtmlTags($fieldValue);
+            $fieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlSpecialChars($fieldValue);
+            $fieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlEntities($fieldValue);
+            $fieldValue = \App\Core\Main2\Sanitizer::sqlSanitizeStr($fieldValue);
+
+            return $fieldValue;
+        }
+    }
+
+
 
     protected function doRequestFinalization($isCrudOk)
     {

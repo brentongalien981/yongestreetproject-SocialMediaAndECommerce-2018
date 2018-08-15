@@ -30,6 +30,34 @@
         <label class="cn-error-label" id="cn-error-label-item-description"></label>
     </div>
 
+
+    <!-- dimensions -->
+    <div class="form-row">
+        <div class="form-group col-md-3">
+            <label for="item-length">length in inches (in)</label>
+            <input type="number" class="form-control" id="item-length" placeholder="0.0">
+        </div>
+
+        <div class="form-group col-md-3">
+            <label for="item-width">width in inches (in)</label>
+            <input type="number" class="form-control" id="item-width" placeholder="0.0">
+        </div>
+
+        <div class="form-group col-md-3">
+            <label for="item-height">height in inches (in)</label>
+            <input type="number" class="form-control" id="item-height" placeholder="0.0">
+        </div>
+
+        <div class="form-group col-md-3">
+            <label for="item-weight">weight in ounces (oz)</label>
+            <input type="number" class="form-control" id="item-weight" placeholder="0.0">
+        </div>
+
+
+        <label class="cn-error-label" id="cn-error-label-item-dimensions"></label>
+    </div>
+
+
     <!-- photo-urls -->
     <div class="form-group">
         <label for="item-photo-urls">photo URLs</label>

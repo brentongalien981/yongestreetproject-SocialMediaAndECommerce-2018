@@ -7,7 +7,11 @@ class CnComponent2 extends CnComponent {
 
         loaderContainer.displayBlock();
 
-        const loaderNode = new CnComponent({ nodeSelector: this.nodeSelector + " .cn-loader-node" });
+
+        let clonedCnLoaderNode = CnComponent2.cnCloneTemplate({ id: "cn-loader-node-template" });
+        // const loaderNode = new CnComponent({ nodeSelector: this.nodeSelector + " .cn-loader-node" });
+        const loaderNode = new CnComponent({ node: clonedCnLoaderNode });
+
         loaderContainer.append(loaderNode);
 
         loaderNode.displayNone();
