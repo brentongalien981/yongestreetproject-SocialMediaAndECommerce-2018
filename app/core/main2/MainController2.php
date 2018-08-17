@@ -43,6 +43,7 @@ class MainController2 extends MainController
     /** @override */
     protected function setMenu($menu = null) {
         if ($menu == self::INTENTIONALLY_NULL) { $menu = null; }
+        else { parent::setMenu($menu); }
 
     }
 }

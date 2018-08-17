@@ -9,7 +9,7 @@
 namespace App\Model;
 
 use App\Core\Main\MainModel;
-
+use App\Model\Tag;
 
 class RateableItem extends MainModel
 {
@@ -17,6 +17,7 @@ class RateableItem extends MainModel
     // CONSTANTS
     const ITEM_X_TYPE_ID_TIMELINE_POST = 1;
     const ITEM_X_TYPE_ID_VIDEO = 2;
+    const ITEM_X_TYPE_ID_ITEM = 3;
 
     protected static $db_fields = array(
         "id",
@@ -37,7 +38,6 @@ class RateableItem extends MainModel
 
 
 //        $this->primary_key_id_name = "user_id";
-
     }
 
     public function __construct()
@@ -97,8 +97,8 @@ class RateableItem extends MainModel
         return $xRateableItem;
     }
 
-    public function getTags() {
-
+    public function getTags()
+    {
         $tags = [];
 
         // Find
@@ -121,7 +121,8 @@ class RateableItem extends MainModel
         return $tags;
     }
 
-    public function getShit() {
+    public function getShit()
+    {
         return 'shit';
     }
 
@@ -169,4 +170,59 @@ class RateableItem extends MainModel
         return (count($objs) > 0) ? true : false;
     }
 
+
+    public function createRateableItemsTags($data = [])
+    {
+        if (!isset($data['tags']) || $data['tags'] == "") {
+            return;
+        }
+
+        $stringifiedTags = $data['tags'];
+
+        // Unique-save all the tags in the db.
+        $isSavingOk = Tag::trySave(['withData' => $stringifiedTags]);
+
+
+        // Now all the intended tags for the video is
+        // saved. Loop through all the stringified tags and
+        // read the corresponding tag-obj for that tag.
+        $tags = explode(',', $stringifiedTags);
+        $tagObjs = [];
+
+        for ($i=0; $i < count($tags); $i++) {
+            $tagName = $tags[$i];
+            $tagObjs[] = Tag::readByWhereClause(['tag' => $tagName])[0];
+        }
+
+
+        // You may have read repeated tag-objs so sort out
+        // the repeated ones.
+        $uniqueTagObjIds = [];
+        foreach ($tagObjs as $i => $tagObj) {
+            if (!in_array($tagObj->id, $uniqueTagObjIds)) {
+                $uniqueTagObjIds[] = $tagObj->id;
+            }
+        }
+
+        $tempTagObjs = [];
+        foreach ($uniqueTagObjIds as $i => $uniqueId) {
+            foreach ($tagObjs as $j => $tagObj) {
+                if ($tagObj->id == $uniqueId) {
+                    $tempTagObjs[] = $tagObj;
+                    break;
+                }
+            }
+        }
+
+        $tagObjs = $tempTagObjs;
+
+
+
+
+        // Create the mapping-model (pivot-table...).
+        $this->saveManyRelationships([
+            'withClassName' => 'Tag',
+            'withObjs' => $tagObjs
+        ]);
+    }
 }

@@ -18,6 +18,9 @@ class Validator
         "https://player.vimeo.com/"
     ];
 
+    // Traits.
+    use \App\Core\Validation\CnArrayValidatorTrait;
+
     /**
      * Validator constructor.
      */
@@ -71,6 +74,49 @@ class Validator
                     case 'areNumeric':
                         $isValidationProcessOk = $this->validateAreNumeric($field);
                         break;
+
+                    case 'itemsMaxCount':
+                        $isValidationProcessOk = $this->validateItemsCount([
+                            'fieldNameToBeValidated' => $field,
+                            'limitType' => 'max',
+                            'limitValue' => $validationProcessValue
+                        ]);
+                        break;
+
+                    case 'itemsMinCount':
+                        $isValidationProcessOk = $this->validateItemsCount([
+                            'fieldNameToBeValidated' => $field,
+                            'limitType' => 'min',
+                            'limitValue' => $validationProcessValue
+                        ]);
+                        break;
+
+                    case 'itemsMin':
+                        $isValidationProcessOk = $this->validateItemsLength([
+                            'fieldNameToBeValidated' => $field,
+                            'limitType' => 'min',
+                            'limitValue' => $validationProcessValue
+                        ]);
+                        break;
+
+                    case 'itemsMax':
+                        $isValidationProcessOk = $this->validateItemsLength([
+                            'fieldNameToBeValidated' => $field,
+                            'limitType' => 'max',
+                            'limitValue' => $validationProcessValue
+                        ]);
+                        break;
+
+                    case 'itemsBlank':
+                        $isValidationProcessOk = $this->validateItemsWhiteSpace([
+                            'fieldNameToBeValidated' => $field
+                        ]);
+                        break;
+
+                    case 'itemsUrlPrefix':
+                        $isValidationProcessOk = $this->validateItemsUrlPrefix(['fieldNameToBeValidated' => $field]);
+                        break;
+                        
                 }
 
                 $this->setIsOverallValidationOk($isValidationProcessOk);
@@ -299,6 +345,7 @@ class Validator
     private function isValueNumeric($value)
     {
         $valueLength = strlen($value);
+        $numberOfDecimalPointsPresent = 0;
 
         for ($i = 0; $i < $valueLength; $i++) {
             $char = substr($value, $i, 1);
@@ -306,6 +353,12 @@ class Validator
             // If it's a negative sign, just accept it and continue to the
             // next char.
             if ($char == "-") { continue; }
+
+            // It's ok to have one decimal point.
+            if ($char === "." && $numberOfDecimalPointsPresent == 0) {
+                $numberOfDecimalPointsPresent = 1;
+                continue;
+            }
 
             if (!is_numeric($char)) {
                 return false;

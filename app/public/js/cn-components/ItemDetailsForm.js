@@ -8,6 +8,37 @@ export default class ItemDetailsForm extends CnForm {
     }
 
 
+    /** @override */
+    getFormErrorLabelNodeBasedOnModelFieldName(fieldName = "") {
+
+        switch (fieldName) {
+            case "name":
+                return $("#cn-error-label-item-name");
+            case "quantity":
+                return $("#cn-error-label-item-quantity");
+            case "price":
+                return $("#cn-error-label-item-price");
+            case "description":
+                return $("#cn-error-label-item-description");
+
+            case "length":
+                return $("#cn-error-label-item-length");
+            case "width":
+                return $("#cn-error-label-item-width");
+            case "height":
+                return $("#cn-error-label-item-height");
+            case "weight":
+                return $("#cn-error-label-item-weight");
+            case "photoUrls":
+                return $("#cn-error-label-item-photo-urls");
+            case "tags":
+                return $("#cn-error-label-item-tags");
+            default:
+                return null;
+        }
+    }
+
+
 
     /** @override */
     initChildComponents() {

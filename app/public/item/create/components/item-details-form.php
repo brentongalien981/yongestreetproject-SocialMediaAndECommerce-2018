@@ -52,9 +52,16 @@
             <label for="item-weight">weight in ounces (oz)</label>
             <input type="number" class="form-control" id="item-weight" placeholder="0.0">
         </div>
+    </div>
 
-
-        <label class="cn-error-label" id="cn-error-label-item-dimensions"></label>
+    <div class="form-group dimensions-error-labels">
+        <label class="cn-error-label" id="cn-error-label-item-length"></label>
+        <br>
+        <label class="cn-error-label" id="cn-error-label-item-width"></label>
+        <br>
+        <label class="cn-error-label" id="cn-error-label-item-height"></label>
+        <br>
+        <label class="cn-error-label" id="cn-error-label-item-weight"></label>
     </div>
 
 

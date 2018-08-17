@@ -82,27 +82,11 @@ class MainController extends CNMain
         foreach ($this->validator->fieldsToBeValidated as $field => $value) {
             if (is_request_get()) {
                 if (isset($_GET[$field])) {
-
-                    // $actualFieldValue = $_GET[$field];
-                    // $actualFieldValue = \App\Core\Main2\Sanitizer::stripHtmlTags($actualFieldValue);
-                    // $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlSpecialChars($actualFieldValue);
-                    // $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlEntities($actualFieldValue);
-                    // $actualFieldValue = \App\Core\Main2\Sanitizer::sqlSanitizeStr($actualFieldValue);
-                    // $_GET[$field] = $actualFieldValue;
-
                     $_GET[$field] = $this->getSanitizedSpecificField($_GET[$field]);
                 }
             } else {
 
                 if (isset($_POST[$field])) {
-
-                    // $actualFieldValue = $_POST[$field];
-                    // $actualFieldValue = \App\Core\Main2\Sanitizer::stripHtmlTags($actualFieldValue);
-                    // $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlSpecialChars($actualFieldValue);
-                    // $actualFieldValue = \App\Core\Main2\Sanitizer::sanitizeHtmlEntities($actualFieldValue);
-                    // $actualFieldValue = \App\Core\Main2\Sanitizer::sqlSanitizeStr($actualFieldValue);
-                    // $_POST[$field] = $actualFieldValue;
-
                     $_POST[$field] = $this->getSanitizedSpecificField($_POST[$field]);
                 }
             }

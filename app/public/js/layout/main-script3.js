@@ -102,7 +102,16 @@ function getConcatenatedErrorMsgsForErrorField(errorField, errorCriteria) {
         if (errorCriteria.hasOwnProperty(errorCriterium)) {
 
             var errorMsg = errorCriteria[errorCriterium];
-            concatenatedErrorMsgs += "* " + errorMsg + "<br>";
+
+            if (Array.isArray(errorMsg)) {
+                for (let i = 0; i < errorMsg.length; i++) {
+                    concatenatedErrorMsgs += "* " + errorMsg[i] + "<br>";
+                }
+            }
+            else {
+                concatenatedErrorMsgs += "* " + errorMsg + "<br>";
+            }
+            
         }
 
     }

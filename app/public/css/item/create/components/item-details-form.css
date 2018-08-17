@@ -11,6 +11,10 @@ form#item-details-form {
     margin-top: 40px;
 }
 
+#item-details-form .dimensions-error-labels {
+    margin-top: 0;
+}
+
 #item-details-form input[type=text], 
 #item-details-form textarea,
 #item-details-form select {

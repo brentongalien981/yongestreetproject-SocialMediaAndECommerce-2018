@@ -2,8 +2,57 @@ import ItemDetailsForm from "../cn-components/ItemDetailsForm.js";
 import CnFormController from "./CnFormController.js";
 import ItemDetailsFormEventListeners from "../cn-event-listeners/ItemDetailsFormEventListeners.js";
 import AjaxRequestConstants from "../cn-classes-v3/AjaxRequestConstants.js";
+import CnNoticeComponent from "../cn-components/CnNoticeComponent.js";
 
 export default class ItemDetailsFormController extends CnFormController {
+
+
+    /** @override */
+    preHandleAjaxRequestResult(ajaxRequest, resultJSON) {
+        super.preHandleAjaxRequestResult(ajaxRequest, resultJSON);
+
+        if (isCnAjaxResultOk(resultJSON)) {
+            this.view.clearInputFields();
+        }
+    }
+
+
+    /** @override */
+    regularHandleAjaxRequestResult(ajaxRequest, resultJSON) {
+
+        switch (ajaxRequest.crudType) {
+            case "create":
+                this.onCreateSuccess(resultJSON);
+                break;
+            case "update":
+                // this.dataSource.obj = resultJSON.objs[0];
+                // VideoDetailsFormBroadcastSubscription.broadcast({ eventName: "onVideoUpdateSuccess" });
+                break;
+            default:
+                super.regularHandleAjaxRequestResult(ajaxRequest, resultJSON);
+                break;
+        }
+    }
+
+
+    onCreateSuccess(json) {
+
+        let noticeComponent = new CnNoticeComponent({ message: "You successfully created your item..." });
+
+        let newItemPageLinkNode = document.createElement("a");
+
+        const newItemObj = json.objs[0];
+
+        let newItemPageLink = getLocalUrl() + "item/show/" + newItemObj.id + "/";
+
+        $(newItemPageLinkNode).attr("href", newItemPageLink);
+        $(newItemPageLinkNode).html("You can click here to view it..");
+
+        $(noticeComponent.extraMessageNode).append(newItemPageLinkNode);
+
+        this.view.append(noticeComponent);
+    }
+
 
     /**
      * 
@@ -37,7 +86,7 @@ export default class ItemDetailsFormController extends CnFormController {
                 actualUrl = embedCode;
             }
 
-            photoUrls.push(actualUrl);            
+            photoUrls.push(actualUrl);
         }
 
         return photoUrls;
@@ -78,7 +127,7 @@ export default class ItemDetailsFormController extends CnFormController {
             length: itemLength,
             width: itemWidth,
             height: itemHeight,
-            weigth: itemWeight,
+            weight: itemWeight,
             photoUrls: photoUrls,
             tags: itemTags
         }
