@@ -1,12 +1,12 @@
-import CnComponent2 from './CnComponent2.js';
+import CnComponent3 from './CnComponent3.js';
 import CnNoticeComponentEventListeners from '../cn-event-listeners/CnNoticeComponentEventListeners.js';
 
-export default class CnNoticeComponent extends CnComponent2 {
+export default class CnNoticeComponent extends CnComponent3 {
 
     constructor(data = { message: null }) {
         super();
 
-        this.node = CnComponent2.cnCloneTemplate({ id: "cn-notice-component-template" });
+        this.node = CnComponent3.cnCloneTemplate({ id: "cn-notice-component-template" });
 
         if (data.message != null) {
             $(this.node).find(".message-node").html(data.message);

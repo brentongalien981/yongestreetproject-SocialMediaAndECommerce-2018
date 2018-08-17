@@ -117,7 +117,12 @@ class Router {
             'index'
         ],
         'Item' => [
-            'create'
+            'index',
+            'create',
+            'read',
+            'update',
+            'delete',
+            'show'
         ]
         
     ];

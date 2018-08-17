@@ -1,6 +1,6 @@
-import CnComponent from "./CnComponent.js";
+import CnComponent3 from "./CnComponent3.js";
 
-class CnContainer extends CnComponent {
+class CnContainer extends CnComponent3 {
 
     // constructor(props = null) {
     //     super(props);

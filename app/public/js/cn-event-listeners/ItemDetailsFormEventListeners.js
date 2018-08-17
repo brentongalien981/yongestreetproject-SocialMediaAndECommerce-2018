@@ -17,6 +17,18 @@ export default class ItemDetailsFormEventListeners {
                     });
 
                     break;
+
+
+                case "onItemUpdate":
+
+                    let updateBtn = data.eventSource.childComponents.updateBtn;
+
+                    $(updateBtn.node).click(function (event) {
+                        event.preventDefault();
+                        data.eventHandler.onItemUpdate();
+                    });
+
+                    break;                    
             }
 
         });

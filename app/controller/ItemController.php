@@ -139,6 +139,19 @@ class ItemController extends MainController2 implements AjaxCrudHandlerInterface
 
 
     /** @override */
+    protected function update()
+    {
+        if ($this->request->isRequestAjax) {
+            
+            // TODO:
+        }
+        else {
+            require_once(PUBLIC_PATH . 'item/update/index.php');
+        }
+    }
+
+
+    /** @override */
     protected function create()
     {
         if ($this->request->isRequestAjax) {

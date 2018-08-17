@@ -85,7 +85,7 @@
         <button id="update-item-btn" class="btn btn-primary">update</button>
     </div>
 
-    <div class="loader-element-container"></div>
+    <div id="item-details-form-loader-element-container" class="loader-element-container"></div>
 
 </form>
 

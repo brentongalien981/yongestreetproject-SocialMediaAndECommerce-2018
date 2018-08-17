@@ -157,6 +157,13 @@ export default class ItemDetailsFormController extends CnFormController {
     }
 
 
+    /** @implements */
+    onItemUpdate() {
+        // this.update({ loaderMsg: "Updating..." });
+        alert("TODO: onItemUpdate()");
+    }
+
+
 
     /** @override */
     regularInit() {
@@ -171,7 +178,8 @@ export default class ItemDetailsFormController extends CnFormController {
 
         ItemDetailsFormEventListeners.implement({
             eventNames: [
-                "onItemCreate"
+                "onItemCreate",
+                "onItemUpdate"
             ],
             eventSource: this.view,
             eventHandler: this

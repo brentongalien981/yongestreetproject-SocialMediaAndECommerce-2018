@@ -1,0 +1,74 @@
+/* ######################### */
+/* cn-cols */
+/* ######################### */
+.cn-row {
+    /*height: 100%;*/
+}
+
+.cn-col {
+    /*height: fit-content;*/
+    width: fit-content;
+    /*min-height: 700px;*/
+    /*min-height: 100%;*/
+    display: block;
+    padding: 0;
+    z-index: 1;
+}
+
+#cn-left-col {
+    background-color: white;
+    position: fixed;
+    box-shadow: 0 0 30px rgb(100, 100, 100);
+    max-width: 256px;
+    overflow-y: auto;
+    display: none;
+}
+
+
+#cn-center-col {
+    width: inherit;
+}
+
+#cn-right-col,
+#center-col-toggle-btn,
+#right-col-toggle-btn {
+    display: none;
+}
+
+
+
+
+
+/* ######################## */
+/* item-details-form */
+/* ######################## */
+
+form#item-details-form {
+    padding: 60px 0;
+}
+
+#item-details-form .form-group,
+#item-details-form .form-check {
+    margin-top: 40px;
+}
+
+#item-details-form .dimensions-error-labels {
+    margin-top: 0;
+}
+
+#item-details-form input[type=text], 
+#item-details-form textarea,
+#item-details-form select {
+    font-weight: 100;
+    font-size: 14px;
+    padding: 10px;
+    resize: none;
+}
+
+#item-details-form option {
+    padding: 0.5em;
+}
+
+#item-details-form #publish-item-btn {
+    display: none;
+}
