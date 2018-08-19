@@ -97,6 +97,25 @@ class ItemController extends MainController2 implements AjaxCrudHandlerInterface
             case 'index':
                 break;
             case 'read':
+
+                if (!$this->request->isRequestAjax) {
+                    return;
+                }
+
+                $this->validator->fieldsToBeValidated['earliest_el_date'] = [
+                    'required' => 1,
+                    'min' => 19,
+                    'max' => 20,
+                    'blank' => 1
+                ];
+
+                $this->validator->fieldsToBeValidated['stringified_already_read_obj_ids'] = [
+                    'required' => 1,
+                    'min' => 0,
+                    'max' => 8192,
+                    'areNumeric' => 1
+                ];
+
                 break;
         }
     }
@@ -139,13 +158,21 @@ class ItemController extends MainController2 implements AjaxCrudHandlerInterface
 
 
     /** @override */
+    protected function read()
+    {
+        $userItems = \App\Model\Item::getUserItems($this->sanitizedFields);
+
+        return $userItems;
+    }
+
+
+    /** @override */
     protected function update()
     {
         if ($this->request->isRequestAjax) {
             
             // TODO:
-        }
-        else {
+        } else {
             require_once(PUBLIC_PATH . 'item/update/index.php');
         }
     }

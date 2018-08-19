@@ -1,4 +1,5 @@
 import Video from "./Video.js";
+import CnModel from "./CnModel.js";
 
 class CnDataSource {
 
@@ -120,9 +121,25 @@ class CnDataSource {
 
             let newModelObj = this.getModelObjForClassName(modelClassName);
             newModelObj.setProperties({ jsonObj: objs[i], forceSetObjProps: data.forceSetObjProps });
-            this.objs.push(newModelObj);
-            this.newlyAddedObjs.push(newModelObj);
+
+            this.appendNewObj({ actualObj: newModelObj });
+
         }
+    }
+
+
+    appendNewObj(data = {}) {
+
+        let obj = null;
+
+        if (data.jsonObj != null) {
+            obj = data.jsonObj;
+        } else {
+            obj = data.actualObj;
+        }
+
+        this.objs.push(obj);
+        this.newlyAddedObjs.push(obj);
     }
 
 
@@ -135,6 +152,8 @@ class CnDataSource {
             case "Video":
                 modelObj = new Video();
                 break;
+            default:
+                modelObj = new CnModel();
         }
 
         return modelObj;

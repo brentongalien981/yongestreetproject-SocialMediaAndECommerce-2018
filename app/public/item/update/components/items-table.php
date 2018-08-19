@@ -31,7 +31,7 @@
             </tbody>
         </table>
 
-        <div class="loader-element-container"></div>
+        <div id="items-table-loader-element-container" class="loader-element-container"></div>
         
         <!-- Reference-->
         <div class="reference-for-loading-more-objs"></div>

@@ -72,7 +72,7 @@ class Video extends MainModel
         ]);
 
         // Get the old VideoCategory records for this video.
-        $videoCategories = $this->cnHasMany([
+        $videoCategories = $this->getMappedObjs([
             'extentionalClassName' => 'Category',
             'limit' => 16
         ]);
@@ -140,7 +140,7 @@ class Video extends MainModel
         
         // Get the old RateableItemTag records for this video.
         $rateableItem = $this->getRateableItemWithRefinements();
-        $rateableItemTags = $rateableItem->cnHasMany([
+        $rateableItemTags = $rateableItem->getMappedObjs([
             'extentionalClassName' => 'Tag',
             'limit' => 32
         ]);

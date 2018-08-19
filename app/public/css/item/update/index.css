@@ -72,3 +72,48 @@ form#item-details-form {
 #item-details-form #publish-item-btn {
     display: none;
 }
+
+
+
+
+
+
+
+/* ######################## */
+/* #items-table */
+/* ######################## */
+#items-table {
+    padding: 60px 0;
+}
+
+#items-table table {
+    font-size: 12px;
+    font-weight: 100;
+    width: 800px;
+}
+
+#items-table table td {
+    max-width: 500px;
+    word-wrap: break-word;
+}
+
+#items-table table td:hover {
+    cursor: pointer;
+}
+
+#items-table .cn-table-container {
+    overflow: scroll;
+    max-height: 600px;
+}
+
+#items-table #item-record-row-template {
+    display: none;
+}
+
+#items-table .item-record-delete-btn {
+    padding: 0 5px;
+}
+
+#items-table .item-record-delete-btn:hover {
+    box-shadow: 0 0 5px red;
+} 

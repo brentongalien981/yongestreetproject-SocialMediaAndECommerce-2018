@@ -133,6 +133,10 @@ class CnComponent {
 
     }
 
+    refreshView() {
+        
+    }
+
     postSetView() { }
 
 
@@ -174,8 +178,8 @@ class CnComponent {
 
     /**
      * @throws Error
-     * @param {CnComponent} parentComponent 
-     * @param {CnComponent} childComponent 
+     * @param {CnComponent} parentComponent
+     * @param {CnComponent} childComponent
      */
     appendAtLast(parentComponent, childComponent) {
 

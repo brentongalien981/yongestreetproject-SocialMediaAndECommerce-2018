@@ -1,9 +1,9 @@
-import CnComponent2 from './CnComponent2.js';
-import CnComponent from './CnComponent.js';
+import CnComponent3 from './CnComponent3.js';
+// import CnComponent from './CnComponent.js';
 import VideosTableRowController from '../js-controllers/VideosTableRowController.js';
 import VideosTableRowEventListeners from '../cn-event-listeners/VideosTableRowEventListeners.js';
 
-class VideosTable extends CnComponent2 {
+class VideosTable extends CnComponent3 {
 
     constructor() {
         super({ nodeSelector: "#videos-table" });
@@ -17,12 +17,12 @@ class VideosTable extends CnComponent2 {
     initChildComponents() {
         super.initChildComponents();
 
-        // const publishBtn = new CnComponent({ nodeSelector: "#video-details-form #publish-video-btn" });
+        // const publishBtn = new CnComponent3({ nodeSelector: "#video-details-form #publish-video-btn" });
 
-        const headerTitle = new CnComponent({ nodeSelector: "#videos-table .header-title" });
-        const videosTableBody = new CnComponent({ nodeSelector: "#videos-table tbody" });
-        const videoRecordRowTemplate = new CnComponent({ nodeSelector: "#videos-table #video-record-row-template" });
-        const refForLoadingMoreObjs = new CnComponent({ nodeSelector: "#videos-table .reference-for-loading-more-objs" });
+        const headerTitle = new CnComponent3({ nodeSelector: "#videos-table .header-title" });
+        const videosTableBody = new CnComponent3({ nodeSelector: "#videos-table tbody" });
+        const videoRecordRowTemplate = new CnComponent3({ nodeSelector: "#videos-table #video-record-row-template" });
+        const refForLoadingMoreObjs = new CnComponent3({ nodeSelector: "#videos-table .reference-for-loading-more-objs" });
 
         this.childComponents = {
             ...this.childComponents,
@@ -47,6 +47,7 @@ class VideosTable extends CnComponent2 {
             let videosTableRowController = new VideosTableRowController();
             videosTableRowController.view.nodeId = videosTableRowController.view.constructor.name + video.id;
             videosTableRowController.view.regularSetView({ obj: video });
+
             this.childComponents.videosTableBody.append(videosTableRowController.view);
             this.childComponents.videosTableRows.push(videosTableRowController.view);
 

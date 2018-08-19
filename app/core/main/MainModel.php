@@ -1050,7 +1050,9 @@ class MainModel extends CNMain
     }
 
     /** 
-     * TODO: Change this name later: hasMany2(). 
+     * TODO: Copy this method: hasMany2() later and
+     * create a new method: morphMany(). And remember to put
+     * this newly copied method to Trait: CNModelRelationshipTrait.
      * Note: This is equivalent to Laravel's method: morphToMany().
      */
     public function hasMany2($class, $data = null)
@@ -1204,6 +1206,7 @@ class MainModel extends CNMain
 
     public function doRefinements($data = [])
     {
+
         if (isset($data['excludedProps'])) {
             $this->filterExclude($data['excludedProps']);
         }

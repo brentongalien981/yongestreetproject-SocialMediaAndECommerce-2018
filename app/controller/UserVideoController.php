@@ -79,7 +79,11 @@ class UserVideoController extends MainController2 implements AjaxCrudHandlerInte
 
         // 1) Delete the video-categories mapping records.
         $video = Video::readStatic(['id' => $this->sanitizedFields['video_id']])[0];
-        $videoCategories = $video->cnHasMany([
+        // $videoCategories = $video->cnHasMany([
+        //     'extentionalClassName' => 'Category',
+        //     'limit' => 16
+        // ]);
+        $videoCategories = $video->getMappedObjs([
             'extentionalClassName' => 'Category',
             'limit' => 16
         ]);
@@ -102,7 +106,11 @@ class UserVideoController extends MainController2 implements AjaxCrudHandlerInte
 
         // 3) Delete the rateableItems-tags mapping records.
         $rateableItem = $video->getRateableItemWithRefinements();
-        $rateableItemTags = $rateableItem->cnHasMany([
+        // $rateableItemTags = $rateableItem->cnHasMany([
+        //     'extentionalClassName' => 'Tag',
+        //     'limit' => 32
+        // ]);
+        $rateableItemTags = $rateableItem->getMappedObjs([
             'extentionalClassName' => 'Tag',
             'limit' => 32
         ]);

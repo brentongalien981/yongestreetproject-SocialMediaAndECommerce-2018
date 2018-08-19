@@ -180,6 +180,8 @@ class CnRESTController extends CnController {
         } else {
             // Hide this controller's view's loader el.
             this.view.hideLoaderNode();
+
+            this.isReading = false;
         }
 
         this.postRead();
@@ -191,7 +193,7 @@ class CnRESTController extends CnController {
     preRead() {
 
         //
-        if (this.isReading || (this.numOfFailedAjaxRead >= 3)) { return false; }
+        if (this.isReading || (this.numOfFailedAjaxRead >= 20)) { return false; }
 
         this.isReading = true;
 

@@ -15,9 +15,73 @@ trait CNModelRelationshipTrait
 
     public function cnHasMany($data = [])
     {
-        $data['relationshipType'] = 'has';
+        // $data['relationshipType'] = 'has';
+        $extentionalObjs = $this->cnHasX($data);
+        return $extentionalObjs;
+    }
+
+
+    private function cnHasX($data = [])
+    {
+
+        //
+        $objs = [];
+        $path = null;
+
+        if (isset($data['extentionalClassName'])) {
+            $path = "\\App\\Model\\" . $data['extentionalClassName'];
+        } 
+        else {
+            return $objs;
+        }
+        
+
+        // Dynamically figure out the name of the field of the extentional
+        // obj based on this obj's class name and then appending the string "_id".
+        $fkName = self::getPascalCasedNameOf(static::$className) . "_id";
+
+        $pkName = isset($this->primary_key_id_name) ? $this->primary_key_id_name : $this->primaryKeyName;
+
+
+        $pkValue = $this->$pkName;
+        $data[$fkName] = $pkValue;
+
+
+        // Then call the readByWhereClause() to get the extentional obs.
+        static::reWriteClassForExemptedCases($path);
+
+        unset($data['extentionalClassName']);
+        unset($data['relationshipType']);
+
+        $objs = $path::readByWhereClause($data);
+
+        //
+        return $objs;
+    }
+
+
+    public function getMappedObjs($data = []) {
+
+        if (!isset($data['relationshipType'])) {
+            $data['relationshipType'] = 'has';
+        }
+
         $extentionalObjs = $this->getCnModelRelationshipObjs($data);
         return $extentionalObjs;
+    }
+
+
+    public function cnHasOne($class)
+    {
+        if (!isset($class)) { return null; }
+        
+        $path = "\\App\\Model\\" . $class;
+
+        //
+        $objs = $this->hasX($class, $path);
+
+        //
+        return $objs[0];
     }
 
     private function getCnModelRelationshipObjs($data = [])

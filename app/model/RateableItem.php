@@ -97,6 +97,8 @@ class RateableItem extends MainModel
         return $xRateableItem;
     }
 
+
+
     public function getTags()
     {
         $tags = [];
