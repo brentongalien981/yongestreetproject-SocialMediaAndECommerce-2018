@@ -53,7 +53,7 @@ class CnController {
         var triggerYPositionForAjaxReadingMoreObjs = data.heightGap;
 
         // // lOG:
-        // cnLog("ref POS: " + referenceForLoadingMoreObjs.top);
+        cnLog("ref POS: " + referenceForLoadingMoreObjs.top);
 
         if (referenceForLoadingMoreObjs.top <= triggerYPositionForAjaxReadingMoreObjs) {
             return true
@@ -62,6 +62,7 @@ class CnController {
 
         return false;
     }
+
 
 
     // delete() {

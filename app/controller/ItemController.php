@@ -160,6 +160,7 @@ class ItemController extends MainController2 implements AjaxCrudHandlerInterface
     /** @override */
     protected function read()
     {
+        sleep(1);
         $userItems = \App\Model\Item::getUserItems($this->sanitizedFields);
 
         return $userItems;

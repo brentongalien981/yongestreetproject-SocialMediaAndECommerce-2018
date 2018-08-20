@@ -17,15 +17,20 @@ export default class ItemsTable extends CnComponent3 {
         const itemsTableBody = new CnComponent3({ nodeSelector: "#items-table tbody" });
         const itemRecordRowTemplate = new CnComponent3({ nodeSelector: "#items-table #item-record-row-template" });
         const refForLoadingMoreObjs = new CnComponent3({ nodeSelector: "#items-table .reference-for-loading-more-objs" });
+        const scrollableComponent = new CnComponent3({ nodeSelector: "#items-table .cn-table-container" });
 
         this.childComponents = {
             ...this.childComponents,
             headerTitle: headerTitle,
             itemsTableBody: itemsTableBody,
             itemRecordRowTemplate: itemRecordRowTemplate,
+            scrollableComponent: scrollableComponent,
             refForLoadingMoreObjs: refForLoadingMoreObjs,
             itemsTableRows: []
         };
+
+        this.refForLoadingMoreObjs = refForLoadingMoreObjs;
+        this.scrollableComponent = scrollableComponent;
     }
 
 

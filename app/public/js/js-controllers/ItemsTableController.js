@@ -1,8 +1,25 @@
-import ComponentController from "./ComponentController.js";
+import ComponentController2 from "./ComponentController2.js";
 import ItemsTable from "../cn-components/ItemsTable.js";
 import AjaxRequestConstants from "../cn-classes-v3/AjaxRequestConstants.js";
+import ItemsTableEventListeners from "../cn-event-listeners/ItemsTableEventListeners.js";
 
-export default class ItemsTableController extends ComponentController {
+export default class ItemsTableController extends ComponentController2 {
+
+    implementEventListenersDirectly() {
+        ItemsTableEventListeners.implement({
+            eventNames: ["onReadMore"],
+            eventSource: this,
+            eventHandler: this
+        });
+    }
+
+
+    /** @override */
+    onReadMore() {
+        // cnLog("onReadMore");
+        this.crud({ operation: "read",loaderMsg: "Reading more..." });
+    }
+
 
     /** @override */
     regularInit() {
@@ -14,15 +31,14 @@ export default class ItemsTableController extends ComponentController {
 
 
     /** @override */
-    regularRead(ajaxRequestData = {}) {
+    regularRead() {
 
         const earliestElDate = this.dataSource.getLimitDate("earliest");
         const alreadyReadObjIds = this.dataSource.getAlreadyReadObjIds();
         const stringifiedAlreadyReadObjIds = cnStringify(alreadyReadObjIds);
 
 
-        ajaxRequestData = {
-            ...ajaxRequestData,
+        let ajaxRequestData = {
             controllerObj: this,
             controllerClassName: "Item",
             modelClassName: "Item",
@@ -36,6 +52,7 @@ export default class ItemsTableController extends ComponentController {
             }
         };
 
-        super.regularRead(ajaxRequestData);
+        return ajaxRequestData;
     }
+
 }

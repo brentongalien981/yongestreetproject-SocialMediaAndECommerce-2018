@@ -26,4 +26,23 @@ export default class CnComponent3 extends CnComponent2 {
         };
 
     }
+
+    hasAlmostReachedBottom() {
+
+        let topSidePositionOfReferenceNode = $(this.refForLoadingMoreObjs.node).get(0).getBoundingClientRect().top;
+        let bottomSidePositionOfScrollableComponentNode = $(this.scrollableComponent.node).get(0).getBoundingClientRect().bottom;
+        let gap = topSidePositionOfReferenceNode - bottomSidePositionOfScrollableComponentNode;
+
+        // // LOG:
+        // cnLog("parent bottom POS: " + bottomSidePositionOfScrollableComponentNode);
+        // cnLog("ref top POS: " + topSidePositionOfReferenceNode);
+        // cnLog("gap ==> " + gap);
+
+        if (gap <= 20) {
+            // cnLog("Component has almost reached bottom!");
+            return true;
+        }
+
+        return false;
+    }
 }

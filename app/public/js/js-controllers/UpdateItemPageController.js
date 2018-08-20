@@ -11,8 +11,9 @@ export default class UpdateItemPageController extends ThreeColumnedPageControlle
         
         let itemsTableController = new ItemsTableController();
         // itemsTableController.view.parentComponent = theController.view;
-        // TODO: itemsTableController.read({ loaderMsg: "Reading..." });
-        itemsTableController.read({ loaderMsg: "Reading..." });
+        
+        itemsTableController.crud({ operation: "read", loaderMsg: "Reading..." });
+        itemsTableController.implementEventListenersDirectly();
         
     }
 
