@@ -14,7 +14,7 @@ export default class ItemsTableController extends ComponentController2 {
     }
 
 
-    /** @override */
+    /** @implements */
     onReadMore() {
         // cnLog("onReadMore");
         this.crud({ operation: "read",loaderMsg: "Reading more..." });

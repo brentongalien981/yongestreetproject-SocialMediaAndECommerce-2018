@@ -12,7 +12,7 @@ export default class CnRESTController extends CnController {
         var operationFlagName = operation.charAt(0).toUpperCase() + operation.substr(1)
 
 
-        //
+        // 2)
         let counterNameForNumOfFailedAjaxCrud = "numOfFailedAjax" + operationFlagName;
 
 
@@ -80,6 +80,9 @@ export default class CnRESTController extends CnController {
             case "delete":
                 ajaxRequestData = this.regularDelete();
                 break;
+            case "index":
+                ajaxRequestData = this.regularIndex();
+                break;
         }
 
         let ajaxRequest = new AjaxRequest(ajaxRequestData);
@@ -126,10 +129,7 @@ export default class CnRESTController extends CnController {
      * @param {AjaxRequest} ajaxRequest
      * @param {JSON} resultJSON
      */
-    preHandleAjaxRequestResult(ajaxRequest, resultJSON) {
-
-
-    }
+    preHandleAjaxRequestResult(ajaxRequest, resultJSON) {}
 
     regularHandleAjaxRequestResult(ajaxRequest, resultJSON) {
         // Override this.

@@ -41,6 +41,12 @@ class CnController {
     }
 
 
+    /**
+     * Note that you should use the CnComponent(3)'s method: hasAlmostReachedBottom() instead.
+     * @deprecated
+     * @param {*} data 
+     * @returns {bool}
+     */
     canReadMoreObjs(data = { refNodeSelector: "", heightGap: 1000 }) {
         
         // Boundaries of the sides of the reference.
@@ -52,8 +58,8 @@ class CnController {
 
         var triggerYPositionForAjaxReadingMoreObjs = data.heightGap;
 
-        // // lOG:
-        cnLog("ref POS: " + referenceForLoadingMoreObjs.top);
+        // // // lOG:
+        // cnLog("ref POS: " + referenceForLoadingMoreObjs.top);
 
         if (referenceForLoadingMoreObjs.top <= triggerYPositionForAjaxReadingMoreObjs) {
             return true
@@ -62,13 +68,6 @@ class CnController {
 
         return false;
     }
-
-
-
-    // delete() {
-    //     this.view.delete();
-    // }
-
 }
 
 export { CnController as default }
