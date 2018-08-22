@@ -8,6 +8,7 @@ class Throttler {
     public const MALICE_FREE = 0;
     public const MALICE_BLACK_LISTED_IP = 1;
     public const MALICE_DDOS_ATTACK = 2;
+    public const MAX_NUM_OF_REQUESTS_PER_MINUTE_FOR_CONTROLLER_NAME_OF_SPECIFIC_CRUD_ACTION = 60;
 
 
 
@@ -78,5 +79,62 @@ class Throttler {
 
         // A DDOS request.
         return true;
+    }
+
+
+
+    public static function isRequestPossiblyDDOSAttack($request = []) {
+    
+        // Let $a = latest_minute_basis_request_time_for_controller_name_of_specific_crud_action.
+        $a = RequestTimeKeeper::getLatestMinuteBasisRequestTimeForControllerNameOfSpecificCrudAction($request);
+
+        $currentTime = $_SERVER['REQUEST_TIME'];
+
+        // $requestTimeGap = amountOfTimePassedSinceSettingTheMinuteBasisTimeForControllerNameOfSpecificCrudAction.
+        $requestTimeGap = $currentTime - $a;
+
+        // If the minute-basis time is now 60s past this current request-time,
+        // then the request is safe.
+        if ($requestTimeGap > 60) { return false; }
+
+        // Let $b = numOfRequestsForTheLatestMinuteBasisRequestTimeForControllerNameOfSpecificCrudAction
+        $b = RequestTimeKeeper::getNumOfRequestsForTheLastBasisMinuteForController($request);
+
+        //
+        if ($b > self::MAX_NUM_OF_REQUESTS_PER_MINUTE_FOR_CONTROLLER_NAME_OF_SPECIFIC_CRUD_ACTION) {
+            // Oh shootz! It is a DDOS attack.
+            return true;
+        }
+
+        return false;
+    }
+
+
+
+    /** This is just for testing. */
+    public static function test_isRequestPossiblyDDOSAttack($request = []) {
+    
+        // Let $a = latest_minute_basis_request_time_for_controller_name_of_specific_crud_action.
+        $a = RequestTimeKeeper::getLatestMinuteBasisRequestTimeForControllerNameOfSpecificCrudAction($request);
+
+        $currentTime = $_SERVER['REQUEST_TIME'];
+
+        // $requestTimeGap = amountOfTimePassedSinceSettingTheMinuteBasisTimeForControllerNameOfSpecificCrudAction.
+        $requestTimeGap = $currentTime - $a;
+
+        // If the minute-basis time is now 60s past this current request-time,
+        // then the request is safe.
+        if ($requestTimeGap > 60) { return false; }
+
+        // Let $b = numOfRequestsForTheLatestMinuteBasisRequestTimeForControllerNameOfSpecificCrudAction
+        $b = RequestTimeKeeper::getNumOfRequestsForTheLastBasisMinuteForController($request);
+
+        //
+        if ($b > self::MAX_NUM_OF_REQUESTS_PER_MINUTE_FOR_CONTROLLER_NAME_OF_SPECIFIC_CRUD_ACTION) {
+            // Oh shootz! It is a DDOS attack.
+            return true;
+        }
+
+        return false;
     }
 }

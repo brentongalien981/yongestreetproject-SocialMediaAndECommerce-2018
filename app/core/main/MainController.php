@@ -143,6 +143,13 @@ class MainController extends CNMain
         //
         $this->json['errors'] = $this->validator->errors;
         $this->json['is_viewing_own_account'] = $this->session->is_viewing_own_account();
+        
+
+        $indexName = 'latest_minute_basis_request_time_for_' . $this->menu . '_' . $this->action;
+        $this->json[$indexName] = $_SESSION[$indexName];
+        $b = 'num_of_requests_for_the_last_basis_minute_for_' . $this->menu . '_' . $this->action;
+        $this->json[$b] = $_SESSION[$b];
+        
 
         //
         echo json_encode($this->json);

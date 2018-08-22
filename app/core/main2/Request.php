@@ -130,8 +130,37 @@ class Request
                 echo "$e\n";
             }
         } finally {
-            RequestTimeKeeper::setLastRequestTime($this);
+            // RequestTimeKeeper::setLastRequestTime($this);
+            RequestTimeKeeper::updateVars($this);
+            if (!$this->isRequestAjax) {
+                
+                // $this->displaySomeSessionVars();
+            }
         }
+    }
+
+
+    /** For development use only. */
+    private function displaySomeSessionVars()
+    {
+
+        // var_dump($_SESSION);
+
+        $a = 'latest_minute_basis_request_time_for_' . $this->controllerName . '_' . $this->controllerAction;
+                
+        $b = 'num_of_requests_for_the_last_basis_minute_for_' . $this->controllerName . '_' . $this->controllerAction;
+                
+        echo "^^^^^^^^^^^^^^^^^^^^<br>";
+        echo "^^^^^^^^^^^^^^^^^^^^<br>";
+        echo "FUCKING a for controller::{$this->controllerName}-{$this->controllerAction}=> {$_SESSION[$a]}<br>";
+        echo "@@@@@@@@@@@@@@@@@@@<br>";
+
+        echo "^^^^^^^^^^^^^^^^^^^^<br>";
+        echo "^^^^^^^^^^^^^^^^^^^^<br>";
+        echo "FUCKING b for controller::{$this->controllerName}-{$this->controllerAction}=> {$_SESSION[$b]}<br>";
+        echo "@@@@@@@@@@@@@@@@@@@<br>";
+
+        echo "consecutive num of failed request ==> " . $this->session->consecutive_failed_requests;
     }
 
 
@@ -211,8 +240,9 @@ class Request
 
 
     /**
-     * @return bool false if the request has no malice. Positive int
-     * if there's malice.
+     * @return bool true if the request has no malice, and
+     * false otherwise.
+     *
      * TODO: Note that in the method: Throttler::isRequestDDOSAttack(),
      * we skipped (for now) the checking for models: RateableItem and
      * RateableItemUser.
@@ -225,7 +255,7 @@ class Request
         if (Throttler::isRequestFromBlacklistedIp($this->ip)) {
             $this->malice = Throttler::MALICE_BLACK_LISTED_IP;
             echo "Sorry.. Your IP has been blocked :(<br>";
-        } elseif ($this->checkDDOSAttack && Throttler::isRequestDDOSAttack($this)) {
+        } elseif ($this->checkDDOSAttack && Throttler::isRequestPossiblyDDOSAttack($this)) {
             $this->malice = Throttler::MALICE_DDOS_ATTACK;
 
             $this->session->incrementNumOfConsecutiveFailedRequests();
