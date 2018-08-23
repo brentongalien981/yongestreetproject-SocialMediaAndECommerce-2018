@@ -6,33 +6,49 @@ import ItemsTableController from "./ItemsTableController.js";
 
 export default class UpdateItemPageController extends ThreeColumnedPageController {
 
+
+    /** @implements */
+    onRowClick(data = { selectedItemObj: null }) {
+
+        //
+        this.itemsTableController.dataSource.obj = data.selectedItemObj;
+        //
+        this.itemDetailsFormController.dataSource.obj = data.selectedItemObj;
+
+        this.itemDetailsFormController.view.populateFields(data.selectedItemObj);
+        
+    }
+
     /** @override */
     initItemsTableController() {
-        
+
         let itemsTableController = new ItemsTableController();
-        // itemsTableController.view.parentComponent = theController.view;
-        
+        this.itemsTableController = itemsTableController;
+        this.view.append(itemsTableController.view);
+
         itemsTableController.crud({ operation: "read", loaderMsg: "Reading..." });
-        itemsTableController.implementEventListenersDirectly();
-        
+
     }
 
 
     /** @override */
     initExtentionalControllers() {
         super.initExtentionalControllers();
-        
+
         this.initItemDetailsFormController();
         this.initItemsTableController();
     }
 
 
     initItemDetailsFormController() {
-        // let theController = this;
+
         let itemDetailsFormController = new ItemDetailsFormController();
+        this.itemDetailsFormController = itemDetailsFormController;
+        this.view.append(itemDetailsFormController.view);
+
         let formHeaderLabel = itemDetailsFormController.view.childComponents.formHeaderLabel;
         $(formHeaderLabel.node).html("Edit Item");
-        
+
     }
 
 
@@ -40,6 +56,7 @@ export default class UpdateItemPageController extends ThreeColumnedPageControlle
     regularInit() {
         // super.regularInit();
         this.view = new UpdateItemPage();
+        this.view.controller = this;
     }
 }
 

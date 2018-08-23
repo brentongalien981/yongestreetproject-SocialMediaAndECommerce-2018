@@ -8,6 +8,53 @@ export default class ItemDetailsForm extends CnForm {
     }
 
 
+    populateFields(selectedObj) {
+
+        $(this.childComponents.itemName.node).val(selectedObj.name);
+        $(this.childComponents.itemQuantity.node).val(selectedObj.quantity);
+
+        $(this.childComponents.itemPrice.node).val(selectedObj.price);
+        $(this.childComponents.itemDescription.node).val(selectedObj.description);
+        $(this.childComponents.itemLength.node).val(selectedObj.length);
+        $(this.childComponents.itemWidth.node).val(selectedObj.width);
+        $(this.childComponents.itemHeight.node).val(selectedObj.height);
+        $(this.childComponents.itemWeight.node).val(selectedObj.weight);
+
+
+        this.setTagsField(selectedObj.tags);
+        this.setEmbedCodesField(selectedObj.imageLinks);
+        
+    }
+
+    setEmbedCodesField(imageLinks) {
+        let urls = [];
+
+        for (let i = 0; i < imageLinks.length; i++) {
+            const url = imageLinks[i].url;
+            urls.push(url);
+        }
+
+        const stringifiedUrls = cnStringify(urls);
+
+        $(this.childComponents.itemEmbedCode.node).val(stringifiedUrls);
+    }
+
+
+    setTagsField(tagObjs) {
+
+        let tagNames = [];
+
+        for (let i = 0; i < tagObjs.length; i++) {
+            const tagName = tagObjs[i].tag;
+            tagNames.push(tagName);
+        }
+
+        const stringifiedTagNames = cnStringify(tagNames);
+
+        $(this.childComponents.itemTags.node).val(stringifiedTagNames);
+    }
+
+
     /** @override */
     getFormErrorLabelNodeBasedOnModelFieldName(fieldName = "") {
 

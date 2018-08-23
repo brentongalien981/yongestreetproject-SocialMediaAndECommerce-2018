@@ -5,7 +5,11 @@ import ItemsTableEventListeners from "../cn-event-listeners/ItemsTableEventListe
 
 export default class ItemsTableController extends ComponentController2 {
 
-    implementEventListenersDirectly() {
+    
+    implementEventListeners() {
+
+        super.implementEventListeners();
+
         ItemsTableEventListeners.implement({
             eventNames: ["onReadMore"],
             eventSource: this,

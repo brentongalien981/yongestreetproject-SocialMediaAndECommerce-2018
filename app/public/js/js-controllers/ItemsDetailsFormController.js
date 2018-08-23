@@ -4,6 +4,7 @@ import ItemDetailsFormEventListeners from "../cn-event-listeners/ItemDetailsForm
 import AjaxRequestConstants from "../cn-classes-v3/AjaxRequestConstants.js";
 import CnNoticeComponent from "../cn-components/CnNoticeComponent.js";
 
+
 export default class ItemDetailsFormController extends CnFormController {
 
 
@@ -184,6 +185,7 @@ export default class ItemDetailsFormController extends CnFormController {
             eventSource: this.view,
             eventHandler: this
         });
+
     }
 
 }
