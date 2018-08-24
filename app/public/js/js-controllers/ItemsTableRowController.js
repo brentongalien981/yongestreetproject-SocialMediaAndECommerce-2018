@@ -1,7 +1,6 @@
 // import ComponentController from "./ComponentController.js";
 import AjaxRequestConstants from "../cn-classes-v3/AjaxRequestConstants.js";
 import ItemsTableRow from "../cn-components/ItemsTableRow.js";
-import ItemsTableRowBroadcastSubscription from "../cn-subscription-schemes/ItemsTableRowBroadcastSubscription.js";
 import ComponentController2 from "./ComponentController2.js";
 
 
@@ -22,7 +21,7 @@ export default class ItemsTableRowController extends ComponentController2 {
         switch (ajaxRequest.crudType) {
             case "delete":
                 this.view.delete();
-                // ItemsTableRowBroadcastSubscription.broadcast({ eventName: "onRowDeleteSuccess" });
+                // Ditched: ItemsTableRowBroadcastSubscription.broadcast({ eventName: "onRowDeleteSuccess" });
 
                 let updateItemPageController = this.view.parentComponent.parentComponent.parentComponent.controller;
                 updateItemPageController.onRowDeleteSuccess({ dataSourceObj: this.dataSource.obj });
@@ -52,16 +51,5 @@ export default class ItemsTableRowController extends ComponentController2 {
         };
 
         return ajaxRequestData;
-    }
-
-
-
-    /** @override */
-    implementEventListeners() {
-        super.implementEventListeners();
-
-        // ItemsTableRowBroadcastSubscription.implement({
-        //     broadcaster: this
-        // });
     }
 }

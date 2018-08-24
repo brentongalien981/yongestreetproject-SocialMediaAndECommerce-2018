@@ -3,22 +3,9 @@ import ThreeColumnedPageController from "./ThreeColumnedPageController.js";
 import ItemDetailsFormController from "./ItemsDetailsFormController.js";
 import UpdateItemPage from "../cn-components/UpdateItemPage.js";
 import ItemsTableController from "./ItemsTableController.js";
-import ItemsTableRowBroadcastSubscription from "../cn-subscription-schemes/ItemsTableRowBroadcastSubscription.js";
+
 
 export default class UpdateItemPageController extends ThreeColumnedPageController {
-
-    /** @override */
-    implementEventListeners() {
-        super.implementEventListeners();
-
-        // ItemsTableRowBroadcastSubscription.subscribe({
-        //     subscriber: this,
-        //     eventNames: [
-        //         "onRowDeleteSuccess"
-        //     ]
-        // });
-    }
-
 
     onRowDeleteSuccess(data) {
 
@@ -92,7 +79,10 @@ export default class UpdateItemPageController extends ThreeColumnedPageControlle
 
     /** @override */
     regularInit() {
+        // Ditch calling the super, because we let the view: UpdateItemPage
+        // call its super-view's method: regularInit..
         // super.regularInit();
+
         this.view = new UpdateItemPage();
         this.view.controller = this;
     }
