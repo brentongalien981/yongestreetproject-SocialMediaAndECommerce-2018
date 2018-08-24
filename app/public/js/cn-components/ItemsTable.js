@@ -30,6 +30,8 @@ export default class ItemsTable extends CnComponent3 {
             itemsTableRows: []
         };
 
+        itemsTableBody.parentComponent = this;
+
         this.refForLoadingMoreObjs = refForLoadingMoreObjs;
         this.scrollableComponent = scrollableComponent;
     }
@@ -70,7 +72,7 @@ export default class ItemsTable extends CnComponent3 {
             let updateItemPageController = this.parentComponent.controller;
 
             ItemsTableRowEventListeners.implement({
-                eventNames: ["onRowClick"],
+                eventNames: ["onRowClick", "onRowDelete"],
                 eventSource: itemsTableRowController,
                 eventHandler: updateItemPageController
             });

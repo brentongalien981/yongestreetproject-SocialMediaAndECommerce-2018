@@ -78,7 +78,13 @@ trait CNModelRelationshipTrait
         $path = "\\App\\Model\\" . $class;
 
         //
-        $objs = $this->hasX($class, $path);
+        $data = [
+            'extentionalClassName' => $class,
+            'limit' => 1
+        ];
+
+        // $objs = $this->hasX($class, $path);
+        $objs = $this->cnHasX($data);
 
         //
         return $objs[0];

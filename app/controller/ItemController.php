@@ -11,13 +11,13 @@ class ItemController extends MainController2 implements AjaxCrudHandlerInterface
         /** @override */
     protected function setFieldsToBeValidated()
     {
+        if (!$this->request->isRequestAjax) {
+            return;
+        }
+
         switch ($this->action) {
             case 'create':
             case 'update':
-
-                if (!$this->request->isRequestAjax) {
-                    return;
-                }
 
                 $this->validator->fieldsToBeValidated['name'] = [
                     'required' => 1,
@@ -92,6 +92,15 @@ class ItemController extends MainController2 implements AjaxCrudHandlerInterface
     
             case 'delete':
 
+                $this->validator->fieldsToBeValidated['item_id'] = [
+                    'required' => 1,
+                    'min' => 1,
+                    'max' => 20,
+                    'blank' => 1,
+                    'numeric' => 1
+                ];
+                break;
+
             case 'patch':
             case 'fetch':
             case 'index':
@@ -160,7 +169,6 @@ class ItemController extends MainController2 implements AjaxCrudHandlerInterface
     /** @override */
     protected function read()
     {
-        sleep(1);
         $userItems = \App\Model\Item::getUserItems($this->sanitizedFields);
 
         return $userItems;
@@ -221,6 +229,53 @@ class ItemController extends MainController2 implements AjaxCrudHandlerInterface
         } else {
             require_once(PUBLIC_PATH . "item/create/index.php");
         }
+    }
+
+
+    /** 
+     * @override 
+     * Note that we're not actually trying to delete the item,
+     * but just to make its record-attribute: is_deleted to 1 or true.
+     * We do this so that there would be no problem referencing the
+     * item by Notifications, RateableItems, etc...
+     */
+    protected function delete()
+    {
+        // 1) Delete the RateableItemsTags mapping records.
+        $rateableItem = RateableItem::readByWhereClause([
+            'item_x_id' => $this->sanitizedFields['item_id'],
+            'item_x_type_id' => RateableItem::ITEM_X_TYPE_ID_ITEM
+        ])[0];
+
+        $rateableItemTags = $rateableItem->getMappedObjs([
+            'extentionalClassName' => 'Tag',
+            'limit' => 32
+        ]);
+
+        foreach ($rateableItemTags as $rateableItemTag) {
+            $rateableItemTag->cnDeleteByPk();
+        }
+
+
+        // 2) Delete the ImageLink records.
+        $item = \App\Model\Item::readById(['id' => $this->sanitizedFields['item_id']])[0];
+        $imageLinks = $item->cnHasMany([
+            'extentionalClassName' => 'ImageLink',
+            'limit' => 5
+        ]);
+
+
+        foreach ($imageLinks as $imageLink) {
+            $imageLink->cnDeleteByPk();
+        }
+
+
+        // 3) Update the object's record attr: is_deleted to 1.
+        $item->is_deleted = 1;
+        $item->update();
+
+    
+        return true;
     }
 
 

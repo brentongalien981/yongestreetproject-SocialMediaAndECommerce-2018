@@ -1,6 +1,6 @@
 let broadcaster = null;
 let events = {
-    onRowClicked: {
+    onRowDeleteSuccess: {
         subscribers: []
     }
 };
@@ -22,10 +22,12 @@ export default class ItemsTableRowBroadcastSubscription {
     static broadcast(data = { eventName: null }) {
 
         switch (data.eventName) {
-            case "onRowClicked":
+            case "onRowDeleteSuccess":
 
-                events.onRowClicked.subscribers.forEach(function (subscriber) {
-                    subscriber.onRowClicked({ dataSourceObj: broadcaster.dataSource.obj });
+                events.onRowDeleteSuccess.subscribers.forEach(function (subscriber) {
+                    subscriber.onRowDeleteSuccess({ 
+                        dataSourceObj: broadcaster.dataSource.obj 
+                    });
                 });
                 break;
         }
@@ -35,10 +37,12 @@ export default class ItemsTableRowBroadcastSubscription {
         if (data.subscriber == null || data.eventNames == null) { return; }
 
         data.eventNames.forEach(function (eventName) {
+
             switch (eventName) {
-                case "onRowClicked":
-                    events.onRowClicked.subscribers.push(data.subscriber);
-                    cnLog("subscribed to event: onRowClicked");
+
+                case "onRowDeleteSuccess":
+                    events.onRowDeleteSuccess.subscribers.push(data.subscriber);
+                    cnLog("subscribed to event: onRowDeleteSuccess");
                     break;
             }
             subscribers.push(data.subscriber);

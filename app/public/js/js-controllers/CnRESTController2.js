@@ -1,6 +1,5 @@
 import CnController from "./CnController.js";
 import AjaxRequest from "../cn-classes-v3/AjaxRequest.js";
-import AjaxRequestConstants from "../cn-classes-v3/AjaxRequestConstants.js";
 
 
 

@@ -3,8 +3,46 @@ import ThreeColumnedPageController from "./ThreeColumnedPageController.js";
 import ItemDetailsFormController from "./ItemsDetailsFormController.js";
 import UpdateItemPage from "../cn-components/UpdateItemPage.js";
 import ItemsTableController from "./ItemsTableController.js";
+import ItemsTableRowBroadcastSubscription from "../cn-subscription-schemes/ItemsTableRowBroadcastSubscription.js";
 
 export default class UpdateItemPageController extends ThreeColumnedPageController {
+
+    /** @override */
+    implementEventListeners() {
+        super.implementEventListeners();
+
+        // ItemsTableRowBroadcastSubscription.subscribe({
+        //     subscriber: this,
+        //     eventNames: [
+        //         "onRowDeleteSuccess"
+        //     ]
+        // });
+    }
+
+
+    onRowDeleteSuccess(data) {
+
+        // 1) Clear the form.
+        let currentObjOfForm = this.itemDetailsFormController.dataSource.obj;
+        let deletedObj = data.dataSourceObj;
+        if (deletedObj.id == currentObjOfForm.id) {
+            this.itemDetailsFormController.view.clearInputFields();
+        }
+        
+
+
+        // 2) Delete the XDetailsForm's dataSource's obj equal to the deleted obj.
+        this.itemDetailsFormController.dataSource.deleteObj({ obj: deletedObj });
+
+
+        // 3) Delete the XTable's dataSource's obj equal to the deleted obj.
+        this.itemsTableController.dataSource.deleteObj({ obj: deletedObj });
+
+        // 4) 
+        if (this.itemsTableController.view.hasAlmostReachedBottom()) {
+            this.itemsTableController.crud({ operation: "read", loaderMsg: "Reading..." });
+        }
+    }
 
 
     /** @implements */
@@ -16,7 +54,7 @@ export default class UpdateItemPageController extends ThreeColumnedPageControlle
         this.itemDetailsFormController.dataSource.obj = data.selectedItemObj;
 
         this.itemDetailsFormController.view.populateFields(data.selectedItemObj);
-        
+
     }
 
     /** @override */

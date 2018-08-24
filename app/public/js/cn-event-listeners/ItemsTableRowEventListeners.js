@@ -20,16 +20,16 @@ export default class ItemsTableRowEventListeners {
                     break;
 
 
-                case "onVideosTableRowDelete":
+                case "onRowDelete":
 
-                    $(data.eventSource.view.node).find(".video-record-delete-btn").click(function () {
+                    $(data.eventSource.view.node).find(".item-record-delete-btn").click(function (event) {
 
                         event.stopPropagation();
 
-                        if (!confirm("Are you sure you wanna delete your video?")) { return; }
+                        if (!confirm("Are you sure you wanna delete this item?")) { return; }
 
-                        data.eventSource.delete({ loaderMsg: "We're deleting your video real quick..." });
-                        data.eventHandler.onVideosTableRowDelete({ videosTableRowController: data.eventSource });
+                        data.eventSource.crud({ operation: "delete", loaderMsg: "Deleting..." });
+                        // data.eventHandler.onRowDelete({ videosTableRowController: data.eventSource });
                     });
 
                     break;

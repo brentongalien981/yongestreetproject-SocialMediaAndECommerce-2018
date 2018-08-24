@@ -9,6 +9,11 @@ class CnDataSource {
         this.obj = {};
     }
 
+    /**
+     * Delete the obj in this dataSource's objs property,
+     * newlyAddedObjs property, and obj property.
+     * @param {*} data 
+     */
     deleteObj(data = { obj: null }) {
 
         if (data.obj == null) { return; }
