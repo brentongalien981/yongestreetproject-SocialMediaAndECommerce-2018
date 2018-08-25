@@ -3,20 +3,56 @@ import ThreeColumnedPageController from "./ThreeColumnedPageController.js";
 import ItemDetailsFormController from "./ItemsDetailsFormController.js";
 import UpdateItemPage from "../cn-components/UpdateItemPage.js";
 import ItemsTableController from "./ItemsTableController.js";
+import CnComponent3 from "../cn-components/CnComponent3.js";
+import ItemsDetailsFormBroadcastSubscription from "../cn-subscription-schemes/ItemsDetailsFormBroadcastSubscription.js";
 
 
 export default class UpdateItemPageController extends ThreeColumnedPageController {
+
+    /** @override */
+    implementEventListeners() {
+        super.implementEventListeners();
+
+        ItemsDetailsFormBroadcastSubscription.subscribe({
+            subscriber: this,
+            eventNames: [
+                "onItemUpdateSuccess"
+            ]
+        });
+    }
+
+    /** @implements */
+    onItemUpdateSuccess(data) {
+
+        // 1) Update the ItemsTable's dataSource.
+        this.itemsTableController.dataSource.updateObjs({ updatedObj: data.updatedObj });
+
+        // 2) Update the ItemsTableRow's dataSource and view.
+        let updatedRowComponent = CnComponent3.getComponent({
+            id: data.updatedObj.id,
+            nodeIdPrefix: "ItemsTableRow",
+            fromComponents: this.itemsTableController.view.childComponents.itemsTableRows
+        });
+
+    
+        updatedRowComponent.controller.dataSource.updateObjs({
+            updatedObj: data.updatedObj
+        });
+
+        updatedRowComponent.refreshView();
+    }
+
 
     onRowDeleteSuccess(data) {
 
         // 1) Clear the form.
         let currentObjOfForm = this.itemDetailsFormController.dataSource.obj;
         let deletedObj = data.dataSourceObj;
+
         if (deletedObj.id == currentObjOfForm.id) {
             this.itemDetailsFormController.view.clearInputFields();
         }
         
-
 
         // 2) Delete the XDetailsForm's dataSource's obj equal to the deleted obj.
         this.itemDetailsFormController.dataSource.deleteObj({ obj: deletedObj });
@@ -79,6 +115,7 @@ export default class UpdateItemPageController extends ThreeColumnedPageControlle
 
     /** @override */
     regularInit() {
+
         // Ditch calling the super, because we let the view: UpdateItemPage
         // call its super-view's method: regularInit..
         // super.regularInit();

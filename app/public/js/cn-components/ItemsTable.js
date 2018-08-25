@@ -48,6 +48,7 @@ export default class ItemsTable extends CnComponent3 {
 
             // 1) Set the ItemsTableRowController obj.
             let itemsTableRowController = new ItemsTableRowController();
+            itemsTableRowController.view.controller = itemsTableRowController;
 
 
             // 2) Set the ItemsTableRowController obj's dataSource..

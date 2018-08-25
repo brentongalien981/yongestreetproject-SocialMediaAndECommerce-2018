@@ -3,6 +3,8 @@ import CnFormController from "./CnFormController.js";
 import ItemDetailsFormEventListeners from "../cn-event-listeners/ItemDetailsFormEventListeners.js";
 import AjaxRequestConstants from "../cn-classes-v3/AjaxRequestConstants.js";
 import CnNoticeComponent from "../cn-components/CnNoticeComponent.js";
+import CnModel from "../js-models/CnModel.js";
+import ItemsDetailsFormBroadcastSubscription from "../cn-subscription-schemes/ItemsDetailsFormBroadcastSubscription.js";
 
 
 export default class ItemDetailsFormController extends CnFormController {
@@ -26,8 +28,18 @@ export default class ItemDetailsFormController extends CnFormController {
                 this.onCreateSuccess(resultJSON);
                 break;
             case "update":
-                // this.dataSource.obj = resultJSON.objs[0];
-                // VideoDetailsFormBroadcastSubscription.broadcast({ eventName: "onVideoUpdateSuccess" });
+
+                let updatedObj = new CnModel();
+
+                updatedObj.setProperties({
+                    jsonObj: resultJSON.objs[0],
+                    forceSetObjProps: true
+                });
+
+                this.dataSource.updateObjs({ updatedObj: updatedObj });
+
+                ItemsDetailsFormBroadcastSubscription.broadcast({ eventName: "onItemUpdateSuccess" });
+                
                 break;
             default:
                 super.regularHandleAjaxRequestResult(ajaxRequest, resultJSON);
@@ -117,7 +129,6 @@ export default class ItemDetailsFormController extends CnFormController {
         // Get the item's photo-urls.
         var photoUrls = this.extractPhotoUrls(itemEmbedCode);
 
-        // if (!photoUrls) { return false; }
 
         //
         let ajaxRequestObj = {
@@ -151,6 +162,63 @@ export default class ItemDetailsFormController extends CnFormController {
 
 
 
+    /** @override */
+    regularUpdate(ajaxRequestData = {}) {
+
+        let itemName = $(this.view.childComponents.itemName.node).val();
+        let itemQuantity = $(this.view.childComponents.itemQuantity.node).val();
+        let itemPrice = $(this.view.childComponents.itemPrice.node).val();
+
+        let itemDescription = $(this.view.childComponents.itemDescription.node).val();
+
+        let itemLength = $(this.view.childComponents.itemLength.node).val();
+        let itemWidth = $(this.view.childComponents.itemWidth.node).val();
+        let itemHeight = $(this.view.childComponents.itemHeight.node).val();
+        let itemWeight = $(this.view.childComponents.itemWeight.node).val();
+
+        let itemEmbedCode = $(this.view.childComponents.itemEmbedCode.node).val();
+
+        let itemTags = $(this.view.childComponents.itemTags.node).val();
+
+
+        // Get the item's photo-urls.
+        var photoUrls = this.extractPhotoUrls(itemEmbedCode);
+
+        // if (!photoUrls) { return false; }
+
+        //
+        let ajaxRequestObj = {
+            id: this.dataSource.obj.id,
+            name: itemName,
+            quantity: itemQuantity,
+            price: itemPrice,
+            description: itemDescription,
+            length: itemLength,
+            width: itemWidth,
+            height: itemHeight,
+            weight: itemWeight,
+            photoUrls: photoUrls,
+            tags: itemTags
+        }
+
+
+        ajaxRequestData = {
+            ...ajaxRequestData,
+            controllerObj: this,
+            controllerClassName: "Item",
+            modelClassName: "Item",
+            isUsingRecipeFramework: true,
+            requestMethod: AjaxRequestConstants.REQUEST_METHOD_POST,
+            crudType: AjaxRequestConstants.CRUD_TYPE_UPDATE,
+            requestObj: ajaxRequestObj
+        };
+
+
+        return super.regularUpdate(ajaxRequestData);
+    }
+
+
+
     /** @implements */
     onItemCreate() {
         // this.videoDetailsFormController.dataSource.obj = this.videosTableController.dataSource.obj;
@@ -160,8 +228,9 @@ export default class ItemDetailsFormController extends CnFormController {
 
     /** @implements */
     onItemUpdate() {
-        // this.update({ loaderMsg: "Updating..." });
-        alert("TODO: onItemUpdate()");
+        if (this.dataSource.obj == null) { return; }
+        this.update({ loaderMsg: "Updating..." });
+
     }
 
 
@@ -184,6 +253,11 @@ export default class ItemDetailsFormController extends CnFormController {
             ],
             eventSource: this.view,
             eventHandler: this
+        });
+
+
+        ItemsDetailsFormBroadcastSubscription.implement({
+            broadcaster: this
         });
 
     }

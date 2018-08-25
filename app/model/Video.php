@@ -155,7 +155,7 @@ class Video extends MainModel
             // Loop through all the old RateableItemTag records
             foreach ($rateableItemTags as $rateableItemTag) {
         
-                            // If this current-tag-id is equal to this current
+                // If this current-tag-id is equal to this current
                 // old RateableItemTag record's tag-id,
                 // then dynamically add a property "isStillReferenced"
                 // to this RateableItemTag. Break the loop.

@@ -15,7 +15,8 @@ class Validator
         "https://www.flickr.com/photos/",
         "https://www.youtube.com/",
         "//www.dailymotion.com/",
-        "https://player.vimeo.com/"
+        "https://player.vimeo.com/",
+        "https://lorempixel.com/"
     ];
 
     // Traits.

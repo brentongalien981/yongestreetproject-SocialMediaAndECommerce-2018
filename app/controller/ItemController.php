@@ -19,6 +19,16 @@ class ItemController extends MainController2 implements AjaxCrudHandlerInterface
             case 'create':
             case 'update':
 
+                if ($this->action == 'update') {
+                    $this->validator->fieldsToBeValidated['id'] = [
+                        'required' => 1,
+                        'min' => 1,
+                        'max' => 12,
+                        'blank' => 1,
+                        'numeric' => 1
+                    ];
+                }
+
                 $this->validator->fieldsToBeValidated['name'] = [
                     'required' => 1,
                     'min' => 1,
@@ -157,7 +167,17 @@ class ItemController extends MainController2 implements AjaxCrudHandlerInterface
                 // Dynamic property.
                 $this->menuObj->photoUrls = $this->sanitizedFields['photoUrls'];
                 break;
+
             case 'update':
+
+                $this->action = 'create';
+                $this->doSpecificAjaxCrudAction();
+                $this->action = 'update';
+                $this->menuObj->id = $this->sanitizedFields['id'];
+                
+
+                break;
+
             case 'delete':
             case 'read':
             case 'fetch':
@@ -180,7 +200,62 @@ class ItemController extends MainController2 implements AjaxCrudHandlerInterface
     {
         if ($this->request->isRequestAjax) {
             
-            // TODO:
+            // 2) Update the ImageLinks.
+            $updatedImageLinks = $this->menuObj->cnUpdateRelationship([
+                'withClass' => 'ImageLink',
+                'relationshipType' => 'oneToMany',
+                'potentialAttribsOfNewObjs' => [
+                    'attrName' => 'url',
+                    'attrVals' => $this->sanitizedFields['photoUrls']
+                ]
+            ]);
+
+
+            // 3) Update the Tags.
+            $rateableItem = RateableItem::readByWhereClause([
+                'item_x_id' => $this->menuObj->id,
+                'item_x_type_id' => RateableItem::ITEM_X_TYPE_ID_ITEM
+            ])[0];
+
+            $updatedTags = $rateableItem->cnUpdateRelationship([
+                'withClass' => 'Tag',
+                'relationshipType' => 'manyToMany',
+                'potentialAttribsOfNewObjs' => [
+                    'attrName' => 'tag',
+                    'attrVals' => $this->sanitizedFields['tags']
+                ]
+            ]);
+
+
+            //
+            $oldObj = \App\Model\Item::readById(['id' => $this->menuObj->id])[0];
+            $this->menuObj->created_at = $oldObj->created_at;
+            $this->menuObj->update();
+
+            
+
+            // 4) Refine the Item obj.
+            $updatedObj = \App\Model\Item::readById(['id' => $this->menuObj->id])[0];
+            $updatedObj->filterExclude();
+            $updatedObj->imageLinks = $updatedImageLinks;
+            $updatedObj->tags = $updatedTags;
+
+            /* Add a carbon-date field to the obj. */
+            $rawDateTimeFieldName = "created_at";
+            $updatedObj->addReadableDateField($rawDateTimeFieldName);
+            
+            $updatedObj->replaceFieldNamesForAjax(['human_date' => 'created_at_human_date']);
+            
+            /* Add a carbon-date field to the obj. */
+            $rawDateTimeFieldName = "updated_at";
+            $updatedObj->addReadableDateField($rawDateTimeFieldName);
+            
+            $updatedObj->replaceFieldNamesForAjax(['human_date' => 'updated_at_human_date']);
+            
+
+
+            // 5) Return the updated Item obj.
+            return $updatedObj;
         } else {
             require_once(PUBLIC_PATH . 'item/update/index.php');
         }
@@ -232,8 +307,8 @@ class ItemController extends MainController2 implements AjaxCrudHandlerInterface
     }
 
 
-    /** 
-     * @override 
+    /**
+     * @override
      * Note that we're not actually trying to delete the item,
      * but just to make its record-attribute: is_deleted to 1 or true.
      * We do this so that there would be no problem referencing the
@@ -277,6 +352,7 @@ class ItemController extends MainController2 implements AjaxCrudHandlerInterface
     
         return true;
     }
+
 
 
     /** @override */

@@ -56,6 +56,9 @@ class CnDataSource {
                 break;
             }
         }
+
+        //
+        this.obj = data.updatedObj;
     }
 
     getAlreadyReadObjIds() {
