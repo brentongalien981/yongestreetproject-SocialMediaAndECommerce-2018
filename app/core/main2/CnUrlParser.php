@@ -6,6 +6,20 @@ class CnUrlParser
     public const OLD_CN_REQUEST_SCHEME = 'OLD_CN_REQUEST_SCHEME';
 
 
+    /**
+     * Remove the trailing string "?video/video" of the actual-wanted
+     * url by the user. I did this because apache / php appends
+     * a traling string to my intended url whenever the last char
+     * of the intended url is not a slash. By solving this, I can
+     * now use proper vars for Request->controllerAction and
+     * Request->controllerName.
+     * 
+     * Ex. When I enter a url "..ysp.com/video/create", the server
+     * will make the url "..ysp.com/video/create/?video/create/.
+     *
+     * @param [&String] $url
+     * @return void
+     */
     public static function setUrl(&$url)
     {
 
@@ -71,10 +85,12 @@ class CnUrlParser
     }
 
 
+    // TODO: Make this method "setRequestVars()" more concise.
     public static function setRequestVars(Request $request)
     {
         $isUsingOldCnRequestScheme = false;
 
+        // If the request is from the old cuteninjar.com scheme...
         if (self::handleOldCnRequestScheme($request)) {
             $isUsingOldCnRequestScheme = true;
         } elseif ($request->isRequestAjax) {
@@ -103,6 +119,8 @@ class CnUrlParser
                 }
             } else {
 
+                // This is for requests that are using the 
+                // Recipe Framework and is an ajax-request.
                 $jsonDecodedRequestData = json_decode($requestData, true);
                 $request->requestData = $jsonDecodedRequestData;
 
@@ -122,7 +140,7 @@ class CnUrlParser
                 $request->controllerAction = (isset($jsonDecodedRequestData["crudType"])) ? $jsonDecodedRequestData["crudType"] : Request::CRUD_TYPE_INDEX;
 
 
-                // Because some request may have the suffix "Controller", try to
+                // Because some requests may have the suffix "Controller", try to
                 // just remove it.
                 $request->controllerName = str_replace("Controller", "", $request->controllerName);
             }
@@ -235,9 +253,33 @@ class CnUrlParser
             case 'store-manager':
                 $request->controllerName = 'StoreManager';
                 break;
+            default:
+                self::makeCamelCased($request->controllerName);
+                break;
+
         }
 
         $request->controllerName = ucfirst($request->controllerName);
+    }
+
+
+    public static function makeCamelCased(&$s) {
+
+        //
+        $camelCasedStr = '';
+
+        //
+        $tokens = (explode("-",$s));
+
+        foreach ($tokens as $token) {
+            
+            // Disregard empty tokens.
+            if ($token !== '') {
+                $camelCasedStr .= ucfirst($token);
+            }
+        }
+
+        $s = $camelCasedStr;
     }
 
 

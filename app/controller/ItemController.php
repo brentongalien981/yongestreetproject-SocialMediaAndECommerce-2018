@@ -8,7 +8,7 @@ use App\Model\RateableItem;
 class ItemController extends MainController2 implements AjaxCrudHandlerInterface
 {
 
-        /** @override */
+    /** @override */
     protected function setFieldsToBeValidated()
     {
         if (!$this->request->isRequestAjax) {

@@ -123,6 +123,9 @@ class Router {
             'update',
             'delete',
             'show'
+        ],
+        'MyStore' => [
+            'index'
         ]
         
     ];
@@ -151,11 +154,19 @@ class Router {
     }
 
 
+    /**
+     * This is used for regular-url-request that are using
+     * the Recipe Framework.
+     *
+     * @param [String] $controllerName
+     * @return boolean
+     */
     private static function isRequestConsideredUsingRecipeFramework($controllerName) {
 
         switch ($controllerName) {
             case 'StoreManager':
             case 'Item':
+            case 'MyStore':
                 return true;
             
             default:

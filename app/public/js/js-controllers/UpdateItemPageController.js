@@ -110,6 +110,9 @@ export default class UpdateItemPageController extends ThreeColumnedPageControlle
         let formHeaderLabel = itemDetailsFormController.view.childComponents.formHeaderLabel;
         $(formHeaderLabel.node).html("Edit Item");
 
+        $(itemDetailsFormController.view.node).removeClass("col-10");
+        $(itemDetailsFormController.view.node).addClass("col-12");
+
     }
 
 

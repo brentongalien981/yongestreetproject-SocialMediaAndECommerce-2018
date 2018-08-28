@@ -117,8 +117,11 @@ class Request
                 return;
             }
 
+            //
             Router::route($this);
+
         } catch (\Exception $e) {
+            
             if (self::isAjax()) {
                 echo json_encode([
                     'is_result_ok' => false,
