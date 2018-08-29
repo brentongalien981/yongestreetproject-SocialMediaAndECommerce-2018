@@ -13,7 +13,7 @@
         <a id="menu-earth-store" class="dropdown-item menus sub_menu_links" href="#">
             <i class="fa fa-globe"></i>Earth Store</a>
 
-        <a id="menu-user-store" class="dropdown-item menus sub_menu_links" href="#">
+        <a id="menu-user-store" class="dropdown-item menus sub_menu_links" href="<?= PUBLIC_LOCAL . 'my-store/'; ?>">
 
             <?php $storeTitle = (\App\Model\Session::getInstance()->is_viewing_own_account()) ? 'My Store' :  \App\Model\Session::getInstance()->currently_viewed_user_name . "'s Store"; ?>
 

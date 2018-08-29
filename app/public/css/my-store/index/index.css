@@ -1,0 +1,23 @@
+/* ######################### */
+/* cn-cols */
+/* ######################### */
+#cn-right-col,
+#center-col-toggle-btn,
+#right-col-toggle-btn {
+    display: none;
+}
+
+
+
+
+
+
+#my-store-items-holder .my-store-name {
+    padding-top: 10px;
+    padding-bottom: 30px;
+    padding-left: 15px;
+}
+#item-cards-holder-actual-container {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}

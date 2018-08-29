@@ -1,0 +1,28 @@
+.item-card-holder {
+    background-color: rgb(250, 250, 250);
+    margin-bottom: 50px;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    box-shadow: 0 0 20px lightgrey;
+    padding: 20px 0;
+}
+
+.item-card .img-holder {
+    height: 350px;
+    margin-bottom: 10px;
+}
+
+.item-card img {
+    height: 100%;
+    display: block;
+    margin: auto;
+}
+
+.item-card .name, 
+.item-card .price {
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 20px;
+}

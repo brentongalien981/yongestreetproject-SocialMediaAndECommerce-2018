@@ -1,7 +1,39 @@
 .search-bar-plug-in {
-    background-color: aqua;
+    /* background-color: aqua; */
+    padding-left: 15px
+}
+
+.search-bar-plug-in * {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.search-bar-holder {
+    /* background-color: antiquewhite; */
+    box-shadow: 0 0 20px rgb(200, 200, 200);
+    border-radius: 5px;
 }
 
 .search-bar-plug-in input {
-    width: 100px;
+    width: 90%;
+    padding: 10px;
+    font-weight: 100;
+    /* font-size: 5px; */
+    /* background-color: rgb(220, 220, 220); */
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px
+}
+
+.search-bar-plug-in button {
+    width: 10%;
+    padding: 10px;
+    /* background-color: rgb(210, 210, 20); */
+    background-color: rgb(240, 255, 198);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px
+}
+
+.search-bar-plug-in button:hover {
+    cursor: pointer;
 }

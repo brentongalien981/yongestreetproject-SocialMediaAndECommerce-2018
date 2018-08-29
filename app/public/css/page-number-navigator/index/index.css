@@ -1,0 +1,40 @@
+/* ##################### */
+/* page-number-navigator */
+/* ##################### */
+.page-number-navigator {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.page-number-navigator input {
+    width: 40px;
+    font-weight: 100;
+    font-size: 12px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+.page-number-navigator label {
+    font-weight: 100;
+    font-size: 12px;
+}
+
+.page-number-navigator button {
+    padding: 5px 20px;
+    margin: 0 60px;
+    background-color: rgb(240, 255, 198);
+    border-radius: 5px;
+}
+
+.page-number-navigator button:hover {
+    cursor: pointer;
+}
+
+.page-number-navigator .previous-btn {
+    margin-left: 0;
+}
+
+.page-number-navigator .next-btn {
+    margin-right: 0;
+}
