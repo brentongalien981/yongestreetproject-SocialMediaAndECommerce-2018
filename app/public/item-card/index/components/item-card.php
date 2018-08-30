@@ -4,7 +4,7 @@
 
         <div class="item-card-holder">
             <div class="img-holder">
-                <img src="<?= CN_URL_PUBLIC . "item-card/photos/iphoneX-portrait.jpg"; ?>" alt="item-img">
+                <img src="<?= CN_URL_PUBLIC . "img/products/apple-airpods2.jpg"; ?>" alt="item-img">
             </div>
 
             <h5 class="name">Apple iPhone X</h5>

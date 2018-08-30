@@ -10,6 +10,7 @@
     <div id="item-cards-holder-actual-container" class="cn-container row justify-content-center">
         <?php require_once(PUBLIC_PATH . "item-card/index/index.php"); ?>
     </div>
+    <div id="my-store-items-holder-loader-element-container" class="loader-element-container"></div>
 
     <!--  page-number-navigator -->
     <?php require_once(PUBLIC_PATH . "page-number-navigator/index/index.php"); ?>

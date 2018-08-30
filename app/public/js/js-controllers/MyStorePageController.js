@@ -39,6 +39,7 @@ export default class MyStorePageController extends ThreeColumnedPageController {
 
         this.view.parts.cnCenterCol.append(itemsHolderController.view);
 
+        itemsHolderController.crud({ operation: "read", loaderMsg: "Reading..." });
     }
 
 
